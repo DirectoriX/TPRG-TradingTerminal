@@ -4,3 +4,5 @@
 *.jar
 *.war
 *.ear
+/TradingTerminal/nbproject/private/
+/TradingTerminal/build/
