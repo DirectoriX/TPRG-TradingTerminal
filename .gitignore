@@ -6,3 +6,4 @@
 *.ear
 /TradingTerminal/nbproject/private/
 /TradingTerminal/build/
+/TradingTerminal/dist/

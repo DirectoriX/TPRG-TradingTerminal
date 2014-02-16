@@ -1,4 +1,4 @@
-Для всех таблиц - utf8
+﻿Для всех таблиц - utf8
 Название базы данных - tradingterminal
 
 product
@@ -11,7 +11,7 @@ ispacked - not null bit
 count - not null unsigned float
 cost - not null unsigned float
 
-discountcards
+discountcards 
 ==============
 id - unsigned unique autoincrement    not null int, Primary key
 code - unsigned unique not null int
