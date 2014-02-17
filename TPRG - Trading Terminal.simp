@@ -499,7 +499,7 @@
               </points>
             </layout>
             <relation from="di406439571195226866" from-iid="e0eb6f9ad5484330a2c0e80380c80138" to="di329586873966268516" to-iid="5c94107a240641a191e5524028d6128e" />
-            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-35" end-multiplicity="25,15" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="27,-26" end-multiplicity="25,15" />
           </item>
           <item id="di980646227934784685" iid="c7dd3e5cec2f47408c4f0e141b5fe83e" creation-date="02/17/2014 13:21:11" order-index="4" type="entity">
             <layout ax="71.5" ay="660" awidth="177" aheight="53" x="71.5" y="660" width="177" height="53" angle="0" />
@@ -565,7 +565,7 @@
               </points>
             </layout>
             <relation from="di479996592128510337" from-iid="f27d2d5cac7e4c369887e33cc68acf32" to="di980646227934784685" to-iid="c7dd3e5cec2f47408c4f0e141b5fe83e" />
-            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="50.94281,22.20912" />
           </item>
           <item id="di307019355175518427" iid="78974c3c6ee941d0b63020b0187261ad" creation-date="02/17/2014 17:27:26" order-index="14" type="relation">
             <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="510" y1="397" x2="310" y2="418" start-border-pos="0.856794393287515" end-border-pos="0.350084940592448">
