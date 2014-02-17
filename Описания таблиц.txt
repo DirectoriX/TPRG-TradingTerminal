@@ -11,8 +11,10 @@ ispacked - not null bit
 count - not null unsigned float
 cost - not null unsigned float
 
+{
 discountcards 
 ==============
 id - unsigned unique autoincrement    not null int, Primary key
 code - unsigned unique not null int
 products - set*
+}
