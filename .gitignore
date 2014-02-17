@@ -7,3 +7,6 @@
 /TradingTerminal/nbproject/private/
 /TradingTerminal/build/
 /TradingTerminal/dist/
+
+# Backup Files #
+*.bak
