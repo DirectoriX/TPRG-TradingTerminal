@@ -5,8 +5,7 @@ product
 ==============
 id - unsigned unique autoincrement not null int, Primary key
 code - unsigned unique not null int
-name - not null varchar(*)
-* manufacturer  - not null varchar(*)
+name - not null varchar(50)
 ispacked - not null bit
 count - not null unsigned float
 cost - not null unsigned float
