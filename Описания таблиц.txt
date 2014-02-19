@@ -10,10 +10,17 @@ ispacked - not null bit
 count - not null unsigned float
 cost - not null unsigned float
 
-{
-discountcards 
+simulations
 ==============
-id - unsigned unique autoincrement    not null int, Primary key
-code - unsigned unique not null int
-products - set*
-}
+id -  unsigned unique autoincrement not null int, Primary key
+date - date
+{настройки моделирования}
+{общая статистика моделирования}
+
+reports
+==============
+id -  unsigned unique autoincrement not null int, Primary key
+simulationid - unsigned not null int
+consumerid - unsigned not null int
+productid - unsigned not null int
+count - not null unsigned float
