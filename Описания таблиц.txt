@@ -14,13 +14,21 @@ simulations
 ==============
 id -  unsigned unique autoincrement not null int, Primary key
 date - date
-{настройки моделирования}
-{общая статистика моделирования}
+peoplecount - unsigned not null int
+goodscount - unsigned not null int
+peoplearrived - unsigned not null int
+peopleserved - unsigned not null int
+profit - unsigned not null int
+maxqueue - unsigned not null int
+maxqueuetime - not null time
+ishereanerrorornot - not null bit
+*discountloses - unsigned int
 
 reports
 ==============
 id -  unsigned unique autoincrement not null int, Primary key
 simulationid - unsigned not null int
 consumerid - unsigned not null int
-productid - unsigned not null int
+productcode - unsigned not null int
 count - not null unsigned float
+time - not null time
