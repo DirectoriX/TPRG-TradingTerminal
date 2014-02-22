@@ -1,81 +1,83 @@
-Покупатель
+Buyer
 {
 ==============
-Корзина (List Товаров)
-Время "постановки в очередь" - int
-Время конца обслуживания - int
-Имеющаяся сумма - int
-Уплаченная сумма - float/int
-Количество товара (штук) - int
-Дисконтная карта - int если есть, 0 если нет
+Cart (List Товаров)
+ArriveTime - int
+ServedTime - int
+Money - int
+Paid - int
+DiscountCode - int
 --------------
-Добавить денег(int)
-Добавить товар(Goods)
+AddMoney(int)
+AddProduct(Product)
 }
 
-Товар
+Product
 {
 ==============
-Название - string
-Артикул - int
-Количество (float)
-Тип (штучный\весовой) (boolean)
-Стоимость за единицу измерения - float/int
-Среднее покупаемое количество (5 тетрадей, но 1 пенал) - int
+Name - string
+Code - int
+Count - float
+IsPacked - boolean
+Cost - float/int
+AvgCount - float
 }
 
-Терминал-кассир (именно один класс, ибо неразрывны)
+Terminal
 {
 ==============
-Номер кассира - int
-Количество денег в кассе ( +массив\List с кол-вом купюр) - int/float
-Выручка за день - int/float
-Очередь покупателей - Queue
+id - int
+Money - int
+Profit - int/float
+BuyerQueue - Queue
 --------------
-Отдать деньги администратору(int)
-Расчет с покупателем(Покупатель)
+GiveAway(int)
+Serve(Buyer)
 }
 
-Распределение
+Distribution
 {
 ==============
-Время - int
-Ширина - int
+mu - int
+S - int
+--------------
+GetLogistic(int)
+GetCount(int, boolean) - float
 }
 
-Статистика
+Stat
 {
 ==============
-Количество обслуженных покупателей - int
-Количество пришедших покупателей - int
-Самая длинная очередь - int
-Время самой длинной очереди
-Средняя очередь - float
-Среднее количество товаров у одного покупателя - float
-Средняя стоимость покупки - float
-То_что_сказал_Тельнов (подробный отчёт) - string
+PeopleServed - int
+PeopleArrived - int
+MaxQueue - int
+MaxQueueTime - int
+AvgGoodsCount - float
+AvgProfit - float
+--------------
+Consider(Buyer)
 }
 
-SQL-агент
+SQLAgent
 ==============
 {
-Имя БД - string
-Адрес:порт - string
+DBName - string
+URL - string
 --------------
 !!! Конструктор (Имя БД - string, адрес:порт - string)
-Записать полупустую информацию о симуляции()
-Обновить полупустую запись о симуляции до полной()
-Записать информацию об элементарной покупке()
-Получить список кодов, цен и количеств товаров()
-Получить список кодов и имён товаров()
+Started()
+Ended()
+Buyed()
+GetProductInfo()
+GetProductNames()
 }
 
-Генератор
+Generator
 ==============
 {
-Список использованных дисконтных карт - int[]
+Discounts - int[]
 --------------
-Создать покупателя
-Заполнить корзину(Покупатель)
-Создать дисконтную карту(Покупатель)
+CreateBuyer - Buyer
+FillCart(Buyer)
+MakeDiscount(Buyer)
 }

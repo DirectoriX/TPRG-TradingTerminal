@@ -18,11 +18,13 @@ peoplecount - unsigned not null int
 goodscount - unsigned not null int
 peoplearrived - unsigned not null int
 peopleserved - unsigned not null int
+avggoodscount - unsigned not null float
+avgprofit - unsigned not null int
+avggoodscount - unsigned not null float
 profit - unsigned not null int
 maxqueue - unsigned not null int
 maxqueuetime - not null time
-ishereanerrorornot - not null bit
-*discountloses - unsigned int
+iscorrect - not null bit
 
 reports
 ==============
