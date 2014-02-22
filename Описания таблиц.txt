@@ -1,7 +1,7 @@
 ﻿Для всех таблиц - utf8
 Название базы данных - tradingterminal
 
-product
+products
 ==============
 id - unsigned unique autoincrement not null int, Primary key
 code - unsigned unique not null int
@@ -30,7 +30,7 @@ reports
 ==============
 id -  unsigned unique autoincrement not null int, Primary key
 simulationid - unsigned not null int
-consumerid - unsigned not null int
+buyerid - unsigned not null int
 productcode - unsigned not null int
 count - not null unsigned float
 time - not null time
