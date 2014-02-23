@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2014, DirectoriX
+/* 
+ * Copyright (c) 2014, DirectoriX, kramer98489, UN-likE
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,10 +25,6 @@
  */
 package org.aba.tradingterminal;
 
-/**
- *
- * @author DirectoriX
- */
 public class Stat {
 
     int PeopleServed;

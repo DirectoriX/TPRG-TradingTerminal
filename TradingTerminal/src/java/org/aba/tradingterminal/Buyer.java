@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2014, DirectoriX
+/* 
+ * Copyright (c) 2014, DirectoriX, kramer98489, UN-likE
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,15 +23,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.aba.tradingterminal;
 
 import java.util.List;
 
-/**
- *
- * @author DirectoriX
- */
 public class Buyer {
     int ArriveTime;
     int ServedTime;
