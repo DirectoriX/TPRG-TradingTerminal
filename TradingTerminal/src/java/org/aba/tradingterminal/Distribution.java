@@ -25,20 +25,58 @@
  */
 package org.aba.tradingterminal;
 
+import java.util.Random;
+
 public class Distribution {
 
-    int mu;
-    int S;
+    public int mu;
+    public int S;
+    public int clients;
 
-    int GetCount(float count) {
-        return Math.round(count);
+    // Объект класса Random
+    private static final java.util.Random RNG = new Random();
+
+    // Сумма без округления
+    private static double IdealSum = 0;
+    // Сумма после округления
+    private static int RealSum = 0;
+
+    // Логистическое распределение: функция плотности вероятности
+    private double Logistic(double Median, double Scale, double x) {
+        double result = Math.exp(-(x - Median) / Scale);
+        result /= Scale;
+        result /= Math.pow(Math.exp(-(x - Median) / Scale) + 1, 2);
+        return result;
     }
 
-    float GetCount(float count, float min) {
-        return (count > min) ? count : min;
+    private final float TrickyScale = (float) 0.33;
+
+    private float Tricky(float count, float Scale, float min) {
+        float res = (float) (count - count * Scale * Math.log(1 / RNG.nextDouble() - 1));
+        return (res > min) ? res : min;
+    }
+
+    int GetIntCount(int count) {
+        return (int) Math.round(Tricky(count, TrickyScale, 1));
+    }
+
+    float GetFloatCount(float count, float min) {
+        return Tricky(count, TrickyScale, min);
     }
 
     int GetLogistic(int time) {
-        return 0;
+        double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
+        IdealSum += value;
+        int result = (int) Math.round(value);
+        RealSum += result;
+
+        if (Math.abs(RealSum - IdealSum) >= 1) {
+            int corr = (int) (Math.floor(Math.abs(RealSum - IdealSum)) * Math.signum(RealSum - IdealSum));
+            IdealSum -= RealSum - corr;
+            RealSum = 0;
+            result -= corr;
+        }
+
+        return result;
     }
 }
