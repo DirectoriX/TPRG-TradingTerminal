@@ -33,3 +33,4 @@ buyerid - unsigned not null int
 productcode - unsigned not null int
 count - not null unsigned float
 time - not null time
+cost - not null unsigned int

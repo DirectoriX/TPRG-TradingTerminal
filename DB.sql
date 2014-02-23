@@ -1,4 +1,4 @@
-create database TradingTerminal;
+CREATE DATABASE `tradingterminal`;
 
 CREATE TABLE `tradingterminal`.`products` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -34,6 +34,7 @@ CREATE TABLE `tradingterminal`.`reports` (
   `productcode` INT UNSIGNED NOT NULL,
   `count` FLOAT UNSIGNED NOT NULL,
   `time` TIME NOT NULL,
+  `cost` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `sim` (`simulationid` ASC),
