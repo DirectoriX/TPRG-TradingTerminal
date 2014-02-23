@@ -19,7 +19,7 @@ Name - string
 Code - int
 Count - float
 IsPacked - boolean
-Cost - float/int
+Cost - float
 AvgCount - float
 }
 
@@ -28,7 +28,7 @@ Terminal
 ==============
 id - int
 Money - int
-Profit - int/float
+Profit - int
 BuyerQueue - Queue
 --------------
 GiveAway(int)
@@ -41,8 +41,9 @@ Distribution
 mu - int
 S - int
 --------------
-GetLogistic(int)
-GetCount(int, boolean) - float
+GetLogistic(int) - int
+GetCount(float) - int
+GetCount(float, float) - float
 }
 
 Stat
