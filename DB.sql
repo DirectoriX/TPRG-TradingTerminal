@@ -37,7 +37,7 @@ CREATE TABLE `tradingterminal`.`reports` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `sim` (`simulationid` ASC),
-  INDEX `tim` (`buyerid` ASC, `time` ASC),
+  INDEX `tim` (`time` ASC),
   INDEX `productkey_idx` (`productcode` ASC),
   CONSTRAINT `simkey`
     FOREIGN KEY (`simulationid`)
