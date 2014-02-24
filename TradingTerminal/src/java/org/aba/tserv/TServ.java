@@ -60,9 +60,5 @@ public class TServ extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response, false);
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
+   
 }
