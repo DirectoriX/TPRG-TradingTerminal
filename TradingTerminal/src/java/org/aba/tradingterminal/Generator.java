@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2014, DirectoriX, kramer98489, UN-likE
  * All rights reserved.
  *
@@ -25,15 +25,24 @@
  */
 package org.aba.tradingterminal;
 
-public class Stat {
+import java.util.List;
 
-    int PeopleServed;
-    int PeopleArrived;
-    int MaxQueue;
-    int MaxQueueTime;
-    float AvgGoodsCount;
-    float AvgProfit;
+/**
+ *
+ * @author DirectoriX, kramer98489, UN-likE
+ */
+public class Generator {
 
-    void Consider(Buyer cl) {
+    List<Integer> Discounts;
+
+    Buyer CreateBuyer() {
+        return null;
     }
+
+    void FillCart(Buyer b) {
+    }
+
+    void MakeDiscount(Buyer b) {
+    }
+
 }

@@ -30,7 +30,7 @@ public class Product {
     int Code;
     float Count;
     boolean IsPacked;
-    float Cost;
+    float Price;
     float AvgCount;
     
 }

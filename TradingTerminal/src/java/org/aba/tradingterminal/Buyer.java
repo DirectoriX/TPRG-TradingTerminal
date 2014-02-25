@@ -28,11 +28,18 @@ package org.aba.tradingterminal;
 import java.util.List;
 
 public class Buyer {
+
     int ArriveTime;
     int ServedTime;
     int Money;
     int Paid;
-    int DiscountCode=0;
-    
+    int DiscountCode = 0;
+
     List<Product> Cart;
+
+    void AddMoney(int amount) {
+    }
+
+    void AddProduct(Product thing) {
+    }
 }

@@ -25,7 +25,26 @@
  */
 package org.aba.tradingterminal;
 
+import java.util.List;
+
 public class SQLAgent {
+
     String DBName;
     String URL;
+
+    SQLAgent(String DBName, String URL) {
+    }
+
+    void Started() {
+    }
+
+    void Ended() {
+    }
+
+    void Buyed(int buyer, int code, float count, int time, int cost) {
+    }
+
+    List<Product> GetProductInfo() {
+        return null;
+    }
 }

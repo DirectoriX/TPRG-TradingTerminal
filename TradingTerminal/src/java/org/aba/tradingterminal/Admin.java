@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2014, DirectoriX, kramer98489, UN-likE
  * All rights reserved.
  *
@@ -25,15 +25,14 @@
  */
 package org.aba.tradingterminal;
 
-public class Stat {
+public class Admin {
 
-    int PeopleServed;
-    int PeopleArrived;
-    int MaxQueue;
-    int MaxQueueTime;
-    float AvgGoodsCount;
-    float AvgProfit;
+    int Money;
+    int Amount;
 
-    void Consider(Buyer cl) {
+    void GiveMoney(int count) {
+    }
+
+    void Check(Terminal t) {
     }
 }
