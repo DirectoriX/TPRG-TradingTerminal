@@ -1,3 +1,10 @@
+TTerminal - сервлет
+{
+==============
+
+}
+
+
 Buyer
 {
 ==============
@@ -30,9 +37,20 @@ id - int
 Money - int
 Profit - int
 BuyerQueue - Queue
+DamnIGood - boolean
 --------------
 GiveAway(int)
 Serve(Buyer)
+}
+
+Admin
+{
+==============
+Money - int
+Amount - int
+--------------
+GiveMoney(int)
+Check()
 }
 
 Distribution
