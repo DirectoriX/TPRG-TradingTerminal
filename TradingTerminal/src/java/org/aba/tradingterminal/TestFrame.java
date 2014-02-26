@@ -83,24 +83,8 @@ public class TestFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
-            jButton1.setText("Epic fail!!!");
-            jButton1.setEnabled(false);
-        }
-
-        Connection conn;
-
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/tradingterminal2?"
-                    + "user=TPRG&password=Tc1KuV");
-        } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
+        SQLAgent a=new SQLAgent("tradingterminal2", "localhost:3306", "TPRG", "Tc1KuV");
+        a.Buyed(6, 2, (float) 2.55, 932, 7);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

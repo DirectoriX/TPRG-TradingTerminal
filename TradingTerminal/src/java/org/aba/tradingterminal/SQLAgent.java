@@ -27,7 +27,11 @@ package org.aba.tradingterminal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
 import java.util.List;
 
 public class SQLAgent {
@@ -36,6 +40,8 @@ public class SQLAgent {
     private String URL;
     private String user;
     private String password;
+
+    private int simid = 2;
 
     private Connection conn;
 
@@ -46,12 +52,16 @@ public class SQLAgent {
 
         }
 
+        this.DBName = DBName;
+        this.URL = URL;
+        this.user = user;
+        this.password = password;
     }
 
     private void Connect() {
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/tradingterminal2?"
-                    + "user=TPRG&password=Tc1KuV");
+            this.conn = DriverManager.getConnection("jdbc:mysql://" + this.URL + "/" + this.DBName + "?"
+                    + "user=" + this.user + "&password=" + this.password);
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -60,7 +70,7 @@ public class SQLAgent {
         }
     }
 
-    private void Disonnect() {
+    private void Disconnect() {
         try {
             conn.close();
         } catch (SQLException ex) {
@@ -77,6 +87,28 @@ public class SQLAgent {
     }
 
     public void Buyed(int buyer, int code, float count, int time, int cost) {
+        Connect();
+        try {
+            PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)");
+
+            st.setInt(1, this.simid);
+            st.setInt(2, buyer);
+            st.setInt(3, code);
+            st.setFloat(4, count);
+
+            Time t = new Time(time * 10 / (60 * 60), time * 10 % (60 * 60) / 60, time * 10 % 60);
+            st.setTime(5, t);
+
+            st.setInt(6, cost);
+            
+            st.execute();
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        Disconnect();
     }
 
     public List<Product> GetProductInfo() {
