@@ -30,9 +30,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Time;
-import java.util.List;
+import java.util.LinkedList;
 
 public class SQLAgent {
 
@@ -100,7 +99,7 @@ public class SQLAgent {
             st.setTime(5, t);
 
             st.setInt(6, cost);
-            
+
             st.execute();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -111,7 +110,42 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public List<Product> GetProductInfo() {
+    public LinkedList<Product> GetProductInfo() {
         return null;
+    }
+
+    LinkedList<String> GetResults(int simulationid) {
+        LinkedList<String> result = new LinkedList();
+
+        String request = "SELECT r.buyerid, r.time, p.name, r.count, r.cost FROM reports r INNER JOIN products p ON r.productcode = p.code WHERE simulationid = ? ORDER BY r.time";
+
+        Connect();
+        try {
+            PreparedStatement st = conn.prepareStatement(request);
+
+            st.setInt(1, simulationid);
+            ResultSet res = st.executeQuery();
+
+            String tmp;
+
+            while (res.next()) {
+                tmp = "";
+                tmp += Integer.toString(res.getInt("buyerid")) + " ";
+                tmp += res.getTime("time") + " ";
+                tmp += res.getString("name") + " ";
+                tmp += Integer.toString(res.getInt("count")) + " ";
+                tmp += Integer.toString(res.getInt("cost"));
+
+                result.add(tmp);
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        Disconnect();
+
+        return result;
     }
 }
