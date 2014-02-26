@@ -82,8 +82,10 @@ SQLAgent
 ==============
 DBName - string
 URL - string
+user - string
+password - string
 --------------
-!!! Конструктор (Имя БД - string, адрес:порт - string)
+!!! Конструктор (Имя БД - string, адрес:порт - string, пользователь - string, пароль - string)
 Started()
 Ended()
 Buyed()

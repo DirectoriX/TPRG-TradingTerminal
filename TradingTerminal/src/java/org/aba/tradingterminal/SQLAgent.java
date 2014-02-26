@@ -25,14 +25,25 @@
  */
 package org.aba.tradingterminal;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class SQLAgent {
 
-    public String DBName;
-    public String URL;
+    private String DBName;
+    private String URL;
+    private String user;
+    private String password;
 
-    public SQLAgent(String DBName, String URL) {
+    private Connection conn;
+
+    public SQLAgent(String DBName, String URL, String user, String password) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+
+        }
+
     }
 
     public void Started() {
