@@ -56,15 +56,15 @@ public class Distribution {
         return (res > min) ? res : min;
     }
 
-    int GetIntCount(int count) {
+    public int GetIntCount(int count) {
         return (int) Math.round(Tricky(count, TrickyScale, 1));
     }
 
-    float GetFloatCount(float count, float min) {
+    public float GetFloatCount(float count, float min) {
         return Tricky(count, TrickyScale, min);
     }
 
-    int GetLogistic(int time) {
+    public int GetLogistic(int time) {
         double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
         IdealSum += value;
         int result = (int) Math.round(value);

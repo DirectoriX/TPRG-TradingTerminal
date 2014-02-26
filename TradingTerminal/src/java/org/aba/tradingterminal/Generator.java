@@ -33,16 +33,16 @@ import java.util.List;
  */
 public class Generator {
 
-    List<Integer> Discounts;
+    private List<Integer> Discounts;
 
-    Buyer CreateBuyer() {
+    public Buyer CreateBuyer() {
         return null;
     }
 
-    void FillCart(Buyer b) {
+    public void FillCart(Buyer b) {
     }
 
-    void MakeDiscount(Buyer b) {
+    public void MakeDiscount(Buyer b) {
     }
 
 }

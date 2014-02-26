@@ -27,12 +27,12 @@ package org.aba.tradingterminal;
 
 public class Admin {
 
-    int Money;
-    int Amount;
+    public int Money;
+    public int Amount;
 
-    void GiveMoney(int count) {
+    public void GiveMoney(int count) {
     }
 
-    void Check(Terminal t) {
+    public void Check(Terminal t) {
     }
 }

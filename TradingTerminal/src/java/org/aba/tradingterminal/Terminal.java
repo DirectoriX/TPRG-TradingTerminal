@@ -29,15 +29,15 @@ import java.util.Queue;
 
 public class Terminal {
 
-    int id;
-    int Money;
-    int Profit;
-    Queue BuyerQueue;
-    boolean AmICorrect = false;
+    public int id;
+    public int Money;
+    public int Profit;
+    public Queue BuyerQueue;
+    public boolean AmICorrect = false;
 
-    void GiveAway() {
+    public void GiveAway() {
     }
 
-    void Serve(Buyer cl) {
+    public void Serve(Buyer cl) {
     }
 }

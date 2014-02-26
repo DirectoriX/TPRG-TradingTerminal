@@ -29,17 +29,17 @@ import java.util.List;
 
 public class Buyer {
 
-    int ArriveTime;
-    int ServedTime;
-    int Money;
-    int Paid;
-    int DiscountCode = 0;
+    public int ArriveTime;
+    public int ServedTime;
+    public int Money;
+    public int Paid;
+    public int DiscountCode = 0;
 
-    List<Product> Cart;
+    public List<Product> Cart;
 
-    void AddMoney(int amount) {
+    private void AddMoney(int amount) {
     }
 
-    void AddProduct(Product thing) {
+    public void AddProduct(Product thing) {
     }
 }
