@@ -93,13 +93,11 @@ public class TestFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       jTextArea1.setText(null);
+        jTextArea1.setText(null);
         SQLAgent dba = new SQLAgent("tradingterminal2", "localhost:3306", "TPRG", "Tc1KuV");
-        LinkedList<Product> q = dba.GetProductInfo();
-        
-        for (int i = 0; i < q.size(); i++) {
-            jTextArea1.append(q.get(i).toString()+'\n');
-        }
+        int q = dba.Started(100, 5);
+
+        jTextArea1.append(Integer.toString(q) + '\n');
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

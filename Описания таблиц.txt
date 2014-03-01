@@ -13,7 +13,6 @@ cost - not null unsigned float
 simulations
 ==============
 id -  unsigned unique autoincrement not null int, Primary key
-date - date
 peoplecount - unsigned not null int
 goodscount - unsigned not null int
 peoplearrived - unsigned not null int

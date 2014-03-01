@@ -30,7 +30,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class SQLAgent {
@@ -79,7 +81,30 @@ public class SQLAgent {
         }
     }
 
-    public void Started() {
+    public int Started(int peoplecount, int goodscount) {
+        Connect();
+        int ret = 0;
+        try {
+            PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)");
+
+            st.setInt(1, peoplecount);
+            st.setInt(2, goodscount);
+
+            st.execute();
+
+            ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1");
+            res.next();
+            ret = res.getInt(1);
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        Disconnect();
+
+        return ret;
+
     }
 
     public void Ended() {

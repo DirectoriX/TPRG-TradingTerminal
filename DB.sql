@@ -14,7 +14,6 @@ CREATE TABLE `tradingterminal`.`products` (
 
 CREATE TABLE `tradingterminal`.`simulations` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `date` DATE NULL,
     `peoplecount` INT UNSIGNED NOT NULL,
     `goodscount` INT UNSIGNED NOT NULL,
     `peoplearrived` INT UNSIGNED NOT NULL,
