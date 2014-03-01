@@ -96,6 +96,8 @@ public class TestFrame extends javax.swing.JFrame {
         jTextArea1.setText(null);
         SQLAgent dba = new SQLAgent("tradingterminal2", "localhost:3306", "TPRG", "Tc1KuV");
         int q = dba.Started(100, 5);
+        
+        dba.Ended(192, 184, (float) 3.95, (float) 23.76, 88, 22, 1122, true);
 
         jTextArea1.append(Integer.toString(q) + '\n');
     }//GEN-LAST:event_jButton1ActionPerformed

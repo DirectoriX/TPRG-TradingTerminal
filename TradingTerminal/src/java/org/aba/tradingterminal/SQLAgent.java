@@ -42,7 +42,7 @@ public class SQLAgent {
     private String user;
     private String password;
 
-    private int simid = 2;
+    private int simid = -1;
 
     private Connection conn;
 
@@ -94,7 +94,7 @@ public class SQLAgent {
 
             ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1");
             res.next();
-            ret = res.getInt(1);
+            ret = simid = res.getInt(1);
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
@@ -107,7 +107,29 @@ public class SQLAgent {
 
     }
 
-    public void Ended() {
+    public void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect) {
+        Connect();
+        try {
+            PreparedStatement st = conn.prepareStatement("UPDATE simulations set peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?");
+
+            st.setInt(1, peoplearrived);
+            st.setInt(2, peopleserved);
+            st.setFloat(3, avggoodscount);
+            st.setFloat(4, avgprofit);
+            st.setInt(5, profit);
+            st.setInt(6, maxqueue);
+            st.setTime(7, new Time(maxqueuetime * 10 / (60 * 60), maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
+            st.setBoolean(8, iscorrect);
+            st.setInt(9, simid);
+
+            st.execute();
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        Disconnect();
     }
 
     public void Buyed(int buyer, int code, float count, int time, int cost) {
