@@ -110,11 +110,72 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public LinkedList<Product> GetProductInfo() {
-        return null;
+    public LinkedList<String> ShowProductInfo() {
+        LinkedList<String> result = new LinkedList();
+
+        String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
+
+        Connect();
+        try {
+            PreparedStatement st = conn.prepareStatement(request);
+            ResultSet res = st.executeQuery();
+
+            String tmp;
+
+            while (res.next()) {
+                tmp = "";
+                tmp += Integer.toString(res.getInt("code")) + " ";
+                tmp += res.getString("name") + " ";
+                tmp += (res.getBoolean("ispacked")) ? "+ " : "- ";
+                tmp += Float.toString(res.getFloat("count")) + " ";
+                tmp += Float.toString(res.getFloat("cost"));
+
+                result.add(tmp);
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        Disconnect();
+
+        return result;
     }
 
-    LinkedList<String> GetResults(int simulationid) {
+    public LinkedList<Product> GetProductInfo() {
+        LinkedList<Product> result = new LinkedList();
+
+        String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
+
+        Connect();
+        try {
+            PreparedStatement st = conn.prepareStatement(request);
+            ResultSet res = st.executeQuery();
+
+            while (res.next()) {
+                Product tmp = new Product();
+
+                tmp.Code = res.getInt("code");
+                tmp.Name = res.getString("name");
+                tmp.IsPacked = res.getBoolean("ispacked");
+                tmp.Count = res.getFloat("count");
+                tmp.Price = res.getFloat("cost");
+
+                result.add(tmp);
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        Disconnect();
+
+        return result;
+    }
+
+    public LinkedList<String> GetResults(int simulationid) {
         LinkedList<String> result = new LinkedList();
 
         String request = "SELECT r.buyerid, r.time, p.name, r.count, r.cost FROM reports r INNER JOIN products p ON r.productcode = p.code WHERE simulationid = ? ORDER BY r.time";
