@@ -90,7 +90,6 @@ Started()
 Ended()
 Buyed()
 GetProductInfo()
-GetProductNames()
 }
 
 Generator
