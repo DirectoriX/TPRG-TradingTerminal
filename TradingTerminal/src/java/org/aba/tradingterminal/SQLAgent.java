@@ -30,6 +30,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
 import java.util.LinkedList;
 
@@ -43,6 +44,13 @@ public class SQLAgent {
     private int simid = -1;
 
     private Connection conn;
+
+    private void HandleEx(SQLException ex) {
+        // handle any errors
+        System.out.println("SQLException: " + ex.getMessage());
+        System.out.println("SQLState: " + ex.getSQLState());
+        System.out.println("VendorError: " + ex.getErrorCode());
+    }
 
     public SQLAgent(String DBName, String URL, String user, String password) {
         try {
@@ -62,10 +70,7 @@ public class SQLAgent {
             this.conn = DriverManager.getConnection("jdbc:mysql://" + this.URL + "/" + this.DBName + "?"
                     + "user=" + this.user + "&password=" + this.password);
         } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            HandleEx(ex);
         }
     }
 
@@ -73,9 +78,7 @@ public class SQLAgent {
         try {
             conn.close();
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            HandleEx(ex);
         }
     }
 
@@ -83,20 +86,18 @@ public class SQLAgent {
         Connect();
         int ret = 0;
         try {
-            PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)");
+            try (PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)")) {
+                st.setInt(1, peoplecount);
+                st.setInt(2, goodscount);
 
-            st.setInt(1, peoplecount);
-            st.setInt(2, goodscount);
-
-            st.execute();
-
-            ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1");
-            res.next();
-            ret = simid = res.getInt(1);
+                st.execute();
+                try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")) {
+                    res.next();
+                    ret = simid = res.getInt(1);
+                }
+            }
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+           HandleEx(ex);
         }
 
         Disconnect();
@@ -108,23 +109,21 @@ public class SQLAgent {
     public void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect) {
         Connect();
         try {
-            PreparedStatement st = conn.prepareStatement("UPDATE simulations set peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?");
+            try (PreparedStatement st = conn.prepareStatement("UPDATE simulations set peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")) {
+                st.setInt(1, peoplearrived);
+                st.setInt(2, peopleserved);
+                st.setFloat(3, avggoodscount);
+                st.setFloat(4, avgprofit);
+                st.setInt(5, profit);
+                st.setInt(6, maxqueue);
+                st.setTime(7, new Time(maxqueuetime * 10 / (60 * 60), maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
+                st.setBoolean(8, iscorrect);
+                st.setInt(9, simid);
 
-            st.setInt(1, peoplearrived);
-            st.setInt(2, peopleserved);
-            st.setFloat(3, avggoodscount);
-            st.setFloat(4, avgprofit);
-            st.setInt(5, profit);
-            st.setInt(6, maxqueue);
-            st.setTime(7, new Time(maxqueuetime * 10 / (60 * 60), maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
-            st.setBoolean(8, iscorrect);
-            st.setInt(9, simid);
-
-            st.execute();
+                st.execute();
+            }
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            HandleEx(ex);
         }
 
         Disconnect();
@@ -133,23 +132,21 @@ public class SQLAgent {
     public void Buyed(int buyer, int code, float count, int time, int cost) {
         Connect();
         try {
-            PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)");
+            try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)")) {
+                st.setInt(1, this.simid);
+                st.setInt(2, buyer);
+                st.setInt(3, code);
+                st.setFloat(4, count);
 
-            st.setInt(1, this.simid);
-            st.setInt(2, buyer);
-            st.setInt(3, code);
-            st.setFloat(4, count);
+                Time t = new Time(time * 10 / (60 * 60), time * 10 % (60 * 60) / 60, time * 10 % 60);
+                st.setTime(5, t);
 
-            Time t = new Time(time * 10 / (60 * 60), time * 10 % (60 * 60) / 60, time * 10 % 60);
-            st.setTime(5, t);
+                st.setInt(6, cost);
 
-            st.setInt(6, cost);
-
-            st.execute();
+                st.execute();
+            }
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            HandleEx(ex);
         }
 
         Disconnect();
@@ -162,25 +159,23 @@ public class SQLAgent {
 
         Connect();
         try {
-            PreparedStatement st = conn.prepareStatement(request);
-            ResultSet res = st.executeQuery();
+            try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)) {
 
-            String tmp;
+                String tmp;
 
-            while (res.next()) {
-                tmp = "";
-                tmp += Integer.toString(res.getInt("code")) + " ";
-                tmp += res.getString("name") + " ";
-                tmp += (res.getBoolean("ispacked")) ? "+ " : "- ";
-                tmp += Float.toString(res.getFloat("count")) + " ";
-                tmp += Float.toString(res.getFloat("cost"));
+                while (res.next()) {
+                    tmp = "";
+                    tmp += Integer.toString(res.getInt("code")) + " ";
+                    tmp += res.getString("name") + " ";
+                    tmp += (res.getBoolean("ispacked")) ? "+ " : "- ";
+                    tmp += Float.toString(res.getFloat("count")) + " ";
+                    tmp += Float.toString(res.getFloat("cost"));
 
-                result.add(tmp);
+                    result.add(tmp);
+                }
             }
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            HandleEx(ex);
         }
 
         Disconnect();
@@ -195,24 +190,23 @@ public class SQLAgent {
 
         Connect();
         try {
-            PreparedStatement st = conn.prepareStatement(request);
-            ResultSet res = st.executeQuery();
+            try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)) {
 
-            while (res.next()) {
-                Product tmp = new Product();
+                while (res.next()) {
+                    Product tmp = new Product();
 
-                tmp.Code = res.getInt("code");
-                tmp.Name = res.getString("name");
-                tmp.IsPacked = res.getBoolean("ispacked");
-                tmp.Count = res.getFloat("count");
-                tmp.Price = res.getFloat("cost");
+                    tmp.Code = res.getInt("code");
+                    tmp.Name = res.getString("name");
+                    tmp.IsPacked = res.getBoolean("ispacked");
+                    tmp.Count = res.getFloat("count");
+                    tmp.Price = res.getFloat("cost");
 
-                result.add(tmp);
+                    result.add(tmp);
+
+                }
             }
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+           HandleEx(ex);
         }
 
         Disconnect();
@@ -227,27 +221,25 @@ public class SQLAgent {
 
         Connect();
         try {
-            PreparedStatement st = conn.prepareStatement(request);
+            try (PreparedStatement st = conn.prepareStatement(request)) {
+                st.setInt(1, simulationid);
+                try (ResultSet res = st.executeQuery()) {
+                    String tmp;
 
-            st.setInt(1, simulationid);
-            ResultSet res = st.executeQuery();
+                    while (res.next()) {
+                        tmp = "";
+                        tmp += Integer.toString(res.getInt("buyerid")) + " ";
+                        tmp += res.getTime("time") + " ";
+                        tmp += res.getString("name") + " ";
+                        tmp += Integer.toString(res.getInt("count")) + " ";
+                        tmp += Integer.toString(res.getInt("cost"));
 
-            String tmp;
-
-            while (res.next()) {
-                tmp = "";
-                tmp += Integer.toString(res.getInt("buyerid")) + " ";
-                tmp += res.getTime("time") + " ";
-                tmp += res.getString("name") + " ";
-                tmp += Integer.toString(res.getInt("count")) + " ";
-                tmp += Integer.toString(res.getInt("cost"));
-
-                result.add(tmp);
+                        result.add(tmp);
+                    }
+                }
             }
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            HandleEx(ex);
         }
 
         Disconnect();
