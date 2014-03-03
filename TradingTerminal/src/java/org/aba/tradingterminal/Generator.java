@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2014, DirectoriX, kramer98489, UN-likE
  * All rights reserved.
  *
@@ -27,19 +27,22 @@ package org.aba.tradingterminal;
 
 import java.util.List;
 
-public class Buyer {
+/**
+ *
+ * @author DirectoriX, kramer98489, UN-likE
+ */
+public class Generator {
 
-    public int ArriveTime;
-    public int ServedTime;
-    public int Money;
-    public int Paid;
-    public int DiscountCode = 0;
+    private List<Integer> Discounts;
 
-    public List<Product> Cart;
-
-    private void AddMoney(int amount) {
+    public Buyer CreateBuyer() {
+        return null;
     }
 
-    public void AddProduct(Product thing) {
+    public void FillCart(Buyer b) {
     }
+
+    public void MakeDiscount(Buyer b) {
+    }
+
 }

@@ -28,8 +28,16 @@ package org.aba.tradingterminal;
 import java.util.Queue;
 
 public class Terminal {
-    int id;
-    int Money;
-    int Profit;
-    Queue BuyerQueue;
+
+    public int id;
+    public int Money;
+    public int Profit;
+    public Queue BuyerQueue;
+    public boolean AmICorrect = false;
+
+    public void GiveAway() {
+    }
+
+    public void Serve(Buyer cl) {
+    }
 }

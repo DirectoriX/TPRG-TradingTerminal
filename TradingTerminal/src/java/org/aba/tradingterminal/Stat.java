@@ -27,11 +27,13 @@ package org.aba.tradingterminal;
 
 public class Stat {
 
-    int PeopleServed;
-    int PeopleArrived;
-    int MaxQueue;
-    int MaxQueueTime;
-    float AvgGoodsCount;
-    float AvgProfit;
-    
+    public int PeopleServed;
+    public int PeopleArrived;
+    public int MaxQueue;
+    public int MaxQueueTime;
+    public float AvgGoodsCount;
+    public float AvgProfit;
+
+    public void Consider(Buyer cl) {
+    }
 }

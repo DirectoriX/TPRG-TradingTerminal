@@ -26,11 +26,12 @@
 package org.aba.tradingterminal;
 
 public class Product {
-    String Name;
-    int Code;
-    float Count;
-    boolean IsPacked;
-    float Cost;
-    float AvgCount;
-    
+
+    public String Name;
+    public int Code;
+    public float Count;
+    public boolean IsPacked;
+    public float Price;
+    public float AvgCount;
+
 }
