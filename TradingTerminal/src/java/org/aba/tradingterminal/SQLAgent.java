@@ -41,7 +41,7 @@ public class SQLAgent {
     private String user;
     private String password;
 
-    private int simid = -1;
+    private int simid = -1; // id симуляции
 
     private Connection conn;
 
@@ -54,7 +54,7 @@ public class SQLAgent {
 
     public SQLAgent(String DBName, String URL, String user, String password) {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
 
         }
@@ -65,7 +65,7 @@ public class SQLAgent {
         this.password = password;
     }
 
-    private void Connect() {
+    private void Connect() { // Подключение к БД
         try {
             this.conn = DriverManager.getConnection("jdbc:mysql://" + this.URL + "/" + this.DBName + "?"
                     + "user=" + this.user + "&password=" + this.password);
@@ -74,7 +74,7 @@ public class SQLAgent {
         }
     }
 
-    private void Disconnect() {
+    private void Disconnect() { // Отключение от БД
         try {
             conn.close();
         } catch (SQLException ex) {
@@ -82,16 +82,16 @@ public class SQLAgent {
         }
     }
 
-    public int Started(int peoplecount, int goodscount) {
+    public int Started(int peoplecount, int goodscount) { // Создаём новую запись о симуляции
         Connect();
         int ret = 0;
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)")) {
                 st.setInt(1, peoplecount);
-                st.setInt(2, goodscount);
-
+                st.setInt(2, goodscount); 
+				// Другие параметры не знаем, поэтому пока ставим нули
                 st.execute();
-                try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")) {
+                try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")) { // Получаем номер симуляции
                     res.next();
                     ret = simid = res.getInt(1);
                 }
@@ -120,7 +120,7 @@ public class SQLAgent {
                 st.setBoolean(8, iscorrect);
                 st.setInt(9, simid);
 
-                st.execute();
+                st.execute(); // Обновляем запись о симуляции до актуальных значений
             }
         } catch (SQLException ex) {
             HandleEx(ex);
@@ -129,7 +129,7 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public void Buyed(int buyer, int code, float count, int time, int cost) {
+    public void Buyed(int buyer, int code, float count, int time, int cost) { // Создание записи об элементарной покупке
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)")) {
@@ -183,7 +183,7 @@ public class SQLAgent {
         return result;
     }
 
-    public LinkedList<Product> GetProductInfo() {
+    public LinkedList<Product> GetProductInfo() { // Получаем полную информацию о всех товарах
         LinkedList<Product> result = new LinkedList();
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
@@ -192,7 +192,7 @@ public class SQLAgent {
         try {
             try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)) {
 
-                while (res.next()) {
+                while (res.next()) { // Обрабатываем все записи...
                     Product tmp = new Product();
 
                     tmp.Code = res.getInt("code");
@@ -214,7 +214,7 @@ public class SQLAgent {
         return result;
     }
 
-    public LinkedList<String> GetResults(int simulationid) {
+    public LinkedList<String> GetResults(int simulationid) { // Получаем подробный отчёт о симуляции
         LinkedList<String> result = new LinkedList();
 
         String request = "SELECT r.buyerid, r.time, p.name, r.count, r.cost FROM reports r INNER JOIN products p ON r.productcode = p.code WHERE simulationid = ? ORDER BY r.time";
