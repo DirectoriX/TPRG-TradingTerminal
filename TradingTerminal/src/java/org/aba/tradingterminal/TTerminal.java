@@ -27,6 +27,8 @@
 package org.aba.tradingterminal;
 
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +38,23 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
+    
+    public String DBName;
+    public String URL;
+    public String user;
+    public String password;
+    private String Path;
+    private BufferedReader inputData;
+    
+    private void LoadDbConfig() throws IOException {
+        inputData = new BufferedReader(new FileReader (Path));
+
+        DBName = inputData.readLine();
+        URL = inputData.readLine();
+        user = inputData.readLine();
+        password = inputData.readLine();
+
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,6 +81,8 @@ public class TTerminal extends HttpServlet {
             out.println("</html>");
         }
     }
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
