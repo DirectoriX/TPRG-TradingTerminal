@@ -46,6 +46,21 @@
       <type id="Queue" tid="" name="Queue" description="" nullable="false" />
       <type id="boolean" tid="" name="boolean" description="" nullable="false" />
       <type id="int{}" tid="" name="int{}" description="" nullable="false" />
+      <type id="Class:di162897654174801822" tid="" name="Terminal" description="" nullable="false" class-ref="di162897654174801822" />
+      <type id="List&lt;Integer&gt;" tid="" name="List&lt;Integer&gt;" description="" nullable="false" />
+      <type id="Connection" tid="" name="Connection" description="" nullable="false" />
+      <type id="SQLException" tid="" name="SQLException" description="" nullable="false" />
+      <type id="LinkedList&lt;String&gt;" tid="" name="LinkedList&lt;String&gt;" description="" nullable="false" />
+      <type id="LinkedList&lt;Product&gt;" tid="" name="LinkedList&lt;Product&gt;" description="" nullable="false" />
+      <type id="java.awt.event.ActionEvent" tid="" name="java.awt.event.ActionEvent" description="" nullable="false" />
+      <type id="ClassNotFoundException" tid="" name="ClassNotFoundException" description="" nullable="false" />
+      <type id="InstantiationException" tid="" name="InstantiationException" description="" nullable="false" />
+      <type id="IllegalAccessException" tid="" name="IllegalAccessException" description="" nullable="false" />
+      <type id="javax.swing.UnsupportedLookAndFeelException" tid="" name="javax.swing.UnsupportedLookAndFeelException" description="" nullable="false" />
+      <type id="HttpServletRequest" tid="" name="HttpServletRequest" description="" nullable="false" />
+      <type id="HttpServletResponse" tid="" name="HttpServletResponse" description="" nullable="false" />
+      <type id="ActionListener" tid="" name="ActionListener" description="" nullable="false" />
+      <type id="Products" tid="" name="Products" description="" nullable="false" />
     </custom-types>
   </types>
   <filters />
@@ -232,6 +247,1616 @@
       <sequence-action type="call" message="Отдает сдачу" is-asynchronous="false" to="di579211820384919085" return-value="" assign-to-variable="">
         <parameters />
       </sequence-action>
+    </item>
+    <item id="di865869518900272894" cid="C018" type="class" name="Terminal" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="af4e454578a9841eb98de60b664c20bf0790" name="id" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="aacb2358f01814baf9513b3443c37f2e5790" name="Money" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a0b493b2aff2342d8aad092cf4007e133790" name="Profit" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ab824aa0319c04413a0862f6734639623790" name="BuyerQueue" type="Queue" type-id="Queue" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ab77942d44a3c4245b9d05e7eec837e9d790" name="AmICorrect" type="boolean" type-id="boolean" visibility="public" abstract="false" virtual="false" default-value="false" />
+      </attributes>
+      <operations>
+        <operation id="o912cd82771cf481ca01a7db02425ce69790" name="GiveAway" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o1ab9ed038b904354a787ad175c806fbf790" name="Serve" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="cl" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di994583507107868814" cid="C017" type="class" name="Stat" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a8121ea1c16cc45d39cfde27eaaa0c3d5787" name="PeopleServed" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a9f73bbd133c2415292cd65cbb26afb92787" name="PeopleArrived" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a9f32a444878a48e7bc44d393a666ac20787" name="MaxQueue" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="add0fa78184604f8b8136212c0048d550787" name="MaxQueueTime" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a664364a1ccba4cf18b1f813d62684ca0787" name="AvgGoodsCount" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a4ae067cd24ea41cca24543797ea95811787" name="AvgProfit" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o2ede0bd0df4d4b6d903b9ff1f730eb18787" name="Consider" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="cl" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di855666714406285747" cid="C016" type="class" name="SQLAgent" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a9818f9833f784bde9400274cc62c3863784" name="DBName" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="a11bada7ad6b34d3f8ae1df35f3453145784" name="URL" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="a9094f205ad41425e83e1f361dbef23f2784" name="user" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="a2382595e77924b7097a6878b4a0854eb784" name="password" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="a1068bf819c3c439db1cabcc25f40cb4d784" name="simid" type="int" type-id="int" visibility="private" abstract="false" virtual="false" default-value="-1" />
+        <attribute id="a727fa55f95b045fa872d939bb146e7cd784" name="conn" type="Connection" type-id="Connection" visibility="private" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o3857580939d54e76b17d2f00da489efd784" name="HandleEx" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="ex" type="SQLException" type-id="SQLException" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        // handle any errors
+        System.out.println("SQLException: " + ex.getMessage());
+        System.out.println("SQLState: " + ex.getSQLState());
+        System.out.println("VendorError: " + ex.getErrorCode());}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o79c319b3e7fc4932a315ce7f018bfffc784" name="SQLAgent" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="DBName" type="String" type-id="Uml.String" default-value="" />
+            <parameter id="" name="URL" type="String" type-id="Uml.String" default-value="" />
+            <parameter id="" name="user" type="String" type-id="Uml.String" default-value="" />
+            <parameter id="" name="password" type="String" type-id="Uml.String" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        try{
+            Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер} catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex){}
+
+        this.DBName = DBName;
+        this.URL = URL;
+        this.user = user;
+        this.password = password;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o7e8f048353304f1e80d141d0f74ee6ce784" name="Connect" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{ // Подключение к БД
+        try{
+            this.conn = DriverManager.getConnection("jdbc:mysql://" + this.URL + "/" + this.DBName + "?"
+                    + "user=" + this.user + "&amp;password=" + this.password);} catch (SQLException ex){
+            HandleEx(ex);}}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o7a438e3507f148d5a18e579b70985a06784" name="Disconnect" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{ // Отключение от БД
+        try{
+            conn.close();} catch (SQLException ex){
+            HandleEx(ex);}}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o0f1fe950fbe04ee39669413f9f0118e5784" name="Started" type="int" type-id="int" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="peoplecount" type="int" type-id="int" default-value="" />
+            <parameter id="" name="goodscount" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{ // Создаём новую запись о симуляции
+        Connect();
+        int ret = 0;
+        try{
+            try (PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)")){
+                st.setInt(1, peoplecount);
+                st.setInt(2, goodscount); 
+				// Другие параметры не знаем, поэтому пока ставим нули
+                st.execute();
+                try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")){ // Получаем номер симуляции
+                    res.next();
+                    ret = simid = res.getInt(1);}}} catch (SQLException ex){
+           HandleEx(ex);}
+
+        Disconnect();
+
+        return ret;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o7afd8ac56b204570ac587e9cb310f480784" name="Ended" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="peoplearrived" type="int" type-id="int" default-value="" />
+            <parameter id="" name="peopleserved" type="int" type-id="int" default-value="" />
+            <parameter id="" name="avggoodscount" type="float" type-id="float" default-value="" />
+            <parameter id="" name="avgprofit" type="float" type-id="float" default-value="" />
+            <parameter id="" name="profit" type="int" type-id="int" default-value="" />
+            <parameter id="" name="maxqueue" type="int" type-id="int" default-value="" />
+            <parameter id="" name="maxqueuetime" type="int" type-id="int" default-value="" />
+            <parameter id="" name="iscorrect" type="boolean" type-id="boolean" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        Connect();
+        try{
+            try (PreparedStatement st = conn.prepareStatement("UPDATE simulations set peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")){
+                st.setInt(1, peoplearrived);
+                st.setInt(2, peopleserved);
+                st.setFloat(3, avggoodscount);
+                st.setFloat(4, avgprofit);
+                st.setInt(5, profit);
+                st.setInt(6, maxqueue);
+                st.setTime(7, new Time(maxqueuetime * 10 / (60 * 60), maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
+                st.setBoolean(8, iscorrect);
+                st.setInt(9, simid);
+
+                st.execute(); // Обновляем запись о симуляции до актуальных значений}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o7e8a600a41524b2bae45cab04dc48b08784" name="Buyed" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="buyer" type="int" type-id="int" default-value="" />
+            <parameter id="" name="code" type="int" type-id="int" default-value="" />
+            <parameter id="" name="count" type="float" type-id="float" default-value="" />
+            <parameter id="" name="time" type="int" type-id="int" default-value="" />
+            <parameter id="" name="cost" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{ // Создание записи об элементарной покупке
+        Connect();
+        try{
+            try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)")){
+                st.setInt(1, this.simid);
+                st.setInt(2, buyer);
+                st.setInt(3, code);
+                st.setFloat(4, count);
+
+                Time t = new Time(time * 10 / (60 * 60), time * 10 % (60 * 60) / 60, time * 10 % 60);
+                st.setTime(5, t);
+
+                st.setInt(6, cost);
+
+                st.execute();}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o2a86b6f651aa41c69b62a160ec1608de784" name="ShowProductInfo" type="LinkedList&lt;String&gt;" type-id="LinkedList&lt;String&gt;" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+        LinkedList&lt;String&gt; result = new LinkedList();
+
+        String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
+
+        Connect();
+        try{
+            try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)){
+
+                String tmp;
+
+                while (res.next()){
+                    tmp = "";
+                    tmp += Integer.toString(res.getInt("code")) + " ";
+                    tmp += res.getString("name") + " ";
+                    tmp += (res.getBoolean("ispacked")) ? "+ " : "- ";
+                    tmp += Float.toString(res.getFloat("count")) + " ";
+                    tmp += Float.toString(res.getFloat("cost"));
+
+                    result.add(tmp);}}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o948ca55ebc48433f931eb560a9c1deee784" name="GetProductInfo" type="LinkedList&lt;Product&gt;" type-id="LinkedList&lt;Product&gt;" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{ // Получаем полную информацию о всех товарах
+        LinkedList&lt;Product&gt; result = new LinkedList();
+
+        String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
+
+        Connect();
+        try{
+            try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)){
+
+                while (res.next()){ // Обрабатываем все записи...
+                    Product tmp = new Product();
+
+                    tmp.Code = res.getInt("code");
+                    tmp.Name = res.getString("name");
+                    tmp.IsPacked = res.getBoolean("ispacked");
+                    tmp.Count = res.getFloat("count");
+                    tmp.Price = res.getFloat("cost");
+
+                    result.add(tmp);}}} catch (SQLException ex){
+           HandleEx(ex);}
+
+        Disconnect();
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o5398d264e0b94412b6f3ec48679325e6784" name="GetResults" type="LinkedList&lt;String&gt;" type-id="LinkedList&lt;String&gt;" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="simulationid" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{ // Получаем подробный отчёт о симуляции
+        LinkedList&lt;String&gt; result = new LinkedList();
+
+        String request = "SELECT r.buyerid, r.time, p.name, r.count, r.cost FROM reports r INNER JOIN products p ON r.productcode = p.code WHERE simulationid = ? ORDER BY r.time";
+
+        Connect();
+        try{
+            try (PreparedStatement st = conn.prepareStatement(request)){
+                st.setInt(1, simulationid);
+                try (ResultSet res = st.executeQuery()){
+                    String tmp;
+
+                    while (res.next()){
+                        tmp = "";
+                        tmp += Integer.toString(res.getInt("buyerid")) + " ";
+                        tmp += res.getTime("time") + " ";
+                        tmp += res.getString("name") + " ";
+                        tmp += Integer.toString(res.getInt("count")) + " ";
+                        tmp += Integer.toString(res.getInt("cost"));
+
+                        result.add(tmp);}}}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di212766662793052374" cid="C015" type="class" name="Product" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="ab69de4afde134b8b8872fc671e89f4c1774" name="Name" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a11f2f8634815406e924b227ab0b167ec774" name="Code" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a583fe0a9bf1b48cab8f334a8fbfbde7f774" name="Count" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ad7f03ad1ac32415685440802cf295a4c774" name="IsPacked" type="boolean" type-id="boolean" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a7c58f42e21be42adaef544635b82f899774" name="Price" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a3c0a106393964e92bf5090a8c31c1544774" name="AvgCount" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations />
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di937465227378202056" cid="C014" type="class" name="Generator" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a97ad1ca083c54096a30f07a166d89ed0772" name="Discounts" type="List&lt;Integer&gt;" type-id="List&lt;Integer&gt;" visibility="private" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="oe00387f54cfe4ae7925c9ac0268cf2ca772" name="CreateBuyer" type="Buyer" type-id="Class:di406439571195226866" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+        return null;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="of6f4771baa5a4edfa0f43f996fdc0ac1772" name="FillCart" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="b" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="oef3f19ca7818489c9cfe5b042607fd8a772" name="MakeDiscount" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="b" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di860208802700263049" cid="C013" type="class" name="Distribution" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a7ee5b9d922694ed0a6f4970a164a352a770" name="mu" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a702ce718789e40408fb72263c389836e770" name="S" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a13cf92b0aa844b5fa2df45ae2d4cf6a3770" name="clients" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="oc1a24b5c76bf4bd3b89395117fa5ec69770" name="Logistic" type="double" type-id="double" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="Median" type="double" type-id="double" default-value="" />
+            <parameter id="" name="Scale" type="double" type-id="double" default-value="" />
+            <parameter id="" name="x" type="double" type-id="double" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        double result = Math.exp(-(x - Median) / Scale);
+        result /= Scale;
+        result /= Math.pow(Math.exp(-(x - Median) / Scale) + 1, 2);
+        return result;}
+
+    private final float TrickyScale = (float) 0.33;</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o1ef6513ddf404283a007483e50d6ca0d770" name="Tricky" type="float" type-id="float" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="float" type-id="float" default-value="" />
+            <parameter id="" name="Scale" type="float" type-id="float" default-value="" />
+            <parameter id="" name="min" type="float" type-id="float" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        float res = (float) (count - count * Scale * Math.log(1 / RNG.nextDouble() - 1));
+        return (res &gt; min) ? res : min;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o8f3d227f0af94576a5645960f279772a770" name="GetIntCount" type="int" type-id="int" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        return (int) Math.round(Tricky(count, TrickyScale, 1));}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o6dc015bf9894483d97d213f9725fc76a770" name="GetFloatCount" type="float" type-id="float" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="float" type-id="float" default-value="" />
+            <parameter id="" name="min" type="float" type-id="float" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        return Tricky(count, TrickyScale, min);}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o77d2beae41e2460fbddde4a5328a340d770" name="GetLogistic" type="int" type-id="int" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="time" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
+        IdealSum += value;
+        int result = (int) Math.round(value);
+        RealSum += result;
+
+        if (Math.abs(RealSum - IdealSum) &gt;= 1){
+            int corr = (int) (Math.floor(Math.abs(RealSum - IdealSum)) * Math.signum(RealSum - IdealSum));
+            IdealSum -= RealSum - corr;
+            RealSum = 0;
+            result -= corr;}
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di192482170640733809" cid="C012" type="class" name="Buyer" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="acea925bc717b42cf9ff2239449676a9c764" name="ArriveTime" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a4ed424831bb945c7b6df979909c6a037764" name="ServedTime" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ade017a6eda9e4a1c9e1e741726a265c6764" name="Money" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a6847b91133884af4a2ca8a86528b3231764" name="Paid" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a34fd67e1fe444b88bb70214987058f8c764" name="DiscountCode" type="int" type-id="int" visibility="public" abstract="false" virtual="false" default-value="0" />
+        <attribute id="ae2f6effd08dc45469bafe25aee6013f0764" name="Cart" type="List&lt;Product&gt;" type-id="List&lt;Product&gt;" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="ofb1461c43a1e4fa0b1378869abc7c74d764" name="AddMoney" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="amount" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o41a0829fe8564433b3d10403a24eee48764" name="AddProduct" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="thing" type="Product" type-id="Product" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di258867841286831954" cid="C020" type="class" name="TTerminal" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="add0210ddf18c47739a3e7ba3d66aaeec802" name="DBName" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="aa321d81688c14e1f817e1c96b2a0f331802" name="URL" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ab95fb53e9a044be3b83766650bbca8aa802" name="user" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a19529fdfbd1c4b2493a72d5be9ed35e4802" name="password" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o61bd099a27e44f86bdd0d240bffa3d0d802" name="init" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined"> throws ServletException{
+        LoadDbConfig("DBprops.prop");}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o2314825315414f99bf5640803b4dc02a802" name="LoadDbConfig" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="Path" type="String" type-id="Uml.String" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        FileReader fr = null;
+        try{
+            fr = new FileReader(Path);
+            try (BufferedReader inputData = new BufferedReader(fr)){
+                DBName = inputData.readLine();
+                URL = inputData.readLine();
+                user = inputData.readLine();
+                password = inputData.readLine();}
+            fr.close();} catch (FileNotFoundException ex){
+            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);} catch (IOException ex){
+            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);} finally{
+            try{
+                fr.close();} catch (IOException ex){
+                Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);}}}
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o61e180dfef7f46c6bb46835c45c6ea3c802" name="processRequest" type="" type-id="" visibility="protected" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="request" type="HttpServletRequest" type-id="HttpServletRequest" default-value="" />
+            <parameter id="" name="response" type="HttpServletResponse" type-id="HttpServletResponse" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">
+            throws ServletException, IOException{
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()){
+            /* TODO output your page here. You may use following sample code. */
+            out.println("&lt;!DOCTYPE html&gt;");
+            out.println("&lt;html&gt;");
+            out.println("&lt;head&gt;");
+            out.println("&lt;title&gt;Servlet TTerminal&lt;/title&gt;");
+            out.println("&lt;/head&gt;");
+            out.println("&lt;body&gt;");
+            out.println("&lt;h1&gt;Servlet TTerminal at " + request.getContextPath() + "&lt;/h1&gt;");
+
+            SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+            LinkedList&lt;String&gt; pinfo = DBA.ShowProductInfo();
+
+            for (int i = 0; i &lt; pinfo.size(); i++){
+                out.println(pinfo.get(i) + "&lt;br/&gt;");}
+
+            out.println("&lt;/body&gt;");
+            out.println("&lt;/html&gt;");}}
+
+    // &lt;editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code."&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o5f2fcb3a7763431ca597d1376c5c5f88802" name="doGet" type="" type-id="" visibility="protected" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="request" type="HttpServletRequest" type-id="HttpServletRequest" default-value="" />
+            <parameter id="" name="response" type="HttpServletResponse" type-id="HttpServletResponse" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">
+            throws ServletException, IOException{
+        processRequest(request, response);}
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override</source-code>
+          </source-codes>
+        </operation>
+        <operation id="ofec7c907e43a4378b3657e6147b5834d802" name="doPost" type="" type-id="" visibility="protected" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="request" type="HttpServletRequest" type-id="HttpServletRequest" default-value="" />
+            <parameter id="" name="response" type="HttpServletResponse" type-id="HttpServletResponse" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">
+            throws ServletException, IOException{
+        processRequest(request, response);}
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o15df570e18ca4ab5bdae18cc7c3c5516802" name="getServletInfo" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+        return "Short description";}// &lt;/editor-fold&gt;</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di518845442513140727" cid="C011" type="class" name="Admin" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a2b9261082ece440aa3e09200209b3899761" name="Money" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="abc0667e1a36d44c6856ebdd5391ca3d5761" name="Amount" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="oe714a083f48746e5a97408989374ac57761" name="GiveMoney" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="oda1e065b1aae44ab94cade782c835526761" name="Check" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="t" type="Terminal" type-id="Class:di162897654174801822" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di432957353628228907" cid="C021" type="class" name="Worker" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:35:35">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes />
+      <operations>
+        <operation id="o4879b60ab96d43c0925bf66dc8571626804" name="Worker" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="listener" type="ActionListener" type-id="ActionListener" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        super(50, listener);}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o0a42f2789d9441b0b9ab0a3593aa24c7805" name="StartSim" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di597253294647316636" cid="C001" type="class" name="Admin" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="aa2baca81ae344db8a48021a4674d4b2492" name="Money" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="acf7327a1fae542b9b28010074ee27c2c108" name="Amount" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="obe36b15550b14b1b9b3b5bc2bf07719f108" name="GiveMoney" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="ob1a6b6b279724796bf4bca8fca8524cb108" name="Check" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="t" type="Terminal" type-id="Class:di162897654174801822" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:aa2baca81ae344db8a48021a4674d4b2492&gt;&lt;#Attribute:acf7327a1fae542b9b28010074ee27c2c108&gt;&lt;#Operation:obe36b15550b14b1b9b3b5bc2bf07719f108&gt;{&lt;#Operation:ob1a6b6b279724796bf4bca8fca8524cb108&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di522517453685032361" cid="C002" type="class" name="Buyer" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="aa73953acf3ee4858b0ce906c1cec6255108" name="ArriveTime" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a1256c136c9374a4f8a1ae21417725bb4108" name="ServedTime" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a3fd01fbe815640beaa0c0e83ac307f21108" name="Money" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a6849fcee3a4d476fb1ab36fc5479774e108" name="Paid" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a5bec54582b604344af8e8da8323fc7cb108" name="DiscountCode" type="int" type-id="int" visibility="public" abstract="false" virtual="false" default-value="0" />
+        <attribute id="ad34ad4c332df410081cd1d302461382a108" name="Cart" type="List&lt;Product&gt;" type-id="List&lt;Product&gt;" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o31d350403c5a42d18a2859ca4ee5f572108" name="AddMoney" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="amount" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="ocdc047b7892b4a619caa0a2ab9fea372108" name="AddProduct" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="thing" type="Product" type-id="Product" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:aa73953acf3ee4858b0ce906c1cec6255108&gt;&lt;#Attribute:a1256c136c9374a4f8a1ae21417725bb4108&gt;&lt;#Attribute:a3fd01fbe815640beaa0c0e83ac307f21108&gt;&lt;#Attribute:a6849fcee3a4d476fb1ab36fc5479774e108&gt;&lt;#Attribute:a5bec54582b604344af8e8da8323fc7cb108&gt;&lt;#Attribute:ad34ad4c332df410081cd1d302461382a108&gt;&lt;#Operation:o31d350403c5a42d18a2859ca4ee5f572108&gt;{&lt;#Operation:ocdc047b7892b4a619caa0a2ab9fea372108&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di942130294932731889" cid="C003" type="class" name="Distribution" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a95d2fa247da6406b93f5819ba38f8bdf124" name="mu" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="afa47752f93af49169af68a8aea577ff6124" name="S" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a1493587c9f844bd5b7c44a20eaf3ef84124" name="clients" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o5099c37b0b934121bdfec77a569cd959124" name="Logistic" type="double" type-id="double" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="Median" type="double" type-id="double" default-value="" />
+            <parameter id="" name="Scale" type="double" type-id="double" default-value="" />
+            <parameter id="" name="x" type="double" type-id="double" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        double result = Math.exp(-(x - Median) / Scale);
+        result /= Scale;
+        result /= Math.pow(Math.exp(-(x - Median) / Scale) + 1, 2);
+        return result;}
+
+    private final float TrickyScale = (float) 0.33;</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o43bf439231fb48d993b2a87d2bc814f5124" name="Tricky" type="float" type-id="float" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="float" type-id="float" default-value="" />
+            <parameter id="" name="Scale" type="float" type-id="float" default-value="" />
+            <parameter id="" name="min" type="float" type-id="float" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        float res = (float) (count - count * Scale * Math.log(1 / RNG.nextDouble() - 1));
+        return (res &gt; min) ? res : min;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="oc317cba00df649939c314f0c07e280be124" name="GetIntCount" type="int" type-id="int" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        return (int) Math.round(Tricky(count, TrickyScale, 1));}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="od4c488180a49463393aee88fd3f8c1fc124" name="GetFloatCount" type="float" type-id="float" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="count" type="float" type-id="float" default-value="" />
+            <parameter id="" name="min" type="float" type-id="float" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        return Tricky(count, TrickyScale, min);}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="of8769f112a404354b3004730677936b7124" name="GetLogistic" type="int" type-id="int" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="time" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
+        IdealSum += value;
+        int result = (int) Math.round(value);
+        RealSum += result;
+
+        if (Math.abs(RealSum - IdealSum) &gt;= 1){
+            int corr = (int) (Math.floor(Math.abs(RealSum - IdealSum)) * Math.signum(RealSum - IdealSum));
+            IdealSum -= RealSum - corr;
+            RealSum = 0;
+            result -= corr;}
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:a95d2fa247da6406b93f5819ba38f8bdf124&gt;&lt;#Attribute:afa47752f93af49169af68a8aea577ff6124&gt;&lt;#Attribute:a1493587c9f844bd5b7c44a20eaf3ef84124&gt;
+
+    // Объект класса Random
+    private static final java.util.Random RNG = new Random();
+
+    // Сумма без округления
+    private static double IdealSum = 0;
+    // Сумма после округления
+    private static int RealSum = 0;
+
+    // Логистическое распределение: функция плотности вероятности&lt;#Operation:o5099c37b0b934121bdfec77a569cd959124&gt;{
+
+    private final float TrickyScale = (float) 0.33;&lt;#Operation:o43bf439231fb48d993b2a87d2bc814f5124&gt;{&lt;#Operation:oc317cba00df649939c314f0c07e280be124&gt;{&lt;#Operation:od4c488180a49463393aee88fd3f8c1fc124&gt;{&lt;#Operation:of8769f112a404354b3004730677936b7124&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di844362295256391018" cid="C004" type="class" name="Generator" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a7a8929056cd745a5a60781f86a16592a124" name="Discounts" type="List&lt;Integer&gt;" type-id="List&lt;Integer&gt;" visibility="private" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o4bdacbcae38c467086d6d7ddfa48e5ce124" name="CreateBuyer" type="Buyer" type-id="Class:di406439571195226866" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+        return null;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o9d59f45b1a48496ebf6daa31f5e36db1124" name="FillCart" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="b" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="of4f520cd770a46e3bfc339a05e8c2f65124" name="MakeDiscount" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="b" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:a7a8929056cd745a5a60781f86a16592a124&gt;&lt;#Operation:o4bdacbcae38c467086d6d7ddfa48e5ce124&gt;{&lt;#Operation:o9d59f45b1a48496ebf6daa31f5e36db1124&gt;{&lt;#Operation:of4f520cd770a46e3bfc339a05e8c2f65124&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di802832122634080333" cid="C005" type="class" name="Product" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a337b71b154124b42b59cde516c044671124" name="Name" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a03bd5569d9204a59975e1c3f4c2b3aca124" name="Code" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a18a13098abb44db686c2feb11739cb12124" name="Count" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ae5326599e8144c05ae296bf683c174ba124" name="IsPacked" type="boolean" type-id="boolean" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a8bbb566bda3d49c5a1075c31d48faa20124" name="Price" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ad38bb79cdc6f46f6a297be9f793f82cd124" name="AvgCount" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations />
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:a337b71b154124b42b59cde516c044671124&gt;&lt;#Attribute:a03bd5569d9204a59975e1c3f4c2b3aca124&gt;&lt;#Attribute:a18a13098abb44db686c2feb11739cb12124&gt;&lt;#Attribute:ae5326599e8144c05ae296bf683c174ba124&gt;&lt;#Attribute:a8bbb566bda3d49c5a1075c31d48faa20124&gt;&lt;#Attribute:ad38bb79cdc6f46f6a297be9f793f82cd124&gt;</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di458384674404111390" cid="C006" type="class" name="SQLAgent" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="ae716be9143db4ceabc4215207eb3f7c7139" name="DBName" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="a83a32df102b14ffb9ee1c71262ee5e7d139" name="URL" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="acdf4664bb3584342b97ebc86c0b4e7b3139" name="user" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="a3fca5824d820413eb382a33c356ff19e139" name="password" type="String" type-id="Uml.String" visibility="private" abstract="false" virtual="false" />
+        <attribute id="accd2a0353c8243508c512c84573cc134139" name="simid" type="int" type-id="int" visibility="private" abstract="false" virtual="false" default-value="-1" />
+        <attribute id="a21664cf93e8540609ecf5b63fa171007139" name="conn" type="Connection" type-id="Connection" visibility="private" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o3b4a0c5850434bfca2b35563ed5eae1d139" name="HandleEx" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="ex" type="SQLException" type-id="SQLException" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        // handle any errors
+        System.out.println("SQLException: " + ex.getMessage());
+        System.out.println("SQLState: " + ex.getSQLState());
+        System.out.println("VendorError: " + ex.getErrorCode());}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o5702a9705978433faf14efd556063203139" name="SQLAgent" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="DBName" type="String" type-id="Uml.String" default-value="" />
+            <parameter id="" name="URL" type="String" type-id="Uml.String" default-value="" />
+            <parameter id="" name="user" type="String" type-id="Uml.String" default-value="" />
+            <parameter id="" name="password" type="String" type-id="Uml.String" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        try{
+            Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер} catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex){}
+
+        this.DBName = DBName;
+        this.URL = URL;
+        this.user = user;
+        this.password = password;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="oe632822e181d4e0fb02bab81d3eede6b139" name="Connect" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{ // Подключение к БД
+        try{
+            this.conn = DriverManager.getConnection("jdbc:mysql://" + this.URL + "/" + this.DBName + "?"
+                    + "user=" + this.user + "&amp;password=" + this.password);} catch (SQLException ex){
+            HandleEx(ex);}}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="ofdeeb8876a98415dbc9b51d1edf00013139" name="Disconnect" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{ // Отключение от БД
+        try{
+            conn.close();} catch (SQLException ex){
+            HandleEx(ex);}}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o028f6efbfc8641249d189ed06a61054d139" name="Started" type="int" type-id="int" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="peoplecount" type="int" type-id="int" default-value="" />
+            <parameter id="" name="goodscount" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{ // Создаём новую запись о симуляции
+        Connect();
+        int ret = 0;
+        try{
+            try (PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)")){
+                st.setInt(1, peoplecount);
+                st.setInt(2, goodscount); 
+				// Другие параметры не знаем, поэтому пока ставим нули
+                st.execute();
+                try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")){ // Получаем номер симуляции
+                    res.next();
+                    ret = simid = res.getInt(1);}}} catch (SQLException ex){
+           HandleEx(ex);}
+
+        Disconnect();
+
+        return ret;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="obd8781f238ec451bac194ba227681933139" name="Ended" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="peoplearrived" type="int" type-id="int" default-value="" />
+            <parameter id="" name="peopleserved" type="int" type-id="int" default-value="" />
+            <parameter id="" name="avggoodscount" type="float" type-id="float" default-value="" />
+            <parameter id="" name="avgprofit" type="float" type-id="float" default-value="" />
+            <parameter id="" name="profit" type="int" type-id="int" default-value="" />
+            <parameter id="" name="maxqueue" type="int" type-id="int" default-value="" />
+            <parameter id="" name="maxqueuetime" type="int" type-id="int" default-value="" />
+            <parameter id="" name="iscorrect" type="boolean" type-id="boolean" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        Connect();
+        try{
+            try (PreparedStatement st = conn.prepareStatement("UPDATE simulations set peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")){
+                st.setInt(1, peoplearrived);
+                st.setInt(2, peopleserved);
+                st.setFloat(3, avggoodscount);
+                st.setFloat(4, avgprofit);
+                st.setInt(5, profit);
+                st.setInt(6, maxqueue);
+                st.setTime(7, new Time(maxqueuetime * 10 / (60 * 60), maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
+                st.setBoolean(8, iscorrect);
+                st.setInt(9, simid);
+
+                st.execute(); // Обновляем запись о симуляции до актуальных значений}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o0f72008ebb3148d1aa268458090a5335139" name="Buyed" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="buyer" type="int" type-id="int" default-value="" />
+            <parameter id="" name="code" type="int" type-id="int" default-value="" />
+            <parameter id="" name="count" type="float" type-id="float" default-value="" />
+            <parameter id="" name="time" type="int" type-id="int" default-value="" />
+            <parameter id="" name="cost" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{ // Создание записи об элементарной покупке
+        Connect();
+        try{
+            try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)")){
+                st.setInt(1, this.simid);
+                st.setInt(2, buyer);
+                st.setInt(3, code);
+                st.setFloat(4, count);
+
+                Time t = new Time(time * 10 / (60 * 60), time * 10 % (60 * 60) / 60, time * 10 % 60);
+                st.setTime(5, t);
+
+                st.setInt(6, cost);
+
+                st.execute();}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o6340291f728c403ca5cb8fc879c4dfbe139" name="ShowProductInfo" type="LinkedList&lt;String&gt;" type-id="LinkedList&lt;String&gt;" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+        LinkedList&lt;String&gt; result = new LinkedList();
+
+        String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
+
+        Connect();
+        try{
+            try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)){
+
+                String tmp;
+
+                while (res.next()){
+                    tmp = "";
+                    tmp += Integer.toString(res.getInt("code")) + " ";
+                    tmp += res.getString("name") + " ";
+                    tmp += (res.getBoolean("ispacked")) ? "+ " : "- ";
+                    tmp += Float.toString(res.getFloat("count")) + " ";
+                    tmp += Float.toString(res.getFloat("cost"));
+
+                    result.add(tmp);}}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="ob09192b999e04f328020c7cd390952bb139" name="GetProductInfo" type="LinkedList&lt;Product&gt;" type-id="LinkedList&lt;Product&gt;" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{ // Получаем полную информацию о всех товарах
+        LinkedList&lt;Product&gt; result = new LinkedList();
+
+        String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
+
+        Connect();
+        try{
+            try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)){
+
+                while (res.next()){ // Обрабатываем все записи...
+                    Product tmp = new Product();
+
+                    tmp.Code = res.getInt("code");
+                    tmp.Name = res.getString("name");
+                    tmp.IsPacked = res.getBoolean("ispacked");
+                    tmp.Count = res.getFloat("count");
+                    tmp.Price = res.getFloat("cost");
+
+                    result.add(tmp);}}} catch (SQLException ex){
+           HandleEx(ex);}
+
+        Disconnect();
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o926726f4c9c1444181d99b6ca9e0a268139" name="GetResults" type="LinkedList&lt;String&gt;" type-id="LinkedList&lt;String&gt;" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="simulationid" type="int" type-id="int" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{ // Получаем подробный отчёт о симуляции
+        LinkedList&lt;String&gt; result = new LinkedList();
+
+        String request = "SELECT r.buyerid, r.time, p.name, r.count, r.cost FROM reports r INNER JOIN products p ON r.productcode = p.code WHERE simulationid = ? ORDER BY r.time";
+
+        Connect();
+        try{
+            try (PreparedStatement st = conn.prepareStatement(request)){
+                st.setInt(1, simulationid);
+                try (ResultSet res = st.executeQuery()){
+                    String tmp;
+
+                    while (res.next()){
+                        tmp = "";
+                        tmp += Integer.toString(res.getInt("buyerid")) + " ";
+                        tmp += res.getTime("time") + " ";
+                        tmp += res.getString("name") + " ";
+                        tmp += Integer.toString(res.getInt("count")) + " ";
+                        tmp += Integer.toString(res.getInt("cost"));
+
+                        result.add(tmp);}}}} catch (SQLException ex){
+            HandleEx(ex);}
+
+        Disconnect();
+
+        return result;}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:ae716be9143db4ceabc4215207eb3f7c7139&gt;&lt;#Attribute:a83a32df102b14ffb9ee1c71262ee5e7d139&gt;&lt;#Attribute:acdf4664bb3584342b97ebc86c0b4e7b3139&gt;&lt;#Attribute:a3fca5824d820413eb382a33c356ff19e139&gt;&lt;#Attribute:accd2a0353c8243508c512c84573cc134139&gt; // id симуляции&lt;#Attribute:a21664cf93e8540609ecf5b63fa171007139&gt;&lt;#Operation:o3b4a0c5850434bfca2b35563ed5eae1d139&gt;{&lt;#Operation:o5702a9705978433faf14efd556063203139&gt;{&lt;#Operation:oe632822e181d4e0fb02bab81d3eede6b139&gt;{&lt;#Operation:ofdeeb8876a98415dbc9b51d1edf00013139&gt;{&lt;#Operation:o028f6efbfc8641249d189ed06a61054d139&gt;{&lt;#Operation:obd8781f238ec451bac194ba227681933139&gt;{&lt;#Operation:o0f72008ebb3148d1aa268458090a5335139&gt;{&lt;#Operation:o6340291f728c403ca5cb8fc879c4dfbe139&gt;{&lt;#Operation:ob09192b999e04f328020c7cd390952bb139&gt;{&lt;#Operation:o926726f4c9c1444181d99b6ca9e0a268139&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di936175791596074088" cid="C007" type="class" name="Stat" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="ad07c696bacff45ca87b6ae288a546096139" name="PeopleServed" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a8a9360e9108547a68378bcae57825618139" name="PeopleArrived" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a44354d0be9c4478685cb3210c18a7d2e139" name="MaxQueue" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a886eae2d698142fa81b3c8071d1c978a139" name="MaxQueueTime" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ac2a4a550d8314a1d87ec8648c5c248e1139" name="AvgGoodsCount" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ae4d61c5190eb41d5b69b43084c1d89a4139" name="AvgProfit" type="float" type-id="float" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="o4016f33e7f1b4f2b864dbef9851895a2139" name="Consider" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="cl" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:ad07c696bacff45ca87b6ae288a546096139&gt;&lt;#Attribute:a8a9360e9108547a68378bcae57825618139&gt;&lt;#Attribute:a44354d0be9c4478685cb3210c18a7d2e139&gt;&lt;#Attribute:a886eae2d698142fa81b3c8071d1c978a139&gt;&lt;#Attribute:ac2a4a550d8314a1d87ec8648c5c248e1139&gt;&lt;#Attribute:ae4d61c5190eb41d5b69b43084c1d89a4139&gt;&lt;#Operation:o4016f33e7f1b4f2b864dbef9851895a2139&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di239270630662121963" cid="C008" type="class" name="Terminal" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a5b582fc435b3473480a160d60fb8ba21139" name="id" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ab2f5c79ad75246b09f7e6c5b34084e9c139" name="Money" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a5fc3bd31774645c9be7441eb8011d767139" name="Profit" type="int" type-id="int" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a6e48f2131b2640d980cb74b6a9f04c58139" name="BuyerQueue" type="Queue" type-id="Queue" visibility="public" abstract="false" virtual="false" />
+        <attribute id="ad01668067601461084b890b14d626a6a139" name="AmICorrect" type="boolean" type-id="boolean" visibility="public" abstract="false" virtual="false" default-value="false" />
+      </attributes>
+      <operations>
+        <operation id="o51a73a8461434985bc45ce305187c5b1139" name="GiveAway" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="od4ff51c9e51b454793fb57c8d1d92162139" name="Serve" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="cl" type="Buyer" type-id="Class:di406439571195226866" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:a5b582fc435b3473480a160d60fb8ba21139&gt;&lt;#Attribute:ab2f5c79ad75246b09f7e6c5b34084e9c139&gt;&lt;#Attribute:a5fc3bd31774645c9be7441eb8011d767139&gt;&lt;#Attribute:a6e48f2131b2640d980cb74b6a9f04c58139&gt;&lt;#Attribute:ad01668067601461084b890b14d626a6a139&gt;&lt;#Operation:o51a73a8461434985bc45ce305187c5b1139&gt;{&lt;#Operation:od4ff51c9e51b454793fb57c8d1d92162139&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di749580615404574380" cid="C009" type="class" name="TestFrame" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes />
+      <operations>
+        <operation id="o3b56197ba5554cc898805641ddb9cf11139" name="TestFrame" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+        initComponents();}
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // &lt;editor-fold defaultstate="collapsed" desc="Generated Code"&gt;//GEN-BEGIN:initComponents</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o5cecba5107a446198f132b5ab2b8c3ff139" name="initComponents" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                jButton1ActionPerformed(evt);}});
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();}// &lt;/editor-fold&gt;//GEN-END:initComponents</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o7727b52792e6499186f181376d00e966139" name="jButton1ActionPerformed" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="evt" type="java.awt.event.ActionEvent" type-id="java.awt.event.ActionEvent" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{//GEN-FIRST:event_jButton1ActionPerformed
+        jTextArea1.setText(null);
+        SQLAgent dba = new SQLAgent("tradingterminal2", "localhost:3306", "TPRG", "Tc1KuV");
+        int q = dba.Started(100, 5);
+        
+        dba.Ended(192, 184, (float) 3.95, (float) 23.76, 88, 22, 1122, true);
+
+        jTextArea1.append(Integer.toString(q) + '\n');}//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]){
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) "&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info :</source-code>
+          </source-codes>
+        </operation>
+        <operation id="ofda040596ead44a194b0b3496d29be99139" name="javax.swing.UIManager.getInstalledLookAndFeels" type="" type-id="" visibility="package" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">){
+                if ("Nimbus".equals(info.getName())){
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;}}}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="oa5d9a05e7653429eb29e6c527f2535b6139" name="catch" type="" type-id="" visibility="package" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="ex" type="ClassNotFoundException" type-id="ClassNotFoundException" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o6c2fb47189b3473689efa1aff9c41ce8139" name="catch" type="" type-id="" visibility="package" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="ex" type="InstantiationException" type-id="InstantiationException" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o594a869b3e324c2fa95ebaca2f388ea4139" name="catch" type="" type-id="" visibility="package" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="ex" type="IllegalAccessException" type-id="IllegalAccessException" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o7331c076b44841c7b36ddd207354988e139" name="catch" type="" type-id="" visibility="package" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="ex" type="javax.swing.UnsupportedLookAndFeelException" type-id="javax.swing.UnsupportedLookAndFeelException" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);}
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new</source-code>
+          </source-codes>
+        </operation>
+        <operation id="oaddb91026552496da1aecd8e5a9463a5139" name="Runnable" type="" type-id="" visibility="package" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+            public void run(){
+                new TestFrame().setVisible(true);}});</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">
+
+    /**
+     * Creates new form TestFrame
+     */&lt;#Operation:o3b56197ba5554cc898805641ddb9cf11139&gt;{
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // &lt;editor-fold defaultstate="collapsed" desc="Generated Code"&gt;//GEN-BEGIN:initComponents&lt;#Operation:o5cecba5107a446198f132b5ab2b8c3ff139&gt;{// &lt;/editor-fold&gt;//GEN-END:initComponents&lt;#Operation:o7727b52792e6499186f181376d00e966139&gt;{//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]){&lt;#Operation:ofda040596ead44a194b0b3496d29be99139&gt;&lt;#Operation:oa5d9a05e7653429eb29e6c527f2535b6139&gt;{&lt;#Operation:o6c2fb47189b3473689efa1aff9c41ce8139&gt;{&lt;#Operation:o594a869b3e324c2fa95ebaca2f388ea4139&gt;{&lt;#Operation:o7331c076b44841c7b36ddd207354988e139&gt;{
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new&lt;#Operation:oaddb91026552496da1aecd8e5a9463a5139&gt;{);</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di697179241594967000" cid="C010" type="class" name="TTerminal" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes>
+        <attribute id="a15e740c637074edc8766dcdb4c7e8ce1155" name="DBName" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a135a87b08f8c44b587c3927d2fafa2ae155" name="URL" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a9103d87e00164383994ec20f9263fec7155" name="user" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+        <attribute id="a27cb31a49b5e48a68762471eb0c6243b155" name="password" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" />
+      </attributes>
+      <operations>
+        <operation id="oa0c6d22666664e8d941800130ce41e01155" name="init" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined"> throws ServletException{
+        LoadDbConfig("DBprops.prop");}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o38d984717fda4d0da81ab4166bb71715155" name="LoadDbConfig" type="" type-id="" visibility="private" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="Path" type="String" type-id="Uml.String" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        FileReader fr = null;
+        try{
+            fr = new FileReader(Path);
+            try (BufferedReader inputData = new BufferedReader(fr)){
+                DBName = inputData.readLine();
+                URL = inputData.readLine();
+                user = inputData.readLine();
+                password = inputData.readLine();}
+            fr.close();} catch (FileNotFoundException ex){
+            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);} catch (IOException ex){
+            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);} finally{
+            try{
+                fr.close();} catch (IOException ex){
+                Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);}}}
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o4021e4c28e11455a804cb79e397fcd03155" name="processRequest" type="" type-id="" visibility="protected" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="request" type="HttpServletRequest" type-id="HttpServletRequest" default-value="" />
+            <parameter id="" name="response" type="HttpServletResponse" type-id="HttpServletResponse" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">
+            throws ServletException, IOException{
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()){
+            /* TODO output your page here. You may use following sample code. */
+            out.println("&lt;!DOCTYPE html&gt;");
+            out.println("&lt;html&gt;");
+            out.println("&lt;head&gt;");
+            out.println("&lt;title&gt;Servlet TTerminal&lt;/title&gt;");
+            out.println("&lt;/head&gt;");
+            out.println("&lt;body&gt;");
+            out.println("&lt;h1&gt;Servlet TTerminal at " + request.getContextPath() + "&lt;/h1&gt;");
+
+            SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+            LinkedList&lt;String&gt; pinfo = DBA.ShowProductInfo();
+
+            for (int i = 0; i &lt; pinfo.size(); i++){
+                out.println(pinfo.get(i) + "&lt;br/&gt;");}
+
+            out.println("&lt;/body&gt;");
+            out.println("&lt;/html&gt;");}}
+
+    // &lt;editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code."&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o77a2f6d895db4b6683934f66317605e1155" name="doGet" type="" type-id="" visibility="protected" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="request" type="HttpServletRequest" type-id="HttpServletRequest" default-value="" />
+            <parameter id="" name="response" type="HttpServletResponse" type-id="HttpServletResponse" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">
+            throws ServletException, IOException{
+        processRequest(request, response);}
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o511c99eb131949f28c373b1f5c3f033a155" name="doPost" type="" type-id="" visibility="protected" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="request" type="HttpServletRequest" type-id="HttpServletRequest" default-value="" />
+            <parameter id="" name="response" type="HttpServletResponse" type-id="HttpServletResponse" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">
+            throws ServletException, IOException{
+        processRequest(request, response);}
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override</source-code>
+          </source-codes>
+        </operation>
+        <operation id="ob23c1511d0134f65a47ebfdc27001692155" name="getServletInfo" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{
+        return "Short description";}// &lt;/editor-fold&gt;</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Attribute:a15e740c637074edc8766dcdb4c7e8ce1155&gt;&lt;#Attribute:a135a87b08f8c44b587c3927d2fafa2ae155&gt;&lt;#Attribute:a9103d87e00164383994ec20f9263fec7155&gt;&lt;#Attribute:a27cb31a49b5e48a68762471eb0c6243b155&gt;
+    
+    @Override&lt;#Operation:oa0c6d22666664e8d941800130ce41e01155&gt; throws ServletException{&lt;#Operation:o38d984717fda4d0da81ab4166bb71715155&gt;{
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */&lt;#Operation:o4021e4c28e11455a804cb79e397fcd03155&gt;
+            throws ServletException, IOException{
+
+    // &lt;editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code."&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override&lt;#Operation:o77a2f6d895db4b6683934f66317605e1155&gt;
+            throws ServletException, IOException{
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override&lt;#Operation:o511c99eb131949f28c373b1f5c3f033a155&gt;
+            throws ServletException, IOException{
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override&lt;#Operation:ob23c1511d0134f65a47ebfdc27001692155&gt;{// &lt;/editor-fold&gt;</source-code>
+        </source-codes>
+      </template-parameters>
+    </item>
+    <item id="di661868469697828427" cid="C011" type="class" name="Worker" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:44:18">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes />
+      <operations>
+        <operation id="o0f1e82c58c734e14b2e5219f2b052e8c155" name="Worker" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <parameters>
+            <parameter id="" name="listener" type="ActionListener" type-id="ActionListener" default-value="" />
+          </parameters>
+          <source-codes>
+            <source-code language="Undefined">{
+        super(50, listener);}</source-code>
+          </source-codes>
+        </operation>
+        <operation id="o69cdf68b98a04263a062965893917f0d155" name="StartSim" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+          <source-codes>
+            <source-code language="Undefined">{}</source-code>
+          </source-codes>
+        </operation>
+      </operations>
+      <template-parameters>
+        <source-codes>
+          <source-code language="Undefined">&lt;#Operation:o0f1e82c58c734e14b2e5219f2b052e8c155&gt;{&lt;#Operation:o69cdf68b98a04263a062965893917f0d155&gt;{</source-code>
+        </source-codes>
+      </template-parameters>
     </item>
   </items>
   <models>
@@ -1138,7 +2763,7 @@
           </authors>
           <description />
           <creation-date>02/17/2014 11:21:03</creation-date>
-          <change-date>02/26/2014 00:31:38</change-date>
+          <change-date>03/04/2014 20:02:47</change-date>
           <revision-count>0</revision-count>
           <version />
         </meta>
@@ -1158,7 +2783,7 @@
             <owned-items />
             <style class="default" />
           </item>
-          <item id="di288404956916993289" cid="UC002" type="use-case" name="Настроить и начать моделирование" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="02/18/2014 11:15:22">
+          <item id="di288404956916993289" cid="UC002" type="use-case" name="Настроить очередное моделирование" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="02/18/2014 11:15:22">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -1271,81 +2896,144 @@
             <owned-items />
             <style class="default" />
           </item>
+          <item id="di929457968626949101" cid="UC001" type="use-case" name="Начать моделирование" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:00:08">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <use-case />
+          </item>
+          <item id="di368869970162066590" cid="REL019" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:01:13">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di516619289613062930" to="di929457968626949101">
+              <start-role id="" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di703921865651620820" cid="UC002" type="use-case" name="Редактировать имеющиеся данные" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:01:41">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <use-case />
+          </item>
+          <item id="di253268790853899660" cid="INC001" type="include" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:02:47">
+            <stereotypes>
+              <stereotype name="include" />
+            </stereotypes>
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+          </item>
         </abstract-items>
         <layer name="Default" visible="true" enabled="true" locked="false">
           <item id="di516619289613062930" iid="aea7c187688c426982e0a11ce3e18a4c" creation-date="02/18/2014 11:10:57" order-index="0" type="entity">
             <layout ax="22" ay="190" awidth="126" aheight="135" x="22" y="190" width="126" height="135" angle="0" />
           </item>
           <item id="di535261979736911611" iid="aed97e643a664736993a4426ca130cf4" creation-date="02/18/2014 11:12:13" order-index="1" type="entity">
-            <layout ax="217" ay="0" awidth="385" aheight="491" x="217" y="0" width="385" height="491" angle="0" />
+            <layout ax="201" ay="0" awidth="473" aheight="665" x="201" y="0" width="473" height="665" angle="0" />
           </item>
           <item id="di288404956916993289" iid="1e082cde741c49e7bf8d9e8ef0401560" container="di535261979736911611" container-iid="aed97e643a664736993a4426ca130cf4" creation-date="02/18/2014 11:15:22" order-index="4" type="entity">
-            <layout ax="242" ay="64" awidth="172" aheight="108" x="242" y="64" width="172" height="108" angle="0" />
+            <layout ax="229" ay="74" awidth="186" aheight="116" x="229" y="74" width="186" height="116" angle="0" />
             <use-case show-extension-points="true" />
           </item>
           <item id="di782390846132362843" iid="57ef8b791c814115a71c613400b58442" creation-date="02/18/2014 11:15:45" order-index="5" type="relation">
-            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="148" y1="222" x2="254" y2="145" start-border-pos="0.308710564507378" end-border-pos="0.760307135405364">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="148" y1="225" x2="240" y2="159" start-border-pos="0.313900615550854" end-border-pos="0.768441726421488">
               <points>
-                <point x="148" y="222" />
-                <point x="254" y="145" />
+                <point x="148" y="225" />
+                <point x="240" y="159" />
               </points>
             </layout>
             <relation from="di516619289613062930" from-iid="aea7c187688c426982e0a11ce3e18a4c" to="di288404956916993289" to-iid="1e082cde741c49e7bf8d9e8ef0401560" />
             <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
           </item>
           <item id="di991967835217664089" iid="c254b827eab148ff8153d4e66f6fb093" container="di535261979736911611" container-iid="aed97e643a664736993a4426ca130cf4" creation-date="02/18/2014 11:21:35" order-index="10" type="entity">
-            <layout ax="253" ay="211" awidth="150" aheight="94" x="253" y="211" width="150" height="94" angle="0" />
+            <layout ax="253" ay="378" awidth="150" aheight="94" x="253" y="378" width="150" height="94" angle="0" />
             <use-case show-extension-points="true" />
           </item>
           <item id="di246367386395655462" iid="c52ed917b48e427aadc62052f8c06f4d" creation-date="02/18/2014 11:21:55" order-index="11" type="relation">
-            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="148" y1="258" x2="253" y2="258" start-border-pos="0.375925925925926" end-border-pos="0.875">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="148" y1="301" x2="266" y2="398" start-border-pos="0.456104250307436" end-border-pos="0.0110179646809896">
               <points>
-                <point x="148" y="258" />
-                <point x="253" y="258" />
+                <point x="148" y="301" />
+                <point x="266" y="398" />
               </points>
             </layout>
             <relation from="di516619289613062930" from-iid="aea7c187688c426982e0a11ce3e18a4c" to="di991967835217664089" to-iid="c254b827eab148ff8153d4e66f6fb093" />
             <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
           </item>
           <item id="di876176066195024432" iid="5103217d40d14ee19b062ca3fbb990b8" container="di535261979736911611" container-iid="aed97e643a664736993a4426ca130cf4" creation-date="02/18/2014 11:22:53" order-index="12" type="entity">
-            <layout ax="257" ay="345" awidth="136" aheight="85" x="257" y="345" width="136" height="85" angle="0" />
+            <layout ax="253" ay="511" awidth="136" aheight="85" x="253" y="511" width="136" height="85" angle="0" />
             <use-case show-extension-points="true" />
           </item>
           <item id="di683342146982933454" iid="55965df7903f463bab28e8b728f1e897" creation-date="02/18/2014 11:23:31" order-index="13" type="relation">
-            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="148" y1="292" x2="265" y2="367" start-border-pos="0.43912037037037" end-border-pos="0.981862775017234">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="138" y1="325" x2="279" y2="520" start-border-pos="0.519010089692615" end-border-pos="0.0619783401489258">
               <points>
-                <point x="148" y="292" />
-                <point x="265" y="367" />
+                <point x="138" y="325" />
+                <point x="279" y="520" />
               </points>
             </layout>
             <relation from="di516619289613062930" from-iid="aea7c187688c426982e0a11ce3e18a4c" to="di876176066195024432" to-iid="5103217d40d14ee19b062ca3fbb990b8" />
             <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
           </item>
           <item id="di715788737682849885" iid="abd47b5fb6d34907898650588cbab98d" container="di535261979736911611" container-iid="aed97e643a664736993a4426ca130cf4" creation-date="02/19/2014 15:55:56" order-index="14" type="entity">
-            <layout ax="474" ay="82" awidth="111" aheight="69" x="474" y="82" width="111" height="69" angle="0" />
+            <layout ax="503" ay="181" awidth="111" aheight="69" x="503" y="181" width="111" height="69" angle="0" />
             <use-case show-extension-points="true" />
           </item>
           <item id="di399188943502671609" iid="6323533bcb9b4b838b834f873137bd75" container="di535261979736911611" container-iid="aed97e643a664736993a4426ca130cf4" creation-date="02/19/2014 15:56:28" order-index="15" type="entity">
-            <layout ax="474" ay="305" awidth="98" aheight="61" x="474" y="305" width="98" height="61" angle="0" />
+            <layout ax="516" ay="551" awidth="98" aheight="61" x="516" y="551" width="98" height="61" angle="0" />
             <use-case show-extension-points="true" />
           </item>
           <item id="di989659986613222023" iid="99653f5a767f4dbb85a271a19c5460ac" creation-date="02/19/2014 15:57:18" order-index="16" type="relation">
-            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="18,-20" auto-path="" x1="477" y1="324" x2="398" y2="275" start-border-pos="0.953278713538998" end-border-pos="0.454787234042553">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="18,-20" auto-path="" x1="524" y1="565" x2="391" y2="451" start-border-pos="0.005621929557956" end-border-pos="0.506751607259115">
               <points>
-                <point x="477" y="324" />
-                <point x="398" y="275" />
+                <point x="524" y="565" />
+                <point x="391" y="451" />
               </points>
             </layout>
             <relation from="di399188943502671609" from-iid="6323533bcb9b4b838b834f873137bd75" to="di991967835217664089" to-iid="c254b827eab148ff8153d4e66f6fb093" />
           </item>
           <item id="di922034475942931406" iid="c23f5b07752e48feabb42708d696916e" creation-date="02/19/2014 15:57:25" order-index="17" type="relation">
-            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="30,18" auto-path="" x1="484" y1="136" x2="389" y2="231" start-border-pos="0.736010645960902" end-border-pos="0.236431935628255">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="30,18" auto-path="" x1="518" y1="239" x2="384" y2="393" start-border-pos="0.71039698145411" end-border-pos="0.211204121907552">
               <points>
-                <point x="484" y="136" />
-                <point x="389" y="231" />
+                <point x="518" y="239" />
+                <point x="384" y="393" />
               </points>
             </layout>
             <relation from="di715788737682849885" from-iid="abd47b5fb6d34907898650588cbab98d" to="di991967835217664089" to-iid="c254b827eab148ff8153d4e66f6fb093" />
+          </item>
+          <item id="di929457968626949101" iid="d0ce1ad897b4435990217d1dca543d75" container="di535261979736911611" container-iid="aed97e643a664736993a4426ca130cf4" creation-date="03/04/2014 20:00:08" order-index="18" type="entity">
+            <layout ax="253" ay="250" awidth="120" aheight="75" x="253" y="250" width="120" height="75" angle="0" />
+            <use-case show-extension-points="true" />
+          </item>
+          <item id="di368869970162066590" iid="a75a2fc22492444e87a8d8a8d0c80310" creation-date="03/04/2014 20:01:13" order-index="19" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="148" y1="266" x2="253" y2="283" start-border-pos="0.391276776349103" end-border-pos="0.899649149576823">
+              <points>
+                <point x="148" y="266" />
+                <point x="253" y="283" />
+              </points>
+            </layout>
+            <relation from="di516619289613062930" from-iid="aea7c187688c426982e0a11ce3e18a4c" to="di929457968626949101" to-iid="d0ce1ad897b4435990217d1dca543d75" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di703921865651620820" iid="bb3dbe27892f40b69cfd786a74dbdd1b" container="di535261979736911611" container-iid="aed97e643a664736993a4426ca130cf4" creation-date="03/04/2014 20:01:41" order-index="20" type="entity">
+            <layout ax="514" ay="351" awidth="160" aheight="100" x="514" y="351" width="160" height="100" angle="0" />
+            <use-case show-extension-points="true" />
+          </item>
+          <item id="di253268790853899660" iid="6a0d7752d14147d1a48249635b7ebb01" creation-date="03/04/2014 20:02:47" order-index="21" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="514" y1="405" x2="403" y2="421" start-border-pos="0.856954879760742" end-border-pos="0.357002907610954">
+              <points>
+                <point x="514" y="405" />
+                <point x="403" y="421" />
+              </points>
+            </layout>
+            <relation from="di703921865651620820" from-iid="bb3dbe27892f40b69cfd786a74dbdd1b" to="di991967835217664089" to-iid="c254b827eab148ff8153d4e66f6fb093" />
           </item>
         </layer>
       </diagram>
@@ -2240,6 +3928,588 @@
         <tagged-values />
         <abstract-items />
         <layer name="Default" visible="true" enabled="true" locked="false" />
+      </diagram>
+    </model>
+    <model id="p320422188745394550" name="Model 3" type="model" namespace="" order-index="2">
+      <meta>
+        <authors>
+          <author> </author>
+        </authors>
+        <description />
+        <creation-date>03/04/2014 19:35:35</creation-date>
+        <change-date>01/01/0001 00:00:00</change-date>
+        <revision-count>0</revision-count>
+        <version />
+      </meta>
+      <tagged-values />
+      <abstract-items />
+      <sub-models />
+      <diagram type="uml-class" id="p827668596662306414" name="ClassDiagram5" order-index="1" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="true" show-relationship-texts="true" auto-routed-paths="false">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="vertical-linear" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>03/04/2014 19:35:35</creation-date>
+          <change-date>03/04/2014 20:19:37</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <tagged-values />
+        <abstract-items>
+          <item id="di845389312851333490" cid="REL001" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:47:54">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di258867841286831954" to="di855666714406285747">
+              <start-role id="" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di879931461129441348" cid="REL002" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:48:10">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di258867841286831954" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di896037759310385288" cid="REL003" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:48:42">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di865869518900272894" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di560811525318570366" cid="REL005" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:49:15">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di994583507107868814" to="di855666714406285747">
+              <start-role id="" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di854522173528335368" cid="REL021" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:12:26">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di103571645445418475" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="aggregation" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di458208483905024453" cid="REL007" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:49:50">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di860208802700263049" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di818951171229883977" cid="REL024" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:15:56">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di817285545317274115" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="aggregation" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di165101073295607540" cid="REL009" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:50:14">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di937465227378202056" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di654030429837379647" cid="REL010" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:50:28">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di518845442513140727" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di538674043379887430" cid="REL011" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:51:02">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di994583507107868814" to="di258867841286831954">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di909710621521262580" cid="REL012" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:51:06">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di994583507107868814" to="di432957353628228907">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di590955614927125017" cid="REL013" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:51:27">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di860208802700263049" to="di192482170640733809">
+              <start-role id="" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di700073976600193474" cid="REL014" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:51:39">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di937465227378202056" to="di212766662793052374">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="*" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di931880605184369589" cid="REL015" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:51:53">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di518845442513140727" to="di865869518900272894">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di139725319886419799" cid="REL018" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:56:50">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di994583507107868814" to="di518845442513140727">
+              <start-role id="" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di313954502498652044" cid="REL017" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 19:52:23">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di865869518900272894" to="di994583507107868814">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di103571645445418475" cid="C012" type="class" name="LinkedList" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:09:45">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <styles>
+                  <style name="S1" font-name="Verdana" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                    <text>
+                      <solid-brush color="#FF000000" />
+                    </text>
+                  </style>
+                </styles>
+                <content>
+                  <paragraph line-spacing="1">
+                    <p s="S1">
+                      <t />
+                    </p>
+                  </paragraph>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations>
+              <operation id="od44ab86c05da442e85f9a5b9696235a1815" name="Add" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="product" type="Products" type-id="Products" default-value="" />
+                </parameters>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <template-parameters>
+              <source-codes>
+                <source-code language="ActionScript" />
+              </source-codes>
+            </template-parameters>
+          </item>
+          <item id="di388579363643763163" cid="REL023" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:12:47">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di212766662793052374" to="di103571645445418475">
+              <start-role id="" name="" multiplicity="0..*" navigability="" association-type="composition" visibility="private" />
+              <end-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di817285545317274115" cid="C013" type="class" name="Queue" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:13:45">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <styles>
+                  <style name="S1" font-name="Verdana" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                    <text>
+                      <solid-brush color="#FF000000" />
+                    </text>
+                  </style>
+                </styles>
+                <content>
+                  <paragraph line-spacing="1">
+                    <p s="S1">
+                      <t />
+                    </p>
+                  </paragraph>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations>
+              <operation id="o7201a1ca294d4073bf6efee93ba45dea906" name="Enqueue" type="Buyer" type-id="Class:di406439571195226866" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="" type="" type-id="" default-value="" />
+                </parameters>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <template-parameters>
+              <source-codes>
+                <source-code language="ActionScript" />
+              </source-codes>
+            </template-parameters>
+          </item>
+          <item id="di444959068892668682" cid="REL025" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:17:08">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di192482170640733809" to="di817285545317274115">
+              <start-role id="" name="" multiplicity="0..*" navigability="" association-type="composition" visibility="private" />
+              <end-role id="" name="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di456667307604059416" cid="REL026" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/04/2014 20:19:37">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di937465227378202056" to="di192482170640733809">
+              <start-role id="" name="" multiplicity="1" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="*" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
+        </abstract-items>
+        <layer name="Default" visible="true" enabled="true" locked="false">
+          <item id="di518845442513140727" iid="a07e4e23d5184785a8dc01bc510061d7" creation-date="03/04/2014 19:35:35" order-index="0" type="entity">
+            <layout ax="812" ay="1316" awidth="209" aheight="133" x="812" y="1316" width="209" height="133" angle="0" />
+            <class />
+          </item>
+          <item id="di192482170640733809" iid="cc6130a13f1d4ecaa3714bb8f4fdf01b" creation-date="03/04/2014 19:35:35" order-index="1" type="entity">
+            <layout ax="36.5" ay="1369" awidth="248" aheight="209" x="36.5" y="1369" width="248" height="209" angle="0" />
+            <class />
+          </item>
+          <item id="di860208802700263049" iid="e8d23dff67d84b06ad26ce170fa12acc" creation-date="03/04/2014 19:35:35" order-index="2" type="entity">
+            <layout ax="323.5" ay="1311" awidth="360" aheight="267" x="323.5" y="1311" width="360" height="267" angle="0" />
+            <class />
+          </item>
+          <item id="di937465227378202056" iid="da44cda96a0e459783dae83deb254d9d" creation-date="03/04/2014 19:35:35" order-index="3" type="entity">
+            <layout ax="30" ay="705" awidth="226" aheight="133" x="30" y="705" width="226" height="133" angle="0" />
+            <class />
+          </item>
+          <item id="di212766662793052374" iid="5f14bcf61e0045ecae6466a866346300" creation-date="03/04/2014 19:35:35" order-index="4" type="entity">
+            <layout ax="30" ay="908" awidth="177" aheight="173" x="30" y="908" width="177" height="173" angle="0" />
+            <class />
+          </item>
+          <item id="di855666714406285747" iid="1b1cdf87c76f440c8f7b8100e6c31dcf" creation-date="03/04/2014 19:35:35" order-index="5" type="entity">
+            <layout ax="332.5" ay="22" awidth="348" aheight="499" x="332.5" y="22" width="348" height="499" angle="0" />
+            <class />
+          </item>
+          <item id="di994583507107868814" iid="68a7169dff51423393de910bed3e26bf" creation-date="03/04/2014 19:35:35" order-index="6" type="entity">
+            <layout ax="813.5" ay="659" awidth="205" aheight="193" x="813.5" y="659" width="205" height="193" angle="0" />
+            <class />
+          </item>
+          <item id="di865869518900272894" iid="8efafead122647f9b49bc991cc66f440" creation-date="03/04/2014 19:35:35" order-index="7" type="entity">
+            <layout ax="788" ay="1002" awidth="256" aheight="193" x="788" y="1002" width="256" height="193" angle="0" />
+            <class />
+          </item>
+          <item id="di258867841286831954" iid="6d21265f374e48aba32f8992363df38c" creation-date="03/04/2014 19:35:35" order-index="9" type="entity">
+            <layout ax="343.5" ay="593" awidth="320" aheight="325" x="343.5" y="593" width="320" height="325" angle="0" />
+            <class />
+          </item>
+          <item id="di432957353628228907" iid="8b93b7ed3ea2438a8872747b7d028450" creation-date="03/04/2014 19:35:35" order-index="10" type="entity">
+            <layout ax="361.5" ay="1068" awidth="284" aheight="93" x="361.5" y="1068" width="284" height="93" angle="0" />
+            <class />
+          </item>
+          <item id="di845389312851333490" iid="4b3696823d354793a757e96bbd2def72" creation-date="03/04/2014 19:47:54" order-index="11" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="505" y1="593" x2="505" y2="521" start-border-pos="0.125916838645935" end-border-pos="0.62609836972993">
+              <points>
+                <point x="505" y="593" />
+                <point x="505" y="521" />
+              </points>
+            </layout>
+            <relation from="di258867841286831954" from-iid="6d21265f374e48aba32f8992363df38c" to="di855666714406285747" to-iid="1b1cdf87c76f440c8f7b8100e6c31dcf" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,13" />
+          </item>
+          <item id="di879931461129441348" iid="04b2c60c0895451f993f1d8678062b9e" creation-date="03/04/2014 19:48:10" order-index="12" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="504" y1="918" x2="504" y2="1068" start-border-pos="0.624609375" end-border-pos="0.12544014084507">
+              <points>
+                <point x="504" y="918" />
+                <point x="504" y="1068" />
+              </points>
+            </layout>
+            <relation from="di258867841286831954" from-iid="6d21265f374e48aba32f8992363df38c" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="22,19" />
+          </item>
+          <item id="di896037759310385288" iid="e38850539d88456197a295348ccbb58f" creation-date="03/04/2014 19:48:42" order-index="13" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="false" name-position="10,-10" auto-path="" x1="788" y1="1109" x2="646" y2="1109" start-border-pos="0.86139896373057" end-border-pos="0.358936268796203">
+              <points>
+                <point x="788" y="1109" />
+                <point x="646" y="1109" />
+              </points>
+            </layout>
+            <relation from="di865869518900272894" from-iid="8efafead122647f9b49bc991cc66f440" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di560811525318570366" iid="f1a7ef7503c9434d9f30b0d101c63dae" creation-date="03/04/2014 19:49:15" order-index="14" type="relation">
+            <layout line-style="perpendicular" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="898" y1="659" x2="680" y2="317" start-border-pos="0.103048780487805" end-border-pos="0.397795591182365">
+              <points>
+                <point x="898" y="659" />
+                <point x="898" y="317" />
+                <point x="680" y="317" />
+              </points>
+            </layout>
+            <relation from="di994583507107868814" from-iid="68a7169dff51423393de910bed3e26bf" to="di855666714406285747" to-iid="1b1cdf87c76f440c8f7b8100e6c31dcf" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di458208483905024453" iid="872790c560c84062a7f72ef2d2213335" creation-date="03/04/2014 19:49:50" order-index="16" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="504" y1="1311" x2="504" y2="1161" start-border-pos="0.125347222222222" end-border-pos="0.62455985915493">
+              <points>
+                <point x="504" y="1311" />
+                <point x="504" y="1161" />
+              </points>
+            </layout>
+            <relation from="di860208802700263049" from-iid="e8d23dff67d84b06ad26ce170fa12acc" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="25,14" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di165101073295607540" iid="d673441f0e444442b84eb3fa41cb1b79" creation-date="03/04/2014 19:50:14" order-index="18" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="213" y1="838" x2="455" y2="1068" start-border-pos="0.547935097618441" end-border-pos="0.0826975862744828">
+              <points>
+                <point x="213" y="838" />
+                <point x="455" y="1068" />
+              </points>
+            </layout>
+            <relation from="di937465227378202056" from-iid="da44cda96a0e459783dae83deb254d9d" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="25.72482,14.3111" end-role="24.99996,-15.00007" start-multiplicity="30.99503,-10.14377" end-multiplicity="25.00001,15.00005" />
+          </item>
+          <item id="di654030429837379647" iid="8c547ae9f3e941d6b6737bddd416de24" creation-date="03/04/2014 19:50:28" order-index="19" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="815" y1="1316" x2="576" y2="1161" start-border-pos="0.00303503885223535" end-border-pos="0.560956229626293">
+              <points>
+                <point x="815" y="1316" />
+                <point x="576" y="1161" />
+              </points>
+            </layout>
+            <relation from="di518845442513140727" from-iid="a07e4e23d5184785a8dc01bc510061d7" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="19.4873,24.53469" end-role="25,-15" start-multiplicity="25.83903,-15.54406" end-multiplicity="25.00004,15.00001" />
+          </item>
+          <item id="di538674043379887430" iid="458175ec62d44ddd9da546d8f00d682b" creation-date="03/04/2014 19:51:02" order-index="20" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="814" y1="756" x2="664" y2="756" start-border-pos="0.875" end-border-pos="0.3125">
+              <points>
+                <point x="814" y="756" />
+                <point x="664" y="756" />
+              </points>
+            </layout>
+            <relation from="di994583507107868814" from-iid="68a7169dff51423393de910bed3e26bf" to="di258867841286831954" to-iid="6d21265f374e48aba32f8992363df38c" />
+            <role-positions start-role="22,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di909710621521262580" iid="5ac659eb745242319348ed32feba409e" creation-date="03/04/2014 19:51:06" order-index="21" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="814" y1="846" x2="557" y2="1068" start-border-pos="0.758419689119171" end-border-pos="0.17204096619512">
+              <points>
+                <point x="814" y="846" />
+                <point x="557" y="1068" />
+              </points>
+            </layout>
+            <relation from="di994583507107868814" from-iid="68a7169dff51423393de910bed3e26bf" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="24.14601,12.9291" end-role="25,-14.99996" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di590955614927125017" iid="59819cc82a234122b80ad309831633c8" creation-date="03/04/2014 19:51:27" order-index="22" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="false" name-position="10,-10" auto-path="" x1="324" y1="1463" x2="284" y2="1463" start-border-pos="0.857677902621723" end-border-pos="0.362662721478768">
+              <points>
+                <point x="324" y="1463" />
+                <point x="284" y="1463" />
+              </points>
+            </layout>
+            <relation from="di860208802700263049" from-iid="e8d23dff67d84b06ad26ce170fa12acc" to="di192482170640733809" to-iid="cc6130a13f1d4ecaa3714bb8f4fdf01b" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di700073976600193474" iid="3c97999a0891450d91f65ab538f052ce" creation-date="03/04/2014 19:51:39" order-index="23" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="false" name-position="10,-10" auto-path="" x1="128" y1="838" x2="128" y2="908" start-border-pos="0.641592920353982" end-border-pos="0.137972718578274">
+              <points>
+                <point x="128" y="838" />
+                <point x="128" y="908" />
+              </points>
+            </layout>
+            <relation from="di937465227378202056" from-iid="da44cda96a0e459783dae83deb254d9d" to="di212766662793052374" to-iid="5f14bcf61e0045ecae6466a866346300" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="24,-15" end-multiplicity="14.10106,22.15642" />
+          </item>
+          <item id="di931880605184369589" iid="194c7d2300f64219953b66ef1b3eabab" creation-date="03/04/2014 19:51:53" order-index="24" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="916" y1="1316" x2="916" y2="1195" start-border-pos="0.124401913875598" end-border-pos="0.625">
+              <points>
+                <point x="916" y="1316" />
+                <point x="916" y="1195" />
+              </points>
+            </layout>
+            <relation from="di518845442513140727" from-iid="a07e4e23d5184785a8dc01bc510061d7" to="di865869518900272894" to-iid="8efafead122647f9b49bc991cc66f440" />
+            <role-positions start-role="25,15" end-role="23,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di313954502498652044" iid="1f157b219b2046f497a6c0920999fb9d" creation-date="03/04/2014 19:52:23" order-index="26" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="916" y1="1002" x2="916" y2="852" start-border-pos="0.0625" end-border-pos="0.666666666666667">
+              <points>
+                <point x="916" y="1002" />
+                <point x="916" y="852" />
+              </points>
+            </layout>
+            <relation from="di865869518900272894" from-iid="8efafead122647f9b49bc991cc66f440" to="di994583507107868814" to-iid="68a7169dff51423393de910bed3e26bf" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di139725319886419799" iid="5b8030285c5846bb809e7254737d955c" creation-date="03/04/2014 19:56:50" order-index="27" type="relation">
+            <layout line-style="perpendicular" lock-start-point="true" lock-end-point="true" name-position="10,-10" auto-path="" x1="1018" y1="781" x2="1021" y2="1391" start-border-pos="0.408031088082902" end-border-pos="0.390977443609023">
+              <points>
+                <point x="1018" y="781" />
+                <point x="1086" y="781" />
+                <point x="1086" y="1391" />
+                <point x="1021" y="1391" />
+              </points>
+            </layout>
+            <relation from="di994583507107868814" from-iid="68a7169dff51423393de910bed3e26bf" to="di518845442513140727" to-iid="a07e4e23d5184785a8dc01bc510061d7" />
+            <role-positions start-role="24.56036,17.96768" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di103571645445418475" iid="781890d9f8804e9bbc33f5dd95029da6" creation-date="03/04/2014 20:09:45" order-index="28" type="entity">
+            <layout ax="22.5" ay="1154" awidth="262" aheight="74" x="22.5" y="1154" width="262" height="74" angle="0" />
+            <class />
+          </item>
+          <item id="di854522173528335368" iid="5bf565a0ad404998a55b075fa7be2b75" creation-date="03/04/2014 20:12:26" order-index="29" type="relation">
+            <layout line-style="perpendicular" lock-start-point="false" lock-end-point="false" name-position="10,-13" auto-path="" x1="255" y1="1154" x2="362" y2="1111" start-border-pos="0.221851145038168" end-border-pos="0.884408602150538">
+              <points>
+                <point x="255" y="1154" />
+                <point x="255" y="1111" />
+                <point x="362" y="1111" />
+              </points>
+            </layout>
+            <relation from="di103571645445418475" from-iid="781890d9f8804e9bbc33f5dd95029da6" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="25,-15" end-multiplicity="25,15" />
+          </item>
+          <item id="di388579363643763163" iid="9b28c401860a4b0dac5259791bc807d3" creation-date="03/04/2014 20:12:47" order-index="30" type="relation">
+            <layout line-style="perpendicular" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="99" y1="1081" x2="99" y2="1154" start-border-pos="0.652542372881356" end-border-pos="0.0729961832061069">
+              <points>
+                <point x="99" y="1081" />
+                <point x="99" y="1154" />
+              </points>
+            </layout>
+            <relation from="di212766662793052374" from-iid="5f14bcf61e0045ecae6466a866346300" to="di103571645445418475" to-iid="781890d9f8804e9bbc33f5dd95029da6" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="15,-27" end-multiplicity="16,18" />
+          </item>
+          <item id="di817285545317274115" iid="57b9277f77c14e92bf6e3ec5c83485f5" creation-date="03/04/2014 20:13:45" order-index="31" type="entity">
+            <layout ax="28" ay="1243" awidth="179" aheight="73" x="28" y="1243" width="179" height="73" angle="0" />
+            <class />
+          </item>
+          <item id="di818951171229883977" iid="2df78d95fdda43d9b15bd45552bf491f" creation-date="03/04/2014 20:15:56" order-index="32" type="relation">
+            <layout line-style="perpendicular" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="207" y1="1243" x2="362" y2="1161" start-border-pos="0.25" end-border-pos="0.75">
+              <points>
+                <point x="207" y="1243" />
+                <point x="361.5" y="1243" />
+                <point x="362" y="1161" />
+              </points>
+            </layout>
+            <relation from="di817285545317274115" from-iid="57b9277f77c14e92bf6e3ec5c83485f5" to="di432957353628228907" to-iid="8b93b7ed3ea2438a8872747b7d028450" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="24,22" end-multiplicity="25,15" />
+          </item>
+          <item id="di444959068892668682" iid="17a869b340824db8b33627dedc9751e3" creation-date="03/04/2014 20:17:08" order-index="33" type="relation">
+            <layout line-style="perpendicular" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="257" y1="1369" x2="207" y2="1296" start-border-pos="0.222278225806452" end-border-pos="0.431506849315069">
+              <points>
+                <point x="257" y="1369" />
+                <point x="257" y="1296" />
+                <point x="207" y="1296" />
+              </points>
+            </layout>
+            <relation from="di192482170640733809" from-iid="cc6130a13f1d4ecaa3714bb8f4fdf01b" to="di817285545317274115" to-iid="57b9277f77c14e92bf6e3ec5c83485f5" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="20,-19" end-multiplicity="25,19" />
+          </item>
+          <item id="di456667307604059416" iid="7b383a6f6506445fbfeee3501353ebc4" creation-date="03/04/2014 20:19:37" order-index="34" type="relation">
+            <layout line-style="perpendicular" lock-start-point="false" lock-end-point="false" name-position="10,-10" auto-path="" x1="30" y1="795" x2="36" y2="1427" start-border-pos="0.830827067669173" end-border-pos="0.930622009569378">
+              <points>
+                <point x="30" y="795" />
+                <point x="-4.5" y="795" />
+                <point x="-4.5" y="1427" />
+                <point x="36" y="1427" />
+              </points>
+            </layout>
+            <relation from="di937465227378202056" from-iid="da44cda96a0e459783dae83deb254d9d" to="di192482170640733809" to-iid="cc6130a13f1d4ecaa3714bb8f4fdf01b" />
+            <role-positions start-role="25,15" end-role="25,-15" start-multiplicity="23,-13" end-multiplicity="25,15" />
+          </item>
+        </layer>
       </diagram>
     </model>
   </models>
