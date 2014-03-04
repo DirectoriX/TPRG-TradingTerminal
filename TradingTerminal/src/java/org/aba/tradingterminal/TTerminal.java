@@ -23,13 +23,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.aba.tradingterminal;
 
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,22 +42,34 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
-    
+
     public String DBName;
     public String URL;
     public String user;
     public String password;
-    private String Path;
-    private BufferedReader inputData;
-    
-    private void LoadDbConfig() throws IOException {
-        inputData = new BufferedReader(new FileReader (Path));
 
-        DBName = inputData.readLine();
-        URL = inputData.readLine();
-        user = inputData.readLine();
-        password = inputData.readLine();
-
+    private void LoadDbConfig(String Path) {
+        FileReader fr = null;
+        try {
+            fr = new FileReader(Path);
+            BufferedReader inputData = new BufferedReader(fr);
+            DBName = inputData.readLine();
+            URL = inputData.readLine();
+            user = inputData.readLine();
+            password = inputData.readLine();
+            inputData.close();
+            fr.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -77,12 +93,19 @@ public class TTerminal extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet TTerminal at " + request.getContextPath() + "</h1>");
+            LoadDbConfig("DBprops.prop");
+
+            SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+            LinkedList<String> pinfo = DBA.ShowProductInfo();
+
+            for (int i = 0; i < pinfo.size(); i++) {
+                out.println(pinfo.get(i) + "<br/>");
+            }
+
             out.println("</body>");
             out.println("</html>");
         }
     }
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
