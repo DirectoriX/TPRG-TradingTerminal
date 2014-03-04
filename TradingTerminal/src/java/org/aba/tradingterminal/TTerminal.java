@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright (c) 2014, DirectoriX, kramer98489, UN-likE
  * All rights reserved.
  *
@@ -27,7 +27,6 @@ package org.aba.tradingterminal;
 
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;

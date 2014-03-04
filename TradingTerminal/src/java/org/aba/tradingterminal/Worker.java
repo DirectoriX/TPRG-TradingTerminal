@@ -25,14 +25,16 @@
  */
 package org.aba.tradingterminal;
 
-public class Admin {
+import java.awt.event.ActionListener;
 
-    public int Money;
-    public int Amount;
+class Worker extends javax.swing.Timer {
 
-    public void GiveMoney(int count) {
+    public Worker(ActionListener listener) {
+        super(50, listener);
     }
 
-    public void Check(Terminal t) {
+    public void StartSim() {
+
     }
+
 }
