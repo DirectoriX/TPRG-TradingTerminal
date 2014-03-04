@@ -46,17 +46,22 @@ public class TTerminal extends HttpServlet {
     public String URL;
     public String user;
     public String password;
+    
+    @Override
+    public void init() throws ServletException {
+        LoadDbConfig("DBprops.prop");
+    }
 
     private void LoadDbConfig(String Path) {
         FileReader fr = null;
         try {
             fr = new FileReader(Path);
-            BufferedReader inputData = new BufferedReader(fr);
-            DBName = inputData.readLine();
-            URL = inputData.readLine();
-            user = inputData.readLine();
-            password = inputData.readLine();
-            inputData.close();
+            try (BufferedReader inputData = new BufferedReader(fr)) {
+                DBName = inputData.readLine();
+                URL = inputData.readLine();
+                user = inputData.readLine();
+                password = inputData.readLine();
+            }
             fr.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,7 +97,6 @@ public class TTerminal extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet TTerminal at " + request.getContextPath() + "</h1>");
-            LoadDbConfig("DBprops.prop");
 
             SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
             LinkedList<String> pinfo = DBA.ShowProductInfo();
