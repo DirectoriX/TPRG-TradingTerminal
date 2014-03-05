@@ -95,11 +95,15 @@ public class TestFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jTextArea1.setText(null);
         SQLAgent dba = new SQLAgent("tradingterminal2", "localhost:3306", "TPRG", "Tc1KuV");
-        int q = dba.Started(100, 5);
-        
-        dba.Ended(192, 184, (float) 3.95, (float) 23.76, 88, 22, 1122, true);
+        if (dba.TestConnect()) {
+            LinkedList<String> pinfo = dba.ShowProductInfo();
 
-        jTextArea1.append(Integer.toString(q) + '\n');
+            for (int i = 0; i < pinfo.size(); i++) {
+                jTextArea1.append(pinfo.get(i) + "\n");
+            }
+        } else {
+            jTextArea1.append("!!!!!!!\n");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -46,7 +46,7 @@ public class TTerminal extends HttpServlet {
     public String URL;
     public String user;
     public String password;
-    
+
     @Override
     public void init() throws ServletException {
         LoadDbConfig("DBprops.prop");
@@ -63,8 +63,6 @@ public class TTerminal extends HttpServlet {
                 password = inputData.readLine();
             }
             fr.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -74,6 +72,20 @@ public class TTerminal extends HttpServlet {
                 Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    private void MakeHeader(PrintWriter out) {
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Trading Terminal simulation services</title>");
+        out.println("</head>");
+        out.println("<body>");
+    }
+
+    private void MakeFooter(PrintWriter out) {
+        out.println("</body>");
+        out.println("</html>");
     }
 
     /**
@@ -89,24 +101,20 @@ public class TTerminal extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TTerminal</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TTerminal at " + request.getContextPath() + "</h1>");
+            MakeHeader(out);
 
             SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
-            LinkedList<String> pinfo = DBA.ShowProductInfo();
+            if (DBA.TestConnect()) {
+                LinkedList<String> pinfo = DBA.ShowProductInfo();
 
-            for (int i = 0; i < pinfo.size(); i++) {
-                out.println(pinfo.get(i) + "<br/>");
+                for (int i = 0; i < pinfo.size(); i++) {
+                    out.println(pinfo.get(i) + "<br/>");
+                }
+            } else {
+                out.println("Error: can't connect to database");
             }
 
-            out.println("</body>");
-            out.println("</html>");
+            MakeFooter(out);
         }
     }
 
@@ -137,16 +145,6 @@ public class TTerminal extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }// </editor-fold>
 
 }

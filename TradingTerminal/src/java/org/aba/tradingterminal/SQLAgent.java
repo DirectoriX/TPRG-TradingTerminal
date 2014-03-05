@@ -71,6 +71,8 @@ public class SQLAgent {
                     + "user=" + this.user + "&password=" + this.password);
         } catch (SQLException ex) {
             HandleEx(ex);
+
+            this.conn = null;
         }
     }
 
@@ -82,14 +84,26 @@ public class SQLAgent {
         }
     }
 
+    public boolean TestConnect() {
+
+        Connect();
+        boolean res = !(conn == null);
+
+        if (res) {
+            Disconnect();
+        }
+
+        return res;
+    }
+
     public int Started(int peoplecount, int goodscount) { // Создаём новую запись о симуляции
         Connect();
         int ret = 0;
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)")) {
                 st.setInt(1, peoplecount);
-                st.setInt(2, goodscount); 
-				// Другие параметры не знаем, поэтому пока ставим нули
+                st.setInt(2, goodscount);
+                // Другие параметры не знаем, поэтому пока ставим нули
                 st.execute();
                 try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")) { // Получаем номер симуляции
                     res.next();
@@ -97,7 +111,7 @@ public class SQLAgent {
                 }
             }
         } catch (SQLException ex) {
-           HandleEx(ex);
+            HandleEx(ex);
         }
 
         Disconnect();
@@ -206,7 +220,7 @@ public class SQLAgent {
                 }
             }
         } catch (SQLException ex) {
-           HandleEx(ex);
+            HandleEx(ex);
         }
 
         Disconnect();
