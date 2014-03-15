@@ -64,7 +64,7 @@ public class Distribution {
         return Tricky(count, TrickyScale, min);
     }
 
-    public int GetLogistic(int time) {
+    public int GetBuyers(int time) {
         double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
         IdealSum += value;
         int result = (int) Math.round(value);
