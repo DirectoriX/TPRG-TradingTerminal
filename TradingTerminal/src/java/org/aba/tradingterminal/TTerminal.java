@@ -73,13 +73,32 @@ public class TTerminal extends HttpServlet {
         }
     }
 
-    private void MakeHeader(PrintWriter out) {
+    private void MakeHeader(PrintWriter out, String title, boolean error) {
+        if (error) {
+            title = "Ошибка";
+        }
+
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>Trading Terminal simulation services</title>");
+        out.println("<title>" + title + "</title>");
+
+        if (error) {
+            out.println("<meta http-equiv=\"refresh\" content=\"5; URL=.\"/>");
+        } else {
+            out.println("<style>");// Надо для более красивого отображения таблицы
+            out.println(".tborder{");
+            out.println("    border: black solid thin;");
+            out.println("}");
+            out.println("</style>");
+        }
+
         out.println("</head>");
         out.println("<body>");
+
+        if (error) {
+            out.println("<h1>ERROR! You will be redirected to start page in 5 seconds</h1>");
+        }
     }
 
     private void MakeFooter(PrintWriter out) {
@@ -98,26 +117,11 @@ public class TTerminal extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            MakeHeader(out);
 
-            SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
-            if (DBA.TestConnect()) {
-                LinkedList<String> pinfo = DBA.ShowProductInfo();
-
-                for (int i = 0; i < pinfo.size(); i++) {
-                    out.println(pinfo.get(i) + "<br/>");
-                }
-            } else {
-                out.println("Error: can't connect to database");
-            }
-
-            MakeFooter(out);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -129,7 +133,39 @@ public class TTerminal extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");// Только UTF-8!
+
+        String simstr;
+        try {
+            try (PrintWriter out = response.getWriter()) {
+                if ((simstr = request.getParameter("simid").trim()).length() > 0) {
+                    SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+                    if (DBA.TestConnect()) {
+
+                        int simid = Integer.decode(simstr);
+
+                        MakeHeader(out, "Просмотр статистики", false);
+
+                        LinkedList<String> pinfo = DBA.GetResults(simid);
+
+                        for (int i = 0; i < pinfo.size(); i++) {
+                            out.println(pinfo.get(i));
+                        }
+                    } else {
+                        out.println("Error: can't connect to database");
+                    }
+
+                    out.println("<br/><a href=\".\">Назад</a>");
+
+                    MakeFooter(out);
+                }
+            }
+        } catch (Exception ex) {
+            MakeHeader(response.getWriter(), "", true);
+        } finally {
+            MakeFooter(response.getWriter());
+        }
     }
 
     /**
@@ -143,7 +179,9 @@ public class TTerminal extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");// Только UTF-8!
         processRequest(request, response);
-    }// </editor-fold>
+    }
 
 }

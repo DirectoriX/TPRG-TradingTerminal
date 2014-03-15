@@ -231,7 +231,16 @@ public class SQLAgent {
     public LinkedList<String> GetResults(int simulationid) { // Получаем подробный отчёт о симуляции
         LinkedList<String> result = new LinkedList();
 
-        String request = "SELECT r.buyerid, r.time, p.name, r.count, r.cost FROM reports r INNER JOIN products p ON r.productcode = p.code WHERE simulationid = ? ORDER BY r.time";
+        if (simulationid < 1) {
+            result.add("<h2>Invalid sumulation id</h2>");
+            return result;
+        }
+
+        result.add("<table class=\"tborder\">");
+        result.add("<tr><td class=\"tborder\">Номер покупателя</td><td class=\"tborder\">Время</td><td class=\"tborder\">Код товара</td><td class=\"tborder\">Название товара</td><td class=\"tborder\">Количество товара</td><td class=\"tborder\">Стоимость</td></tr>");
+        result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
+
+        String request = "SELECT r.buyerid, r.time, r.productcode, r.name, r.count, r.cost FROM reports r WHERE simulationid = ? ORDER BY r.time";
 
         Connect();
         try {
@@ -239,17 +248,84 @@ public class SQLAgent {
                 st.setInt(1, simulationid);
                 try (ResultSet res = st.executeQuery()) {
                     String tmp;
+                    int buyerid = 1;
+                    int goodscount = 0;
+                    int profit = 0;
+                    boolean empty = true;
 
                     while (res.next()) {
-                        tmp = "";
-                        tmp += Integer.toString(res.getInt("buyerid")) + " ";
-                        tmp += res.getTime("time") + " ";
-                        tmp += res.getString("name") + " ";
-                        tmp += Integer.toString(res.getInt("count")) + " ";
-                        tmp += Integer.toString(res.getInt("cost"));
+                        empty = false;
+
+                        tmp = "<tr><td class=\"tborder\">";
+                        int q = res.getInt("buyerid");
+
+                        if (q != buyerid) { // Если новый покупатель - добавим сводку и строку-разделитель
+                            result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
+                            result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
+                            buyerid = q;
+                            goodscount = profit = 0;
+                        }
+
+                        goodscount++;
+
+                        tmp += Integer.toString(q) + "</td><td class=\"tborder\">";
+                        tmp += res.getTime("time") + "</td><td class=\"tborder\">";
+                        tmp += Integer.toString(res.getInt("productcode")) + "</td><td class=\"tborder\">";
+                        tmp += res.getString("name") + "</td><td class=\"tborder\">";
+
+                        float cnt = res.getFloat("count");
+
+                        if (cnt < 0) {
+                            tmp += Integer.toString((int) -cnt) + "</td><td class=\"tborder\">";
+                        } else {
+                            tmp += Float.toString(cnt) + "</td><td class=\"tborder\">";
+                        }
+
+                        int cost = res.getInt("cost");
+                        profit += cost;
+
+                        tmp += Integer.toString(cost) + "</td></tr>";
 
                         result.add(tmp);
+
+                        if (res.isLast()) {
+                            result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
+                        }
                     }
+
+                    if (!empty) {
+                        request = "SELECT * FROM simulations WHERE id = ?";
+                        try {
+                            try (PreparedStatement sim = conn.prepareStatement(request)) {
+                                sim.setInt(1, simulationid);
+                                try (ResultSet simres = sim.executeQuery()) {
+                                    simres.next();
+                                    result.addFirst("<h3>Подробный отчёт</h3>");
+                                    result.addFirst("</table>");
+                                    result.addFirst("<tr><td class=\"tborder\">Корректно?</td><td class=\"tborder\">" + ((simres.getBoolean("iscorrect")) ? "Да" : "Нет") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Момент времени, когда была очередь максимальной длины</td><td class=\"tborder\">" + simres.getTime("maxqueuetime") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Максимальная длина очереди</td><td class=\"tborder\">" + simres.getInt("maxqueue") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Общая выручка</td><td class=\"tborder\">" + simres.getInt("profit") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Средняя выручка с одного покупателя</td><td class=\"tborder\">" + simres.getFloat("avgprofit") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Среднее количество купленных товаров</td><td class=\"tborder\">" + simres.getFloat("avggoodscount") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Людей обслужено</td><td class=\"tborder\">" + simres.getInt("peopleserved") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Людей пришло</td><td class=\"tborder\">" + simres.getInt("peoplearrived") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Заданное среднее количство товаров</td><td class=\"tborder\">" + simres.getInt("goodscount") + "</td></tr>");
+                                    result.addFirst("<tr><td class=\"tborder\">Заданное количество человек</td><td class=\"tborder\">" + simres.getInt("peoplecount") + "</td></tr>");
+                                    result.addFirst("<table class=\"tborder\">");
+                                    result.addFirst("<h3>Общая сводка</h3>");
+                                    result.addFirst("<h2>Отчёт о симуляции №" + simulationid + "</h2>");
+                                    result.add("</table>");
+                                }
+                            }
+                        } catch (SQLException ex) {
+                            HandleEx(ex);
+                        }
+                    } else {
+                        result.clear();
+                        result.add("<h2>Invalid sumulation id</h2>");
+                    }
+
                 }
             }
         } catch (SQLException ex) {

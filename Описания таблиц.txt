@@ -30,6 +30,7 @@ id -  unsigned unique autoincrement not null int, Primary key
 simulationid - unsigned not null int
 buyerid - unsigned not null int
 productcode - unsigned not null int
-count - not null unsigned float
+name - not null varchar(50)
+count - not null float // Если <0 - то упакованный товар, если >0 - развесной
 time - not null time
 cost - not null unsigned int

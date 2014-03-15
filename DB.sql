@@ -33,7 +33,8 @@ CREATE TABLE `tradingterminal`.`reports` (
     `simulationid` INT UNSIGNED NOT NULL,
     `buyerid` INT UNSIGNED NOT NULL,
     `productcode` INT UNSIGNED NOT NULL,
-    `count` FLOAT UNSIGNED NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `count` FLOAT NOT NULL,
     `time` TIME NOT NULL,
     `cost` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
@@ -43,8 +44,5 @@ CREATE TABLE `tradingterminal`.`reports` (
     INDEX `productkey_idx` (`productcode` ASC),
     CONSTRAINT `simkey` FOREIGN KEY (`simulationid`)
         REFERENCES `tradingterminal`.`simulations` (`id`)
-        ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `productkey` FOREIGN KEY (`productcode`)
-        REFERENCES `tradingterminal`.`products` (`code`)
         ON DELETE RESTRICT ON UPDATE RESTRICT
 );
