@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Просмотр и редактирование БД</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <form name="show" method="POST" action="TTerminal">
+            <input type="submit" value="Просмотреть список товаров"/>
+            <input type="hidden" name="act" value="l"/>
+        </form>
+        <hr/>
+        <form name="add" method="POST" action="TTerminal">
+            <input type="submit" value="Добавить товар"/>
+            <input type="hidden" name="act" value="a"/>
+        </form>
+        <hr/>
+        <form name="edit" method="POST" action="TTerminal">
+            <input type="submit" value="Изменить запись"/>
+            <input type="hidden" name="act" value="e"/>
+        </form>
+        <hr/>
+        <form name="delete" method="POST" action="TTerminal">
+            Код продукта <input name="code" value=""/><br/>
+            <input type="submit" value="Удалить"/>
+            <input type="hidden" name="act" value="d"/>
+        </form>
+    </body>
+</html>
