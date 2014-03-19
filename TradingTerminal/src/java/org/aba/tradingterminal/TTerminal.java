@@ -130,29 +130,33 @@ public class TTerminal extends HttpServlet {
         String simstr;
         try {
             try (PrintWriter out = response.getWriter()) {
-                if ((simstr = request.getParameter("simid")).length() > 0) {
-                    SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
-                    if (DBA.TestConnect()) {
-                        simstr = simstr.replaceAll("\\D", "");
+                if (request.getParameterNames().hasMoreElements()) {
+                    if ((simstr = request.getParameter("simid")).length() > 0) {
+                        SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+                        if (DBA.TestConnect()) {
+                            simstr = simstr.replaceAll("\\D", "");
 
-                        if (simstr.length() == 0) {
-                            MakeHeader(response.getWriter(), "", true);
-                            return;
+                            if (simstr.length() == 0) {
+                                MakeHeader(response.getWriter(), "", true);
+                                return;
+                            }
+
+                            int simid = Integer.decode(simstr);
+
+                            MakeHeader(out, "Просмотр статистики", false);
+
+                            LinkedList<String> pinfo = DBA.GetResults(simid);
+
+                            for (int i = 0; i < pinfo.size(); i++) {
+                                out.println(pinfo.get(i));
+                            }
+
+                            MakeFooter(out);
+                        } else {
+                            NoConnection(out);
                         }
-
-                        int simid = Integer.decode(simstr);
-
-                        MakeHeader(out, "Просмотр статистики", false);
-
-                        LinkedList<String> pinfo = DBA.GetResults(simid);
-
-                        for (int i = 0; i < pinfo.size(); i++) {
-                            out.println(pinfo.get(i));
-                        }
-
-                        MakeFooter(out);
                     } else {
-                        NoConnection(out);
+                        MakeHeader(out, "", true);
                     }
                 } else {
                     MakeHeader(out, "", true);
