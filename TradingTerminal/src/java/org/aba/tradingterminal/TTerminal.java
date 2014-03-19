@@ -102,24 +102,15 @@ public class TTerminal extends HttpServlet {
     }
 
     private void MakeFooter(PrintWriter out) {
+        out.println("<br/><a href=\".\">Назад</a>");
         out.println("</body>");
         out.println("</html>");
     }
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-
-        }
+    private void NoConnection(PrintWriter out) {
+        MakeHeader(out, "", true);
+        out.println("<h2>Error: can't connect to database</h2>");
+        MakeFooter(out);
     }
 
     /**
@@ -139,9 +130,15 @@ public class TTerminal extends HttpServlet {
         String simstr;
         try {
             try (PrintWriter out = response.getWriter()) {
-                if ((simstr = request.getParameter("simid").trim()).length() > 0) {
+                if ((simstr = request.getParameter("simid")).length() > 0) {
                     SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
                     if (DBA.TestConnect()) {
+                        simstr = simstr.replaceAll("\\D", "");
+
+                        if (simstr.length() == 0) {
+                            MakeHeader(response.getWriter(), "", true);
+                            return;
+                        }
 
                         int simid = Integer.decode(simstr);
 
@@ -152,17 +149,15 @@ public class TTerminal extends HttpServlet {
                         for (int i = 0; i < pinfo.size(); i++) {
                             out.println(pinfo.get(i));
                         }
+
+                        MakeFooter(out);
                     } else {
-                        out.println("Error: can't connect to database");
+                        NoConnection(out);
                     }
-
-                    out.println("<br/><a href=\".\">Назад</a>");
-
-                    MakeFooter(out);
+                } else {
+                    MakeHeader(out, "", true);
                 }
             }
-        } catch (Exception ex) {
-            MakeHeader(response.getWriter(), "", true);
         } finally {
             MakeFooter(response.getWriter());
         }
@@ -181,7 +176,52 @@ public class TTerminal extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");// Только UTF-8!
-        processRequest(request, response);
+
+        String action;
+        try {
+            try (PrintWriter out = response.getWriter()) {
+                if ((action = request.getParameter("act")).length() > 0) {
+                    switch (action.charAt(0)) {
+                        case 'a': { // Add
+                            break;
+                        }
+                        case 'e': { // Edit
+                            break;
+                        }
+                        case 'd': { // Delete
+                            break;
+                        }
+                        case 'l': { // Show products
+                            SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+                            if (DBA.TestConnect()) {
+                                MakeHeader(out, "Список товаров", false);
+
+                                LinkedList<String> list = DBA.ShowProductInfo();
+                                for (int i = 0; i < list.size(); i++) {
+                                    out.write(list.get(i));
+                                }
+                                list.clear();
+                                MakeFooter(out);
+                            } else {
+                                NoConnection(out);
+                            }
+                            break;
+                        }
+                        case 's': { // Start!
+                            break;
+                        }
+                        case 'p': { // Show progress
+                            break;
+                        }
+                        default: { // Error - unrecognized symbol
+                            MakeHeader(out, "", true);
+                        }
+                    }
+                }
+            }
+        } finally {
+            MakeFooter(response.getWriter());
+        }
     }
 
 }
