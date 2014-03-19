@@ -175,18 +175,24 @@ public class SQLAgent {
         try {
             try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)) {
 
+                result.add("<h2>Список товаров</h2>");
+                result.add("<table class=\"tborder\">");
+                result.add("<tr><td class=\"tborder\">Название</td><td class=\"tborder\">Код</td><td class=\"tborder\">Упакован?</td><td class=\"tborder\">Среднее приобретаемое количество</td><td class=\"tborder\">Стоимость</td></tr>");
+                result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
+
                 String tmp;
 
                 while (res.next()) {
-                    tmp = "";
-                    tmp += Integer.toString(res.getInt("code")) + " ";
-                    tmp += res.getString("name") + " ";
-                    tmp += (res.getBoolean("ispacked")) ? "+ " : "- ";
-                    tmp += Float.toString(res.getFloat("count")) + " ";
-                    tmp += Float.toString(res.getFloat("cost"));
+                    tmp = "<tr><td class=\"tborder\">";
+                    tmp += res.getString("name") + "</td><td class=\"tborder\">";
+                    tmp += Integer.toString(res.getInt("code")) + "</td><td class=\"tborder\">";
+                    tmp += ((res.getBoolean("ispacked")) ? "+" : "-") + "</td><td class=\"tborder\">";
+                    tmp += Float.toString(res.getFloat("count")) + "</td><td class=\"tborder\">";
+                    tmp += Float.toString(res.getFloat("cost")) + "</td></tr>";
 
                     result.add(tmp);
                 }
+                result.add("</table>");
             }
         } catch (SQLException ex) {
             HandleEx(ex);
