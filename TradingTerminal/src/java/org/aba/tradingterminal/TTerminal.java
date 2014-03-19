@@ -139,12 +139,19 @@ public class TTerminal extends HttpServlet {
         String simstr;
         try {
             try (PrintWriter out = response.getWriter()) {
-                if ((simstr = request.getParameter("simid").trim()).length() > 0) {
+                if ((simstr = request.getParameter("simid")).length() > 0) {
                     SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
                     if (DBA.TestConnect()) {
+                        
+                        simstr=simstr.replaceAll("\\D", "");
 
+                        if(simstr.length()==0){
+                            MakeHeader(response.getWriter(), "", true);
+                            return;
+                        }
+                        
                         int simid = Integer.decode(simstr);
-
+                        
                         MakeHeader(out, "Просмотр статистики", false);
 
                         LinkedList<String> pinfo = DBA.GetResults(simid);
@@ -161,8 +168,6 @@ public class TTerminal extends HttpServlet {
                     MakeFooter(out);
                 }
             }
-        } catch (Exception ex) {
-            MakeHeader(response.getWriter(), "", true);
         } finally {
             MakeFooter(response.getWriter());
         }
