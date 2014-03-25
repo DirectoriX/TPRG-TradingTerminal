@@ -193,6 +193,43 @@ public class TTerminal extends HttpServlet {
                             break;
                         }
                         case 'd': { // Delete
+                            try {
+                                if (request.getParameterNames().hasMoreElements()) {
+
+                                    String codestr;
+
+                                    if ((codestr = request.getParameter("code")).length() > 0) {
+                                        SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+                                        if (DBA.TestConnect()) {
+                                            codestr = codestr.replaceAll("\\D", "");
+
+                                            if (codestr.length() == 0) {
+                                                MakeHeader(response.getWriter(), "", true);
+                                                return;
+                                            }
+
+                                            int code = Integer.decode(codestr);
+
+                                            MakeHeader(out, "Удаление товара", false);
+
+                                            boolean success = DBA.DeleteProduct(code);
+
+                                            out.println("<h2>Удаление товара с кодом " + code + ((success) ? " " : " не ") + "успешно</h2>");
+                                            if (!success) {
+                                                out.println("Возможно, неверный код товара или ошибка базы данных");
+                                            }
+                                        } else {
+                                            NoConnection(out);
+                                        }
+                                    } else {
+                                        MakeHeader(out, "", true);
+                                    }
+                                } else {
+                                    MakeHeader(out, "", true);
+                                }
+                            } finally {
+                                MakeFooter(response.getWriter());
+                            }
                             break;
                         }
                         case 'l': { // Show products

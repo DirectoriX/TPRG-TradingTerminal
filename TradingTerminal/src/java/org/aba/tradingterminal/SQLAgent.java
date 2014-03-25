@@ -342,4 +342,45 @@ public class SQLAgent {
 
         return result;
     }
+
+    public boolean DeleteProduct(int code) {
+        boolean result = false;
+
+        if (code < 0) {
+            return result;
+        }
+
+        boolean s = false;
+
+        String request = "SELECT COUNT FROM products WHERE code = ?";
+
+        Connect();
+        try {
+            try (PreparedStatement st = conn.prepareStatement(request)) {
+                st.setInt(1, code);
+                try (ResultSet res = st.executeQuery()) {
+                    s = (res.next());
+                } catch (SQLException ex) {
+                    HandleEx(ex);
+                }
+
+                if (s) {
+                    Statement st_del = conn.createStatement();
+                    st_del.execute("DELETE FROM products WHERE code = " + code);
+
+                    try (ResultSet res = st.executeQuery()) {
+                        result = !(res.next());
+                    } catch (SQLException ex) {
+                        HandleEx(ex);
+                    }
+                }
+
+                Disconnect();
+            }
+
+        } catch (SQLException ex) {
+            HandleEx(ex);
+        }
+        return result;
+    }
 }
