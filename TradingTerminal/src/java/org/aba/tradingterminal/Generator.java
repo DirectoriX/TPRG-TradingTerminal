@@ -25,24 +25,29 @@
  */
 package org.aba.tradingterminal;
 
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Random;
 
 /**
  *
  * @author DirectoriX, kramer98489, UN-likE
  */
 public class Generator {
-
-    private List<Integer> Discounts;
+    
+    public LinkedList<Product> RangeOfGoods;
+    
+    public Generator ()
+    }
+    
+    }
 
     public Buyer CreateBuyer() {
-        return null;
+        Buyer buyer = new Buyer();
+        Random RNG = new Random();
+        if ( RNG.nextInt(100) < 10 )
+            buyer.Discount = true;
+        
+        
+        return buyer;
     }
-
-    public void FillCart(Buyer b) {
-    }
-
-    public void MakeDiscount(Buyer b) {
-    }
-
 }

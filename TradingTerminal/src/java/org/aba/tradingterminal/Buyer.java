@@ -25,6 +25,7 @@
  */
 package org.aba.tradingterminal;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Buyer {
@@ -33,9 +34,9 @@ public class Buyer {
     public int ServedTime;
     public int Money;
     public int Paid;
-    public int DiscountCode = 0;
+    public boolean Discount = false;
 
-    public List<Product> Cart;
+    public LinkedList<Product> Cart;
 
     private void AddMoney(int amount) {
     }
