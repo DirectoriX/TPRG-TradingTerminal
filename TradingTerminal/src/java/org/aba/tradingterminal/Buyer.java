@@ -38,9 +38,8 @@ public class Buyer {
 
     public LinkedList<Product> Cart;
 
-    private void AddMoney(int amount) {
-    }
-
     public void AddProduct(Product thing) {
+        Cart.add(thing);
+        Money += thing.Count*thing.Price + 1;
     }
 }

@@ -32,6 +32,5 @@ public class Product {
     public float Count;
     public boolean IsPacked;
     public float Price;
-    public float AvgCount;
 
 }

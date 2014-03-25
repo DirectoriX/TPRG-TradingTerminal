@@ -26,12 +26,8 @@
 package org.aba.tradingterminal;
 
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,38 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
-
-    public String DBName;
-    public String URL;
-    public String user;
-    public String password;
-
-    @Override
-    public void init() throws ServletException {
-        LoadDbConfig("DBprops.prop");
-    }
-
-    private void LoadDbConfig(String Path) {
-        FileReader fr = null;
-        try {
-            fr = new FileReader(Path);
-            try (BufferedReader inputData = new BufferedReader(fr)) {
-                DBName = inputData.readLine();
-                URL = inputData.readLine();
-                user = inputData.readLine();
-                password = inputData.readLine();
-            }
-            fr.close();
-        } catch (IOException ex) {
-            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
 
     private void MakeHeader(PrintWriter out, String title, boolean error) {
         if (error) {
@@ -132,7 +96,7 @@ public class TTerminal extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 if (request.getParameterNames().hasMoreElements()) {
                     if ((simstr = request.getParameter("simid")).length() > 0) {
-                        SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+                        SQLAgent DBA = new SQLAgent();
                         if (DBA.TestConnect()) {
                             simstr = simstr.replaceAll("\\D", "");
 
@@ -199,7 +163,7 @@ public class TTerminal extends HttpServlet {
                                     String codestr;
 
                                     if ((codestr = request.getParameter("code")).length() > 0) {
-                                        SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+                                        SQLAgent DBA = new SQLAgent();
                                         if (DBA.TestConnect()) {
                                             codestr = codestr.replaceAll("\\D", "");
 
@@ -233,7 +197,7 @@ public class TTerminal extends HttpServlet {
                             break;
                         }
                         case 'l': { // Show products
-                            SQLAgent DBA = new SQLAgent(DBName, URL, user, password);
+                            SQLAgent DBA = new SQLAgent();
                             if (DBA.TestConnect()) {
                                 MakeHeader(out, "Список товаров", false);
 

@@ -56,7 +56,7 @@ public class Distribution {
         return (res > min) ? res : min;
     }
 
-    public int GetIntCount(int count) {
+    public int GetIntCount(float count) {
         return (int) Math.round(Tricky(count, TrickyScale, 1));
     }
 

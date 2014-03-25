@@ -33,21 +33,39 @@ import java.util.Random;
  * @author DirectoriX, kramer98489, UN-likE
  */
 public class Generator {
-    
-    public LinkedList<Product> RangeOfGoods;
-    
-    public Generator ()
-    }
-    
+
+    private Distribution Dist = new Distribution();
+
+    private LinkedList<Product> RangeOfGoods;
+    private int AVGGoodsCount;
+    int size;
+
+    public Generator(int avggoodscount) {
+        SQLAgent DBA = new SQLAgent();
+        if (DBA.TestConnect()) {
+            RangeOfGoods = DBA.GetProductInfo();
+        }
+        AVGGoodsCount = avggoodscount;
+        size = RangeOfGoods.size();
     }
 
     public Buyer CreateBuyer() {
         Buyer buyer = new Buyer();
         Random RNG = new Random();
-        if ( RNG.nextInt(100) < 10 )
+        if (RNG.nextInt(100) < 10) {
             buyer.Discount = true;
-        
-        
+        }
+        int goodscount = Dist.GetIntCount(AVGGoodsCount);
+        Product tmpProduct;
+        for (int i = 0; i < goodscount; i++) {
+            tmpProduct = RangeOfGoods.get(RNG.nextInt(size));
+            if (tmpProduct.IsPacked) {
+                tmpProduct.Count = Dist.GetIntCount(tmpProduct.Count);
+            } else {
+                tmpProduct.Count = Dist.GetFloatCount(tmpProduct.Count, (float) 0.25);
+            }
+            buyer.AddProduct(tmpProduct);
+        }
         return buyer;
     }
 }

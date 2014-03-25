@@ -25,6 +25,9 @@
  */
 package org.aba.tradingterminal;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -33,6 +36,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SQLAgent {
 
@@ -52,17 +57,32 @@ public class SQLAgent {
         System.out.println("VendorError: " + ex.getErrorCode());
     }
 
-    public SQLAgent(String DBName, String URL, String user, String password) {
+    public SQLAgent() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
 
         }
-
-        this.DBName = DBName;
-        this.URL = URL;
-        this.user = user;
-        this.password = password;
+        
+        FileReader fr = null;
+        try {
+            fr = new FileReader("DBprops.prop");
+            try (BufferedReader inputData = new BufferedReader(fr)) {
+                DBName = inputData.readLine();
+                URL = inputData.readLine();
+                user = inputData.readLine();
+                password = inputData.readLine();
+            }
+            fr.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private void Connect() { // Подключение к БД
