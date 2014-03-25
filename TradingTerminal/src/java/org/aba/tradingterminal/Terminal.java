@@ -25,14 +25,14 @@
  */
 package org.aba.tradingterminal;
 
-import java.util.Queue;
+import java.util.LinkedList;
 
 public class Terminal {
 
     public int id;
     public int Money;
     public int Profit;
-    public Queue BuyerQueue;
+    public LinkedList<Buyer> BuyerQueue;
     public boolean AmICorrect = false;
 
     public void GiveAway() {

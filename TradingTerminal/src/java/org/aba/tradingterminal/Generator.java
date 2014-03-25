@@ -38,7 +38,7 @@ public class Generator {
 
     private LinkedList<Product> RangeOfGoods;
     private int AVGGoodsCount;
-    int size;
+    private int size;
 
     public Generator(int avggoodscount) {
         SQLAgent DBA = new SQLAgent();

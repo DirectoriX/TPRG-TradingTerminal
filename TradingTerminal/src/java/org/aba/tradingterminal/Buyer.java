@@ -26,14 +26,12 @@
 package org.aba.tradingterminal;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class Buyer {
 
     public int ArriveTime;
     public int ServedTime;
     public int Money;
-    public int Paid;
     public boolean Discount = false;
 
     public LinkedList<Product> Cart;
