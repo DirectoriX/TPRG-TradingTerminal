@@ -162,7 +162,6 @@ public class TTerminal extends HttpServlet {
                                     pricestr = request.getParameter("price");
                                     pricefrstr = request.getParameter("pricefr");
                                     if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
-
                                         codestr = codestr.replaceAll("\\D", "");
                                         countstr = countstr.replaceAll("\\D", "");
                                         countfrstr = countfrstr.replaceAll("\\D", "");
@@ -210,6 +209,73 @@ public class TTerminal extends HttpServlet {
                             break;
                         }
                         case 'e': { // Edit
+                            try {
+                                if (request.getParameterNames().hasMoreElements()) {
+                                    String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
+                                    boolean ispacked = ("on".equals(request.getParameter("ispacked")));
+                                    codestr = request.getParameter("code");
+                                    namestr = request.getParameter("name");
+                                    countstr = request.getParameter("count");
+                                    countfrstr = request.getParameter("countfr");
+                                    pricestr = request.getParameter("price");
+                                    pricefrstr = request.getParameter("pricefr");
+
+                                    codestr = codestr.replaceAll("\\D", "");
+                                    countstr = countstr.replaceAll("\\D", "");
+                                    countfrstr = countfrstr.replaceAll("\\D", "");
+                                    pricestr = pricestr.replaceAll("\\D", "");
+                                    pricefrstr = pricefrstr.replaceAll("\\D", "");
+                                    Product tmp = new Product();
+
+                                    tmp.IsPacked = ispacked;
+
+                                    if (codestr.length() > 0) {
+                                        int code = Integer.decode(codestr);
+                                        tmp.Code = code;
+
+                                        if (namestr.length() > 0) {
+                                            tmp.Name = namestr;
+                                        } else {
+                                            tmp.Name = "";
+                                        }
+
+                                        if (countstr.length() > 0 && countfrstr.length() > 0) {
+                                            float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
+                                            tmp.Count = count;
+                                        } else {
+                                            tmp.Count = -1;
+                                        }
+
+                                        if (pricestr.length() > 0 && pricefrstr.length() > 0) {
+                                            float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
+                                            tmp.Price = price;
+                                        } else {
+                                            tmp.Price = -1;
+                                        }
+                                        SQLAgent DBA = new SQLAgent();
+                                        if (DBA.TestConnect()) {
+                                            MakeHeader(out, "Редактирование товара", false);
+
+                                            boolean edited = DBA.UpdateProduct(tmp);
+                                            if (edited) {
+                                                out.println("<h2>Товар изменён</h2>");
+                                            } else {
+                                                out.println("<h2>Товар не изменён</h2>");
+                                                out.println("<h3>Скорее всего, товар с таким кодом не существует</h3>");
+                                            }
+
+                                        } else {
+                                            NoConnection(out);
+                                        }
+                                    } else {
+                                        MakeHeader(out, "", true);
+                                    }
+                                } else {
+                                    MakeHeader(out, "", true);
+                                }
+                            } finally {
+                                MakeFooter(out);
+                            }
                             break;
                         }
                         case 'd': { // Delete

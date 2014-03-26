@@ -143,7 +143,7 @@ public class SQLAgent {
     public void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect) {
         Connect();
         try {
-            try (PreparedStatement st = conn.prepareStatement("UPDATE simulations set peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")) {
+            try (PreparedStatement st = conn.prepareStatement("UPDATE simulations SET peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")) {
                 st.setInt(1, peoplearrived);
                 st.setInt(2, peopleserved);
                 st.setFloat(3, avggoodscount);
@@ -442,6 +442,50 @@ public class SQLAgent {
                             HandleEx(ex);
                         }
                     }
+                }
+            }
+        } catch (SQLException ex) {
+            HandleEx(ex);
+        }
+
+        return result;
+    }
+
+    public boolean UpdateProduct(Product item) {
+        boolean result = false;
+
+        boolean s = false;
+
+        String request = "SELECT COUNT FROM products WHERE code = ?";
+
+        Connect();
+        try {
+            try (PreparedStatement st = conn.prepareStatement(request)) {
+                st.setInt(1, item.Code);
+                try (ResultSet res = st.executeQuery()) {
+                    s = (res.next());
+                } catch (SQLException ex) {
+                    HandleEx(ex);
+                }
+
+                if (s) {
+                    request = "UPDATE products SET ispacked = " + ((item.IsPacked) ? 1 : 0);
+
+                    if (item.Count > 0) {
+                        request += ", count = " + item.Count;
+                    }
+
+                    if (item.Name.length() > 0) {
+                        request += ", name = '" + item.Name + "'";
+                    }
+
+                    if (item.Price > 0) {
+                        request += ", cost = " + item.Price;
+                    }
+
+                    request += " WHERE code = " + item.Code;
+
+                    result = !conn.createStatement().execute(request);
                 }
             }
         } catch (SQLException ex) {
