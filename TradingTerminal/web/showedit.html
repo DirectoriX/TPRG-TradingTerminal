@@ -12,6 +12,11 @@
         </form>
         <hr/>
         <form name="add" method="POST" action="TTerminal">
+            Код товара <input name="code" value=""/><br/>
+            Название товара <input name="name" value=""/><br/>
+            <label>Упакованный товар? <input type="checkbox" name="ispacked" checked/></label><br/>
+            Среднее покупаемое количество товара за один раз <input name="count" value="3"/>.<input name="countfr" value="00"/><br/>
+            Стоимость единицы товара <input name="price" value="5"/>.<input name="pricefr" value="00"/><br/>
             <input type="submit" value="Добавить товар"/>
             <input type="hidden" name="act" value="a"/>
         </form>

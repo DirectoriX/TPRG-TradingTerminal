@@ -63,7 +63,7 @@ public class SQLAgent {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
 
         }
-        
+
         FileReader fr = null;
         try {
             fr = new FileReader("DBprops.prop");
@@ -401,6 +401,53 @@ public class SQLAgent {
         } catch (SQLException ex) {
             HandleEx(ex);
         }
+        return result;
+    }
+
+    public boolean AddProduct(Product item) {
+        boolean result = false;
+
+        if (item.Code < 0 || item.Count <= 0 || item.Price <= 0) {
+            return result;
+        }
+
+        boolean s = false;
+
+        String request = "SELECT COUNT FROM products WHERE code = ?";
+
+        Connect();
+        try {
+            try (PreparedStatement st = conn.prepareStatement(request)) {
+                st.setInt(1, item.Code);
+                try (ResultSet res = st.executeQuery()) {
+                    s = (res.next());
+                } catch (SQLException ex) {
+                    HandleEx(ex);
+                }
+
+                if (!s) {
+                    try (PreparedStatement st_add = conn.prepareStatement("INSERT INTO products() VALUES (0, ?, ?, ?, ?, ?)")) {
+
+                        st_add.setInt(1, item.Code);
+                        st_add.setString(2, item.Name);
+                        st_add.setBoolean(3, item.IsPacked);
+                        st_add.setFloat(4, item.Count);
+                        st_add.setFloat(5, item.Price);
+
+                        st_add.execute();
+
+                        try (ResultSet res = st.executeQuery()) {
+                            result = (res.next());
+                        } catch (SQLException ex) {
+                            HandleEx(ex);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            HandleEx(ex);
+        }
+
         return result;
     }
 }

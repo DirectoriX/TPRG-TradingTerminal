@@ -151,6 +151,62 @@ public class TTerminal extends HttpServlet {
                 if ((action = request.getParameter("act")).length() > 0) {
                     switch (action.charAt(0)) {
                         case 'a': { // Add
+                            try {
+                                if (request.getParameterNames().hasMoreElements()) {
+                                    String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
+                                    boolean ispacked = ("on".equals(request.getParameter("ispacked")));
+                                    codestr = request.getParameter("code");
+                                    namestr = request.getParameter("name");
+                                    countstr = request.getParameter("count");
+                                    countfrstr = request.getParameter("countfr");
+                                    pricestr = request.getParameter("price");
+                                    pricefrstr = request.getParameter("pricefr");
+                                    if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
+
+                                        codestr = codestr.replaceAll("\\D", "");
+                                        countstr = countstr.replaceAll("\\D", "");
+                                        countfrstr = countfrstr.replaceAll("\\D", "");
+                                        pricestr = pricestr.replaceAll("\\D", "");
+                                        pricefrstr = pricefrstr.replaceAll("\\D", "");
+                                        if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
+                                            int code = Integer.decode(codestr);
+                                            float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
+                                            float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
+                                            SQLAgent DBA = new SQLAgent();
+                                            if (DBA.TestConnect() && code >= 0 && count > 0 && price > 0) {
+                                                Product tmp = new Product();
+                                                tmp.Code = code;
+                                                tmp.Count = count;
+                                                tmp.IsPacked = ispacked;
+                                                tmp.Price = price;
+                                                tmp.Name = namestr;
+
+                                                MakeHeader(out, "Добавление товара", false);
+
+                                                boolean added = DBA.AddProduct(tmp);
+                                                if (added) {
+                                                    out.println("<h2>Товар добавлен</h2>");
+                                                } else {
+                                                    out.println("<h2>Товар не добавлен</h2>");
+                                                    out.println("<h3>Скорее всего, товар с таким кодом уже существует</h3>");
+                                                }
+
+                                            } else {
+                                                MakeHeader(out, "", true);
+                                            }
+                                        } else {
+                                            MakeHeader(out, "", true);
+                                        }
+                                    } else {
+                                        MakeHeader(out, "Ошибка", false);
+                                        out.println("<h2>Запись не добавлена, т.к. хотя бы одно поле не заполнено</h2>");
+                                    }
+                                } else {
+                                    MakeHeader(out, "", true);
+                                }
+                            } finally {
+                                MakeFooter(out);
+                            }
                             break;
                         }
                         case 'e': { // Edit
