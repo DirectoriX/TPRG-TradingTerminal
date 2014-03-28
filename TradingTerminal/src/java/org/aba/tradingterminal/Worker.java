@@ -80,8 +80,7 @@ class Worker {
         distr.clients = peoplecount;
         distr.goods = goodscount;
         generator = new Generator(goodscount);
-        SQLAgent DBA = new SQLAgent();
-        if (DBA.TestConnect()) {
+        if (SQLAgent.TestConnect()) {
             simid = DBA.Started(peoplecount, goodscount);
             timer.start();
         }

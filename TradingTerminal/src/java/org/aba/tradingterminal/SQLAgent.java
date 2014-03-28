@@ -61,11 +61,9 @@ public class SQLAgent {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        LoadSettings();
     }
 
-    private static void LoadSettings() {
+    public static void LoadSettings() {
         try (FileReader fr = new FileReader("DBprops.prop")) {
             try (BufferedReader inputData = new BufferedReader(fr)) {
                 DBName = inputData.readLine();

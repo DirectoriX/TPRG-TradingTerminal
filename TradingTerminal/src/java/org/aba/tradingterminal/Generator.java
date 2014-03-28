@@ -41,9 +41,8 @@ public class Generator {
     private int size;
 
     public Generator(int avggoodscount) {
-        SQLAgent DBA = new SQLAgent();
-        if (DBA.TestConnect()) {
-            RangeOfGoods = DBA.GetProductInfo();
+        if (SQLAgent.TestConnect()) {
+            RangeOfGoods = SQLAgent.GetProductInfo();
         }
         AVGGoodsCount = avggoodscount;
         size = RangeOfGoods.size();

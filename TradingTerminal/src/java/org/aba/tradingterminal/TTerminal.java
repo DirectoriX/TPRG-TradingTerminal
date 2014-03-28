@@ -37,6 +37,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
 
+    @Override
+    public void init() throws ServletException {
+        SQLAgent.LoadSettings();
+    }
+
     private void MakeHeader(PrintWriter out, String title, boolean error) {
         if (error) {
             title = "Ошибка";
@@ -96,8 +101,7 @@ public class TTerminal extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 if (request.getParameterNames().hasMoreElements()) {
                     if ((simstr = request.getParameter("simid")).length() > 0) {
-                        SQLAgent DBA = new SQLAgent();
-                        if (DBA.TestConnect()) {
+                        if (SQLAgent.TestConnect()) {
                             simstr = simstr.replaceAll("\\D", "");
 
                             if (simstr.length() == 0) {
@@ -109,7 +113,7 @@ public class TTerminal extends HttpServlet {
 
                             MakeHeader(out, "Просмотр статистики", false);
 
-                            LinkedList<String> pinfo = DBA.GetResults(simid);
+                            LinkedList<String> pinfo = SQLAgent.GetResults(simid);
 
                             for (int i = 0; i < pinfo.size(); i++) {
                                 out.println(pinfo.get(i));
@@ -171,8 +175,7 @@ public class TTerminal extends HttpServlet {
                                             int code = Integer.decode(codestr);
                                             float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
                                             float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
-                                            SQLAgent DBA = new SQLAgent();
-                                            if (DBA.TestConnect() && code >= 0 && count > 0 && price > 0) {
+                                            if (SQLAgent.TestConnect() && code >= 0 && count > 0 && price > 0) {
                                                 Product tmp = new Product();
                                                 tmp.Code = code;
                                                 tmp.Count = count;
@@ -182,7 +185,7 @@ public class TTerminal extends HttpServlet {
 
                                                 MakeHeader(out, "Добавление товара", false);
 
-                                                boolean added = DBA.AddProduct(tmp);
+                                                boolean added = SQLAgent.AddProduct(tmp);
                                                 if (added) {
                                                     out.println("<h2>Товар добавлен</h2>");
                                                 } else {
@@ -252,11 +255,10 @@ public class TTerminal extends HttpServlet {
                                         } else {
                                             tmp.Price = -1;
                                         }
-                                        SQLAgent DBA = new SQLAgent();
-                                        if (DBA.TestConnect()) {
+                                        if (SQLAgent.TestConnect()) {
                                             MakeHeader(out, "Редактирование товара", false);
 
-                                            boolean edited = DBA.UpdateProduct(tmp);
+                                            boolean edited = SQLAgent.UpdateProduct(tmp);
                                             if (edited) {
                                                 out.println("<h2>Товар изменён</h2>");
                                             } else {
@@ -285,8 +287,7 @@ public class TTerminal extends HttpServlet {
                                     String codestr;
 
                                     if ((codestr = request.getParameter("code")).length() > 0) {
-                                        SQLAgent DBA = new SQLAgent();
-                                        if (DBA.TestConnect()) {
+                                        if (SQLAgent.TestConnect()) {
                                             codestr = codestr.replaceAll("\\D", "");
 
                                             if (codestr.length() == 0) {
@@ -298,7 +299,7 @@ public class TTerminal extends HttpServlet {
 
                                             MakeHeader(out, "Удаление товара", false);
 
-                                            boolean success = DBA.DeleteProduct(code);
+                                            boolean success = SQLAgent.DeleteProduct(code);
 
                                             out.println("<h2>Удаление товара с кодом " + code + ((success) ? " " : " не ") + "успешно</h2>");
                                             if (!success) {
@@ -319,11 +320,10 @@ public class TTerminal extends HttpServlet {
                             break;
                         }
                         case 'l': { // Show products
-                            SQLAgent DBA = new SQLAgent();
-                            if (DBA.TestConnect()) {
+                            if (SQLAgent.TestConnect()) {
                                 MakeHeader(out, "Список товаров", false);
 
-                                LinkedList<String> list = DBA.ShowProductInfo();
+                                LinkedList<String> list = SQLAgent.ShowProductInfo();
                                 for (int i = 0; i < list.size(); i++) {
                                     out.write(list.get(i));
                                 }
