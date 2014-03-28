@@ -61,28 +61,24 @@ public class SQLAgent {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
-
+            Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        FileReader fr = null;
-        try {
-            fr = new FileReader("DBprops.prop");
+        LoadSettings();
+    }
+
+    private void LoadSettings() {
+        try (FileReader fr = new FileReader("DBprops.prop")) {
             try (BufferedReader inputData = new BufferedReader(fr)) {
                 DBName = inputData.readLine();
                 URL = inputData.readLine();
                 user = inputData.readLine();
                 password = inputData.readLine();
             }
-            fr.close();
         } catch (IOException ex) {
-            Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TTerminal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     private void Connect() { // Подключение к БД
