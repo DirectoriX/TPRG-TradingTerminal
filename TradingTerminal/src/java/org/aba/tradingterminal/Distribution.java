@@ -29,17 +29,18 @@ import java.util.Random;
 
 public class Distribution {
 
-    public int mu;
-    public int S;
+    public int mu = 1440;
+    public int S = 200;
     public int clients;
+    public int goods;
 
     // Объект класса Random
     private static final java.util.Random RNG = new Random();
 
     // Сумма без округления
-    private static double IdealSum = 0;
+    private  double IdealSum = 0;
     // Сумма после округления
-    private static int RealSum = 0;
+    private  int RealSum = 0;
 
     // Логистическое распределение: функция плотности вероятности
     private double Logistic(double Median, double Scale, double x) {
