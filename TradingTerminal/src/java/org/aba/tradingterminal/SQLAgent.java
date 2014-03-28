@@ -55,15 +55,13 @@ public class SQLAgent {
         System.out.println("VendorError: " + ex.getErrorCode());
     }
 
-    public SQLAgent() {
+    public static void LoadSettings() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
 
-    public static void LoadSettings() {
         try (FileReader fr = new FileReader("DBprops.prop")) {
             try (BufferedReader inputData = new BufferedReader(fr)) {
                 DBName = inputData.readLine();
