@@ -41,16 +41,14 @@ import java.util.logging.Logger;
 
 public class SQLAgent {
 
-    private String DBName;
-    private String URL;
-    private String user;
-    private String password;
+    private static String DBName;
+    private static String URL;
+    private static String user;
+    private static String password;
 
-    private int simid = -1; // id симуляции
+    private static Connection conn;
 
-    private Connection conn;
-
-    private void HandleEx(SQLException ex) {
+    private static void HandleEx(SQLException ex) {
         // handle any errors
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
@@ -67,7 +65,7 @@ public class SQLAgent {
         LoadSettings();
     }
 
-    private void LoadSettings() {
+    private static void LoadSettings() {
         try (FileReader fr = new FileReader("DBprops.prop")) {
             try (BufferedReader inputData = new BufferedReader(fr)) {
                 DBName = inputData.readLine();
@@ -81,18 +79,18 @@ public class SQLAgent {
 
     }
 
-    private void Connect() { // Подключение к БД
+    private static void Connect() { // Подключение к БД
         try {
-            this.conn = DriverManager.getConnection("jdbc:mysql://" + this.URL + "/" + this.DBName + "?"
-                    + "user=" + this.user + "&password=" + this.password);
+            conn = DriverManager.getConnection("jdbc:mysql://" + URL + "/" + DBName + "?"
+                    + "user=" + user + "&password=" + password);
         } catch (SQLException ex) {
             HandleEx(ex);
 
-            this.conn = null;
+            conn = null;
         }
     }
 
-    private void Disconnect() { // Отключение от БД
+    private static void Disconnect() { // Отключение от БД
         try {
             conn.close();
         } catch (SQLException ex) {
@@ -100,7 +98,7 @@ public class SQLAgent {
         }
     }
 
-    public boolean TestConnect() {
+    public static boolean TestConnect() {
 
         Connect();
         boolean res = !(conn == null);
@@ -112,7 +110,7 @@ public class SQLAgent {
         return res;
     }
 
-    public int Started(int peoplecount, int goodscount) { // Создаём новую запись о симуляции
+    public static int Started(int peoplecount, int goodscount) { // Создаём новую запись о симуляции
         Connect();
         int ret = 0;
         try {
@@ -123,7 +121,7 @@ public class SQLAgent {
                 st.execute();
                 try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")) { // Получаем номер симуляции
                     res.next();
-                    ret = simid = res.getInt(1);
+                    ret = res.getInt(1);
                 }
             }
         } catch (SQLException ex) {
@@ -136,7 +134,7 @@ public class SQLAgent {
 
     }
 
-    public void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect) {
+    public static void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect, int simid) {
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("UPDATE simulations SET peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")) {
@@ -159,11 +157,11 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public void Buyed(int buyer, int code, float count, int time, int cost) { // Создание записи об элементарной покупке
+    public static void Buyed(int buyer, int code, float count, int time, int cost, int simid) { // Создание записи об элементарной покупке
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)")) {
-                st.setInt(1, this.simid);
+                st.setInt(1, simid);
                 st.setInt(2, buyer);
                 st.setInt(3, code);
                 st.setFloat(4, count);
@@ -182,7 +180,7 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public LinkedList<String> ShowProductInfo() {
+    public static LinkedList<String> ShowProductInfo() {
         LinkedList<String> result = new LinkedList();
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
@@ -219,7 +217,7 @@ public class SQLAgent {
         return result;
     }
 
-    public LinkedList<Product> GetProductInfo() { // Получаем полную информацию о всех товарах
+    public static LinkedList<Product> GetProductInfo() { // Получаем полную информацию о всех товарах
         LinkedList<Product> result = new LinkedList();
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
@@ -250,7 +248,7 @@ public class SQLAgent {
         return result;
     }
 
-    public LinkedList<String> GetResults(int simulationid) { // Получаем подробный отчёт о симуляции
+    public static LinkedList<String> GetResults(int simulationid) { // Получаем подробный отчёт о симуляции
         LinkedList<String> result = new LinkedList();
 
         if (simulationid < 1) {
@@ -359,7 +357,7 @@ public class SQLAgent {
         return result;
     }
 
-    public boolean DeleteProduct(int code) {
+    public static boolean DeleteProduct(int code) {
         boolean result = false;
 
         if (code < 0) {
@@ -400,7 +398,7 @@ public class SQLAgent {
         return result;
     }
 
-    public boolean AddProduct(Product item) {
+    public static boolean AddProduct(Product item) {
         boolean result = false;
 
         if (item.Code < 0 || item.Count <= 0 || item.Price <= 0) {
@@ -447,7 +445,7 @@ public class SQLAgent {
         return result;
     }
 
-    public boolean UpdateProduct(Product item) {
+    public static boolean UpdateProduct(Product item) {
         boolean result = false;
 
         boolean s = false;
