@@ -34,6 +34,22 @@ public class Stat {
     public float AvgGoodsCount;
     public float AvgProfit;
 
+    private int Profit;
+    private int Goods;
+
     public void Consider(Buyer cl) {
+        int sum = 0;
+        int gc = cl.Cart.size();
+        for (int i = 0; i < gc; i++) {
+            sum += Math.ceil(cl.Cart.get(i).Count * cl.Cart.get(i).Price);
+        }
+
+        Profit += sum;
+        Goods += gc;
+
+        PeopleServed++;
+
+        AvgGoodsCount = (float) (Goods * 1.0 / PeopleServed);
+        AvgProfit = (float) (Profit * 1.0 / PeopleServed);
     }
 }

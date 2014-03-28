@@ -29,10 +29,4 @@ public class Admin {
 
     public int Money;
     public int Amount;
-
-    public void GiveMoney(int count) {
-    }
-
-    public void Check(Terminal t) {
-    }
 }

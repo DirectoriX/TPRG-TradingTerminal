@@ -37,9 +37,10 @@ class Worker {
 
     private final int maxsteps = 2880;
     private Distribution distr = new Distribution();
-    private LinkedList<Buyer> BuyersList = new LinkedList<Buyer>();
+    private LinkedList<Buyer> BuyersList = new LinkedList<>();
     private Generator generator;
     private Stat stat = new Stat();
+    int simid = -1;
 
     private ActionListener al = new ActionListener() {
 
@@ -47,41 +48,61 @@ class Worker {
         public void actionPerformed(ActionEvent e) {
             if (steps == maxsteps) {
                 ready = true;
+                
+                admin.Money += terminal.Money;
+                terminal.AmICorrect = (admin.Money == terminal.Profit);
+
                 timer.stop();
+
+                SQLAgent.Ended(stat.PeopleArrived, stat.PeopleServed, stat.AvgGoodsCount, stat.AvgProfit, terminal.Profit, stat.MaxQueue, stat.MaxQueueTime, terminal.AmICorrect, simid);
                 return;
             }
 
-            for (steps = 0; steps < maxsteps; steps++) {
-                int BuyersNum = distr.GetBuyers(steps);
+            ///    for (steps = 0; steps < maxsteps; steps++) {
+            int BuyersNum = distr.GetBuyers(steps);
 
-                for (int i = 0; i < BuyersNum; i++) {
-                    BuyersList.addLast(generator.CreateBuyer());
-                }
-
-                if (stat.MaxQueue < BuyersList.size()) {
-                    stat.MaxQueue = BuyersList.size();
-                    stat.MaxQueueTime = steps;
-                }
-                terminal.Serve(BuyersList.peekFirst());
-                BuyersList.removeFirst();
-
+            for (int i = 0; i < BuyersNum; i++) {
+                BuyersList.addLast(generator.CreateBuyer());
+                stat.PeopleArrived++;
             }
+
+            if (stat.MaxQueue < BuyersList.size()) {
+                stat.MaxQueue = BuyersList.size();
+                stat.MaxQueueTime = steps;
+            }
+            if (BuyersList.size() > 0) {
+                terminal.Serve(BuyersList.peekFirst(), steps);
+
+                if (terminal.Money > 200000) {
+                    admin.Money += terminal.Money - admin.Amount;
+                    terminal.Money = admin.Amount;
+                }
+
+                stat.Consider(BuyersList.peekFirst());
+                BuyersList.removeFirst();
+            }
+
+            /// }
+            steps++;
         }
 
     };
 
-    private Timer timer = new Timer(25, al);
+    private Timer timer;
 
     private Terminal terminal = new Terminal();
     private Admin admin = new Admin();
 
     public void StartSim(int peoplecount, int goodscount) {
-        int simid = -1;
         distr.clients = peoplecount;
         distr.goods = goodscount;
         generator = new Generator(goodscount);
         if (SQLAgent.TestConnect()) {
             simid = SQLAgent.Started(peoplecount, goodscount);
+            terminal.simid = simid;
+            terminal.Money = admin.Amount;
+            admin.Money = -admin.Amount;
+            timer = new Timer(25, al);
             timer.start();
         }
     }

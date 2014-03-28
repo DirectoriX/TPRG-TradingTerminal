@@ -140,7 +140,7 @@ public class SQLAgent {
                 st.setFloat(4, avgprofit);
                 st.setInt(5, profit);
                 st.setInt(6, maxqueue);
-                st.setTime(7, new Time(maxqueuetime * 10 / (60 * 60), maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
+                st.setTime(7, new Time((maxqueuetime * 10 / (60 * 60)) + 9, maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
                 st.setBoolean(8, iscorrect);
                 st.setInt(9, simid);
 
@@ -153,19 +153,20 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public static void Buyed(int buyer, int code, float count, int time, int cost, int simid) { // Создание записи об элементарной покупке
+    public static void Buyed(int buyer, int code, float count, int time, int cost, int simid, String name) { // Создание записи об элементарной покупке
         Connect();
         try {
-            try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?)")) {
+            try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?, ?)")) {
                 st.setInt(1, simid);
                 st.setInt(2, buyer);
                 st.setInt(3, code);
-                st.setFloat(4, count);
+                st.setString(4, name);
+                st.setFloat(5, count);
 
-                Time t = new Time(time * 10 / (60 * 60), time * 10 % (60 * 60) / 60, time * 10 % 60);
-                st.setTime(5, t);
+                Time t = new Time((time * 10 / (60 * 60)) + 9, time * 10 % (60 * 60) / 60, time * 10 % 60);
+                st.setTime(6, t);
 
-                st.setInt(6, cost);
+                st.setInt(7, cost);
 
                 st.execute();
             }
@@ -246,106 +247,115 @@ public class SQLAgent {
 
     public static LinkedList<String> GetResults(int simulationid) { // Получаем подробный отчёт о симуляции
         LinkedList<String> result = new LinkedList();
+        boolean empty = true;
+        Connect();
 
         if (simulationid < 1) {
             result.add("<h2>Invalid sumulation id</h2>");
             return result;
         }
 
-        result.add("<table class=\"tborder\">");
-        result.add("<tr><td class=\"tborder\">Номер покупателя</td><td class=\"tborder\">Время</td><td class=\"tborder\">Код товара</td><td class=\"tborder\">Название товара</td><td class=\"tborder\">Количество товара</td><td class=\"tborder\">Стоимость</td></tr>");
-        result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
-
-        String request = "SELECT r.buyerid, r.time, r.productcode, r.name, r.count, r.cost FROM reports r WHERE simulationid = ? ORDER BY r.time";
-
-        Connect();
+        String request = "SELECT * FROM simulations WHERE id = ?";
         try {
-            try (PreparedStatement st = conn.prepareStatement(request)) {
-                st.setInt(1, simulationid);
-                try (ResultSet res = st.executeQuery()) {
-                    String tmp;
-                    int buyerid = 1;
-                    int goodscount = 0;
-                    int profit = 0;
-                    boolean empty = true;
+            try (PreparedStatement sim = conn.prepareStatement(request)) {
+                sim.setInt(1, simulationid);
+                try (ResultSet simres = sim.executeQuery()) {
+                    if (simres.next()) {
+                        if (simres.getInt("maxqueue") == 0 && simres.getInt("peoplecount") > 0) {
+                            result.clear();
+                            Disconnect();
+                            return result;
+                        }
 
-                    while (res.next()) {
+                        result.add("<h2>Отчёт о симуляции №" + simulationid + "</h2>");
+                        result.add("<h3>Общая сводка</h3>");
+                        result.add("<table class=\"tborder\">");
+                        result.add("<tr><td class=\"tborder\">Заданное количество человек</td><td class=\"tborder\">" + simres.getInt("peoplecount") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Заданное среднее количство товаров</td><td class=\"tborder\">" + simres.getInt("goodscount") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Людей пришло</td><td class=\"tborder\">" + simres.getInt("peoplearrived") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Людей обслужено</td><td class=\"tborder\">" + simres.getInt("peopleserved") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Среднее количество купленных товаров</td><td class=\"tborder\">" + simres.getFloat("avggoodscount") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Средняя выручка с одного покупателя</td><td class=\"tborder\">" + simres.getFloat("avgprofit") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Общая выручка</td><td class=\"tborder\">" + simres.getInt("profit") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Максимальная длина очереди</td><td class=\"tborder\">" + simres.getInt("maxqueue") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Момент времени, когда была очередь максимальной длины</td><td class=\"tborder\">" + simres.getTime("maxqueuetime") + "</td></tr>");
+                        result.add("<tr><td class=\"tborder\">Корректно?</td><td class=\"tborder\">" + ((simres.getBoolean("iscorrect")) ? "Да" : "Нет") + "</td></tr>");
+                        result.add("</table>");
+                        result.add("<h3>Подробный отчёт</h3>");
                         empty = false;
-
-                        tmp = "<tr><td class=\"tborder\">";
-                        int q = res.getInt("buyerid");
-
-                        if (q != buyerid) { // Если новый покупатель - добавим сводку и строку-разделитель
-                            result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
-                            result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
-                            buyerid = q;
-                            goodscount = profit = 0;
-                        }
-
-                        goodscount++;
-
-                        tmp += Integer.toString(q) + "</td><td class=\"tborder\">";
-                        tmp += res.getTime("time") + "</td><td class=\"tborder\">";
-                        tmp += Integer.toString(res.getInt("productcode")) + "</td><td class=\"tborder\">";
-                        tmp += res.getString("name") + "</td><td class=\"tborder\">";
-
-                        float cnt = res.getFloat("count");
-
-                        if (cnt < 0) {
-                            tmp += Integer.toString((int) -cnt) + "</td><td class=\"tborder\">";
-                        } else {
-                            tmp += Float.toString(cnt) + "</td><td class=\"tborder\">";
-                        }
-
-                        int cost = res.getInt("cost");
-                        profit += cost;
-
-                        tmp += Integer.toString(cost) + "</td></tr>";
-
-                        result.add(tmp);
-
-                        if (res.isLast()) {
-                            result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
-                        }
                     }
-
-                    if (!empty) {
-                        request = "SELECT * FROM simulations WHERE id = ?";
-                        try {
-                            try (PreparedStatement sim = conn.prepareStatement(request)) {
-                                sim.setInt(1, simulationid);
-                                try (ResultSet simres = sim.executeQuery()) {
-                                    simres.next();
-                                    result.addFirst("<h3>Подробный отчёт</h3>");
-                                    result.addFirst("</table>");
-                                    result.addFirst("<tr><td class=\"tborder\">Корректно?</td><td class=\"tborder\">" + ((simres.getBoolean("iscorrect")) ? "Да" : "Нет") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Момент времени, когда была очередь максимальной длины</td><td class=\"tborder\">" + simres.getTime("maxqueuetime") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Максимальная длина очереди</td><td class=\"tborder\">" + simres.getInt("maxqueue") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Общая выручка</td><td class=\"tborder\">" + simres.getInt("profit") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Средняя выручка с одного покупателя</td><td class=\"tborder\">" + simres.getFloat("avgprofit") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Среднее количество купленных товаров</td><td class=\"tborder\">" + simres.getFloat("avggoodscount") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Людей обслужено</td><td class=\"tborder\">" + simres.getInt("peopleserved") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Людей пришло</td><td class=\"tborder\">" + simres.getInt("peoplearrived") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Заданное среднее количство товаров</td><td class=\"tborder\">" + simres.getInt("goodscount") + "</td></tr>");
-                                    result.addFirst("<tr><td class=\"tborder\">Заданное количество человек</td><td class=\"tborder\">" + simres.getInt("peoplecount") + "</td></tr>");
-                                    result.addFirst("<table class=\"tborder\">");
-                                    result.addFirst("<h3>Общая сводка</h3>");
-                                    result.addFirst("<h2>Отчёт о симуляции №" + simulationid + "</h2>");
-                                    result.add("</table>");
-                                }
-                            }
-                        } catch (SQLException ex) {
-                            HandleEx(ex);
-                        }
-                    } else {
-                        result.clear();
-                        result.add("<h2>Invalid sumulation id</h2>");
-                    }
-
                 }
             }
         } catch (SQLException ex) {
             HandleEx(ex);
+        }
+
+        if (!empty) {
+            result.add("<table class=\"tborder\">");
+            result.add("<tr><td class=\"tborder\">Номер покупателя</td><td class=\"tborder\">Время</td><td class=\"tborder\">Код товара</td><td class=\"tborder\">Название товара</td><td class=\"tborder\">Количество товара</td><td class=\"tborder\">Стоимость</td></tr>");
+            result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
+
+            request = "SELECT r.buyerid, r.time, r.productcode, r.name, r.count, r.cost FROM reports r WHERE simulationid = ? ORDER BY r.time";
+
+            try {
+                try (PreparedStatement st = conn.prepareStatement(request)) {
+                    st.setInt(1, simulationid);
+                    try (ResultSet res = st.executeQuery()) {
+                        String tmp;
+                        int buyerid = 1;
+                        int goodscount = 0;
+                        int profit = 0;
+
+                        while (res.next()) {
+                            empty = false;
+
+                            tmp = "<tr><td class=\"tborder\">";
+                            int q = res.getInt("buyerid");
+
+                            if (q != buyerid) { // Если новый покупатель - добавим сводку и строку-разделитель
+                                result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
+                                result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
+                                buyerid = q;
+                                goodscount = profit = 0;
+                            }
+
+                            goodscount++;
+
+                            tmp += Integer.toString(q) + "</td><td class=\"tborder\">";
+                            tmp += res.getTime("time") + "</td><td class=\"tborder\">";
+                            tmp += Integer.toString(res.getInt("productcode")) + "</td><td class=\"tborder\">";
+                            tmp += res.getString("name") + "</td><td class=\"tborder\">";
+
+                            float cnt = res.getFloat("count");
+
+                            if (cnt < 0) {
+                                tmp += Integer.toString((int) -cnt) + "</td><td class=\"tborder\">";
+                            } else {
+                                tmp += Float.toString(cnt) + "</td><td class=\"tborder\">";
+                            }
+
+                            int cost = res.getInt("cost");
+                            profit += cost;
+
+                            tmp += Integer.toString(cost) + "</td></tr>";
+
+                            result.add(tmp);
+
+                            if (res.isLast()) {
+                                result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
+                                result.add("</table>");
+                            }
+                        }
+                    }
+
+                }
+
+            } catch (SQLException ex) {
+                HandleEx(ex);
+            }
+
+        } else {
+            result.add("<h3>Неверный номер симуляции</h3>");
         }
 
         Disconnect();

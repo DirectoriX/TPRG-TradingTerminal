@@ -34,10 +34,10 @@ public class Buyer {
     public int Money;
     public boolean Discount = false;
 
-    public LinkedList<Product> Cart;
+    public LinkedList<Product> Cart = new LinkedList<>();
 
     public void AddProduct(Product thing) {
         Cart.add(thing);
-        Money += thing.Count*thing.Price + 1;
+        Money += thing.Count * thing.Price + 1;
     }
 }

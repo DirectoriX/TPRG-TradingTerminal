@@ -40,6 +40,8 @@ public class Generator {
     private int AVGGoodsCount;
     private int size;
 
+    private Random RNG = new Random();
+
     public Generator(int avggoodscount) {
         if (SQLAgent.TestConnect()) {
             RangeOfGoods = SQLAgent.GetProductInfo();
@@ -50,7 +52,6 @@ public class Generator {
 
     public Buyer CreateBuyer() {
         Buyer buyer = new Buyer();
-        Random RNG = new Random();
         if (RNG.nextInt(100) < 10) {
             buyer.Discount = true;
         }

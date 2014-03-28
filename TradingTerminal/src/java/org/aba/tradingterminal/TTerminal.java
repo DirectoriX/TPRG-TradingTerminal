@@ -37,6 +37,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
 
+    LinkedList<Worker> workers = new LinkedList();
+
     @Override
     public void init() throws ServletException {
         SQLAgent.LoadSettings();
@@ -111,15 +113,38 @@ public class TTerminal extends HttpServlet {
 
                             int simid = Integer.decode(simstr);
 
-                            MakeHeader(out, "Просмотр статистики", false);
-
                             LinkedList<String> pinfo = SQLAgent.GetResults(simid);
 
-                            for (int i = 0; i < pinfo.size(); i++) {
-                                out.println(pinfo.get(i));
-                            }
+                            if (pinfo.size() == 0) {
 
-                            MakeFooter(out);
+                                int percent = 0;
+
+                                for (int i = 0; i < workers.size(); i++) {
+                                    if (workers.get(i).simid == simid) {
+                                        percent = workers.get(i).steps * 100 / 2880;
+                                    }
+                                }
+
+                                out.println("<!DOCTYPE html>");
+                                out.println("<html>");
+                                out.println("<head>");
+                                out.println("<title>Идёт работа</title>");
+                                out.println("<meta http-equiv=\"refresh\" content=\"3; URL=./TTerminal?simid=" + simid + "\"/>");
+                                out.println("</head>");
+                                out.println("<body>");
+                                out.println("<h2>Симуляция проводится в настоящий момент времени</h2>");
+
+                                out.println("<h3>Уже прошло " + percent + "% симуляции</h3>");
+                            } else {
+
+                                MakeHeader(out, "Просмотр статистики", false);
+
+                                for (int i = 0; i < pinfo.size(); i++) {
+                                    out.println(pinfo.get(i));
+                                }
+
+                                MakeFooter(out);
+                            }
                         } else {
                             NoConnection(out);
                         }
@@ -334,10 +359,46 @@ public class TTerminal extends HttpServlet {
                             }
                             break;
                         }
-                        case 's': { // Start!
-                            break;
-                        }
-                        case 'p': { // Show progress
+                        case 's': { // Start
+                            try {
+                                if (request.getParameterNames().hasMoreElements()) {
+                                    String peoplecountstr, goodscountstr;
+                                    peoplecountstr = request.getParameter("peoplecount");
+                                    goodscountstr = request.getParameter("goodscount");
+
+                                    peoplecountstr = peoplecountstr.replaceAll("\\D", "");
+                                    goodscountstr = goodscountstr.replaceAll("\\D", "");
+
+                                    if (peoplecountstr.length() > 0 && goodscountstr.length() > 0) {
+                                        int peoplecount = Integer.decode(peoplecountstr);
+                                        int goodscount = Integer.decode(goodscountstr);
+
+                                        if (peoplecount < 20) {
+                                            MakeHeader(out, "Ой...", false);
+                                            out.println("Слишком мало покупателей, надо не менее 20-и");
+                                        } else {
+
+                                            workers.addLast(new Worker());
+                                            workers.getLast().StartSim(peoplecount, goodscount);
+
+                                            out.println("<!DOCTYPE html>");
+                                            out.println("<html>");
+                                            out.println("<head>");
+                                            out.println("<title>Идёт работа</title>");
+                                            out.println("<meta http-equiv=\"refresh\" content=\"5; URL=./TTerminal?simid=" + workers.getLast().simid + "\"/>");
+                                            out.println("</head>");
+                                            out.println("<body>");
+                                            out.println("<h1>Ждите 5 секунд...</h1>");
+                                        }
+                                    } else {
+                                        MakeHeader(out, "", true);
+                                    }
+                                } else {
+                                    MakeHeader(out, "", true);
+                                }
+                            } finally {
+                                MakeFooter(out);
+                            }
                             break;
                         }
                         default: { // Error - unrecognized symbol
