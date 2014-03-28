@@ -27,6 +27,7 @@ package org.aba.tradingterminal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import javax.swing.Timer;
 
 class Worker {
@@ -35,6 +36,10 @@ class Worker {
     public boolean ready = false;
 
     private final int maxsteps = 2880;
+    private Distribution distr = new Distribution();
+    private LinkedList<Buyer> BuyersList = new LinkedList<Buyer>();
+    private Generator generator;
+    private Stat stat = new Stat();
 
     private ActionListener al = new ActionListener() {
 
@@ -46,8 +51,23 @@ class Worker {
                 return;
             }
 
-            steps++;
+            for (steps = 0; steps < maxsteps; steps++) {
+                int BuyersNum = distr.GetBuyers(steps);
+
+                for (int i = 0; i < BuyersNum; i++) {
+                    BuyersList.addLast(generator.CreateBuyer());
+                }
+
+                if (stat.MaxQueue < BuyersList.size()) {
+                    stat.MaxQueue = BuyersList.size();
+                    stat.MaxQueueTime = steps;
+                }
+                terminal.Serve(BuyersList.peekFirst());
+                BuyersList.removeFirst();
+
+            }
         }
+
     };
 
     private Timer timer = new Timer(25, al);
@@ -57,7 +77,9 @@ class Worker {
 
     public void StartSim(int peoplecount, int goodscount) {
         int simid = -1;
-
+        distr.clients = peoplecount;
+        distr.goods = goodscount;
+        generator = new Generator(goodscount);
         SQLAgent DBA = new SQLAgent();
         if (DBA.TestConnect()) {
             simid = DBA.Started(peoplecount, goodscount);

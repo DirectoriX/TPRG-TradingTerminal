@@ -38,6 +38,6 @@ public class Terminal {
     public void GiveAway() {
     }
 
-    public void Serve(Buyer cl) {
+    public void Serve(Buyer buyer) {
     }
 }
