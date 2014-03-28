@@ -25,16 +25,44 @@
  */
 package org.aba.tradingterminal;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
-class Worker extends javax.swing.Timer {
+class Worker {
 
-    public Worker(ActionListener listener) {
-        super(50, listener);
-    }
+    public int steps = 0;
+    public boolean ready = false;
 
-    public void StartSim() {
+    private final int maxsteps = 2880;
 
+    private ActionListener al = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (steps == maxsteps) {
+                ready = true;
+                timer.stop();
+                return;
+            }
+
+            steps++;
+        }
+    };
+
+    private Timer timer = new Timer(25, al);
+
+    private Terminal terminal = new Terminal();
+    private Admin admin = new Admin();
+
+    public void StartSim(int peoplecount, int goodscount) {
+        int simid = -1;
+
+        SQLAgent DBA = new SQLAgent();
+        if (DBA.TestConnect()) {
+            simid = DBA.Started(peoplecount, goodscount);
+            timer.start();
+        }
     }
 
 }
