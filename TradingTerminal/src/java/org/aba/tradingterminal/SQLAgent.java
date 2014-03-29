@@ -501,4 +501,17 @@ public class SQLAgent {
 
         return result;
     }
+
+    public static void Fix() {
+        Connect();
+        try {
+            try (Statement st = conn.createStatement()) {
+                st.execute("UPDATE simulations SET maxqueue = 1 WHERE maxqueue = 0");
+            }
+        } catch (SQLException ex) {
+            HandleEx(ex);
+        }
+
+        Disconnect();
+    }
 }
