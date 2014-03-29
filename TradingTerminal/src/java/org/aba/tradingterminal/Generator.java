@@ -39,14 +39,15 @@ public class Generator {
     private final int size;
 
     public Generator(int avggoodscount) {
-     //   if (SQLAgent.TestConnect()) {
+        
             RangeOfGoods = SQLAgent.GetProductInfo();
-       // }
+            
         if (avggoodscount < RangeOfGoods.size()) {
             AVGGoodsCount = avggoodscount;
         } else {
             AVGGoodsCount = RangeOfGoods.size();
         }
+        
         size = RangeOfGoods.size();
     } 
 
