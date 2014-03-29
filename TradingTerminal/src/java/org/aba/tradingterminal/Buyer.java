@@ -40,4 +40,13 @@ public class Buyer {
         Cart.add(thing);
         Money += thing.Count * thing.Price + 1;
     }
+
+    public int GetTotal() {
+        int sum = 0;
+        int gc = Cart.size();
+        for (int i = 0; i < gc; i++) {
+            sum += Cart.get(i).GetTotalPrice();
+        }
+        return (int) (sum * ((Discount) ? 0.95 : 1));
+    }
 }

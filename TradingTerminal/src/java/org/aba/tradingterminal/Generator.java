@@ -42,7 +42,11 @@ public class Generator {
         if (SQLAgent.TestConnect()) {
             RangeOfGoods = SQLAgent.GetProductInfo();
         }
-        AVGGoodsCount = avggoodscount;
+        if (avggoodscount < RangeOfGoods.size()) {
+            AVGGoodsCount = avggoodscount;
+        } else {
+            AVGGoodsCount = RangeOfGoods.size();
+        }
         size = RangeOfGoods.size();
     }
 
@@ -70,12 +74,5 @@ public class Generator {
         }
         tmpProduct = null;
         return buyer;
-    }
-
-    /**
-     * @param AVGGoodsCount the AVGGoodsCount to set
-     */
-    public void setAVGGoodsCount(int AVGGoodsCount) {
-        this.AVGGoodsCount = AVGGoodsCount;
     }
 }
