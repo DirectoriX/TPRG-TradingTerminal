@@ -33,4 +33,7 @@ public class Product {
     public boolean IsPacked;
     public float Price;
 
+    public int GetTotalPrice(){
+        return (int) Math.ceil(Count*Price);
+    }
 }

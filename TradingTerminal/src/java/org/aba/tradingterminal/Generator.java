@@ -34,8 +34,6 @@ import java.util.Random;
  */
 public class Generator {
 
-    private Distribution Dist = new Distribution();
-
     private LinkedList<Product> RangeOfGoods;
     private int AVGGoodsCount;
     private int size;
@@ -51,13 +49,13 @@ public class Generator {
     }
 
     public Buyer CreateBuyer() {
+        Distribution Dist = new Distribution();
         Buyer buyer = new Buyer();
         if (RNG.nextInt(100) < 10) {
             buyer.Discount = true;
         }
-        int goodscount = Dist.GetIntCount(AVGGoodsCount);
         Product tmpProduct;
-        for (int i = 0; i < goodscount; i++) {
+        for (int i = 0, goodscount = Dist.GetIntCount(AVGGoodsCount); i < goodscount; i++) {
             tmpProduct = RangeOfGoods.get(RNG.nextInt(size));
             if (tmpProduct.IsPacked) {
                 tmpProduct.Count = Dist.GetIntCount(tmpProduct.Count);
@@ -66,6 +64,7 @@ public class Generator {
             }
             buyer.AddProduct(tmpProduct);
         }
+        tmpProduct = null;
         return buyer;
     }
 }

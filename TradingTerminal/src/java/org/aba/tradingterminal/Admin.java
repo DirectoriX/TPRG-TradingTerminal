@@ -27,6 +27,38 @@ package org.aba.tradingterminal;
 
 public class Admin {
 
-    public int Money;
-    public int Amount;
+    private int Money;
+    private int Amount;
+
+    public boolean CheckGig(int gig) {
+        return getMoney() == gig;
+    }
+
+    /**
+     * @return the Money
+     */
+    public int getMoney() {
+        return Money;
+    }
+
+    /**
+     * @param Money the Money to set
+     */
+    public void setMoney(int Money) {
+        this.Money = Money;
+    }
+
+    /**
+     * @return the Amount
+     */
+    public int getAmount() {
+        return Amount;
+    }
+
+    /**
+     * @param Amount the Amount to set
+     */
+    public void setAmount(int Amount) {
+        this.Amount = Amount;
+    }
 }

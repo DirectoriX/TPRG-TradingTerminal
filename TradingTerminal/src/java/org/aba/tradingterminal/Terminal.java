@@ -35,16 +35,14 @@ public class Terminal {
 
     public void Serve(Buyer buyer, int time) {
         int sum = 0;
-        int gc = buyer.Cart.size();
-        for (int i = 0; i < gc; i++) {
+        for (int i = 0, gc = buyer.Cart.size(); i < gc; i++) {
             sum += Math.ceil(buyer.Cart.get(i).Count * buyer.Cart.get(i).Price);
-            SQLAgent.Buyed(id, buyer.Cart.get(i).Code, buyer.Cart.get(i).Count, time, (int) Math.ceil((buyer.Cart.get(i).Count * buyer.Cart.get(i).Price)), simid, buyer.Cart.get(i).Name);
+            SQLAgent.Buyed(id, buyer.Cart.get(i).Code, buyer.Cart.get(i).Count, time, buyer.Cart.get(i).GetTotalPrice(), simid, buyer.Cart.get(i).Name);
         }
 
         Profit += sum;
         Money += sum;
 
         id++;
-
     }
 }

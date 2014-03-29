@@ -35,22 +35,26 @@ class Worker {
     public int steps = 0;
     public boolean ready = false;
 
-    private final int maxsteps = 2880;
     private Distribution distr = new Distribution();
     private LinkedList<Buyer> BuyersList = new LinkedList<>();
     private Generator generator;
     private Stat stat = new Stat();
     int simid = -1;
 
+    private Timer timer;
+    private Terminal terminal = new Terminal();
+    private Admin admin = new Admin();
+
     private ActionListener al = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            final int maxsteps = 2880;
             if (steps == maxsteps) {
                 ready = true;
-                
-                admin.Money += terminal.Money;
-                terminal.AmICorrect = (admin.Money == terminal.Profit);
+
+                admin.setMoney(admin.getMoney() + terminal.Money);
+                terminal.AmICorrect = admin.CheckGig(terminal.Profit);
 
                 timer.stop();
 
@@ -58,10 +62,7 @@ class Worker {
                 return;
             }
 
-            ///    for (steps = 0; steps < maxsteps; steps++) {
-            int BuyersNum = distr.GetBuyers(steps);
-
-            for (int i = 0; i < BuyersNum; i++) {
+            for (int i = 0, BuyersNum = distr.GetBuyers(steps); i < BuyersNum; i++) {
                 BuyersList.addLast(generator.CreateBuyer());
                 stat.PeopleArrived++;
             }
@@ -72,26 +73,19 @@ class Worker {
             }
             if (BuyersList.size() > 0) {
                 terminal.Serve(BuyersList.peekFirst(), steps);
-
-                if (terminal.Money > 200000) {
-                    admin.Money += terminal.Money - admin.Amount;
-                    terminal.Money = admin.Amount;
-                }
-
                 stat.Consider(BuyersList.peekFirst());
                 BuyersList.removeFirst();
+                if (terminal.Money > 200000) {
+                    admin.setMoney(admin.getMoney() + terminal.Money - admin.getAmount());
+                    terminal.Money = admin.getAmount();
+                }
+
             }
 
-            /// }
             steps++;
         }
 
     };
-
-    private Timer timer;
-
-    private Terminal terminal = new Terminal();
-    private Admin admin = new Admin();
 
     public void StartSim(int peoplecount, int goodscount) {
         distr.clients = peoplecount;
@@ -100,8 +94,8 @@ class Worker {
         if (SQLAgent.TestConnect()) {
             simid = SQLAgent.Started(peoplecount, goodscount);
             terminal.simid = simid;
-            terminal.Money = admin.Amount;
-            admin.Money = -admin.Amount;
+            terminal.Money = admin.getAmount();
+            admin.setMoney(-admin.getAmount());
             timer = new Timer(25, al);
             timer.start();
         }
