@@ -458,6 +458,24 @@ public class TTerminal extends HttpServlet {
                             break;
                         }
 
+                        case 'f': { // Fix glitches
+                            try {
+                                if (IsConfigured) {
+                                    workers.clear();
+                                    SQLAgent.Fix();
+
+                                    MakeHeader(out, "ОК", false);
+                                    out.println("<h2>OK</h2>");
+
+                                } else {
+                                    NoConnection(out);
+                                }
+                            } finally {
+                                MakeFooter(out);
+                            }
+                            break;
+                        }
+
                         default: { // Error - unrecognized symbol
                             MakeHeader(out, "", true);
                         }
