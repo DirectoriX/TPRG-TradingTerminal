@@ -61,7 +61,7 @@ public class Generator {
         // for (int i = 0, goodscount = Dist.GetIntCount(AVGGoodsCount); i < goodscount; i++) {
         for (int i = 0, goodscount = RangeOfGoods.size(); i < goodscount; i++) {
             if (RNG.nextInt(goodscount) < AVGGoodsCount) {
-                tmpProduct = RangeOfGoods.get(RNG.nextInt(size));
+                tmpProduct = RangeOfGoods.get(i);
                 if (tmpProduct.IsPacked) {
                     tmpProduct.Count = Dist.GetIntCount(tmpProduct.Count);
                 } else {
