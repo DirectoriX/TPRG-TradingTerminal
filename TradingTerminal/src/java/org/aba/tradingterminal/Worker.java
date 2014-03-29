@@ -72,8 +72,8 @@ class Worker {
                 stat.MaxQueueTime = steps;
             }
             if (BuyersList.size() > 0) {
-                terminal.Serve(BuyersList.peekFirst(), steps);
                 stat.Consider(BuyersList.peekFirst());
+                terminal.Serve(BuyersList.peekFirst(), steps);
                 BuyersList.removeFirst();
                 if (terminal.Money > 200000) {
                     admin.setMoney(admin.getMoney() + terminal.Money - admin.getAmount());

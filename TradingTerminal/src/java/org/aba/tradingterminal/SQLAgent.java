@@ -55,7 +55,8 @@ public class SQLAgent {
         System.out.println("VendorError: " + ex.getErrorCode());
     }
 
-    public static void LoadSettings() {
+    public static boolean LoadSettings() {
+        boolean result = false;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
@@ -68,11 +69,13 @@ public class SQLAgent {
                 URL = inputData.readLine();
                 user = inputData.readLine();
                 password = inputData.readLine();
+                result = true;
             }
         } catch (IOException ex) {
             Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        return result;
     }
 
     private static void Connect() { // Подключение к БД
@@ -153,22 +156,28 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public static void Buyed(int buyer, int code, float count, int time, int cost, int simid, String name) { // Создание записи об элементарной покупке
+    public static void Buyed(int buyerid, int time, int simid, Buyer buyer) { // Создание записи об элементарной покупке
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?, ?)")) {
                 st.setInt(1, simid);
-                st.setInt(2, buyer);
-                st.setInt(3, code);
-                st.setString(4, name);
-                st.setFloat(5, count);
+                st.setInt(2, buyerid);
+                st.setTime(6, new Time((time * 10 / (60 * 60)) + 9, time * 10 % (60 * 60) / 60, time * 10 % 60));
 
-                Time t = new Time((time * 10 / (60 * 60)) + 9, time * 10 % (60 * 60) / 60, time * 10 % 60);
-                st.setTime(6, t);
+                Product good;
 
-                st.setInt(7, cost);
+                for (int i = 0, n = buyer.Cart.size(); i < n; i++) {
+                    good = buyer.Cart.get(i);
 
-                st.execute();
+                    st.setInt(3, good.Code);
+                    st.setString(4, good.Name);
+                    st.setFloat(5, good.Count);
+                    st.setInt(7, good.GetTotalPrice() * ((buyer.Discount) ? -1 : 1));
+
+                    st.execute();
+                }
+
+                buyer.Cart.clear();
             }
         } catch (SQLException ex) {
             HandleEx(ex);
@@ -307,13 +316,11 @@ public class SQLAgent {
                         int profit = 0;
 
                         while (res.next()) {
-                            empty = false;
-
                             tmp = "<tr><td class=\"tborder\">";
                             int q = res.getInt("buyerid");
 
                             if (q != buyerid) { // Если новый покупатель - добавим сводку и строку-разделитель
-                                result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
+                                result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + ((profit < 0) ? ("*" + (int) (profit * -0.95)) : profit) + "</td>");
                                 result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
                                 buyerid = q;
                                 goodscount = profit = 0;
@@ -337,12 +344,12 @@ public class SQLAgent {
                             int cost = res.getInt("cost");
                             profit += cost;
 
-                            tmp += Integer.toString(cost) + "</td></tr>";
+                            tmp += Integer.toString((cost < 0) ? -cost : cost) + "</td></tr>";
 
                             result.add(tmp);
 
                             if (res.isLast()) {
-                                result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + profit + "</td>");
+                                result.add("<tr><td colspan=\"4\"></td><td class=\"tborder\">Видов товара: " + goodscount + "</td><td class=\"tborder\">Выручка: " + ((profit < 0) ? ("*" + (int) (profit * -0.95)) : profit) + "</td>");
                                 result.add("</table>");
                             }
                         }

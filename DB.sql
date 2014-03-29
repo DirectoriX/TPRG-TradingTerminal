@@ -37,7 +37,7 @@ CREATE TABLE `tradingterminal`.`reports` (
     `name` VARCHAR(50) NOT NULL,
     `count` FLOAT NOT NULL,
     `time` TIME NOT NULL,
-    `cost` INT UNSIGNED NOT NULL,
+    `cost` INT NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id_UNIQUE` (`id` ASC),
     INDEX `sim` (`simulationid` ASC),

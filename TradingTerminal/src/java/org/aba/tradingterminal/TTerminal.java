@@ -25,9 +25,13 @@
  */
 package org.aba.tradingterminal;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,9 +43,11 @@ public class TTerminal extends HttpServlet {
 
     LinkedList<Worker> workers = new LinkedList();
 
+    boolean IsConfigured;
+
     @Override
     public void init() throws ServletException {
-        SQLAgent.LoadSettings();
+        IsConfigured = SQLAgent.LoadSettings();
     }
 
     private void MakeHeader(PrintWriter out, String title, boolean error) {
@@ -181,7 +187,7 @@ public class TTerminal extends HttpServlet {
                     switch (action.charAt(0)) {
                         case 'a': { // Add
                             try {
-                                if (request.getParameterNames().hasMoreElements()) {
+                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
                                     boolean ispacked = ("on".equals(request.getParameter("ispacked")));
                                     codestr = request.getParameter("code");
@@ -238,7 +244,7 @@ public class TTerminal extends HttpServlet {
                         }
                         case 'e': { // Edit
                             try {
-                                if (request.getParameterNames().hasMoreElements()) {
+                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
                                     boolean ispacked = ("on".equals(request.getParameter("ispacked")));
                                     codestr = request.getParameter("code");
@@ -307,7 +313,7 @@ public class TTerminal extends HttpServlet {
                         }
                         case 'd': { // Delete
                             try {
-                                if (request.getParameterNames().hasMoreElements()) {
+                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
 
                                     String codestr;
 
@@ -345,7 +351,7 @@ public class TTerminal extends HttpServlet {
                             break;
                         }
                         case 'l': { // Show products
-                            if (SQLAgent.TestConnect()) {
+                            if (IsConfigured && SQLAgent.TestConnect()) {
                                 MakeHeader(out, "Список товаров", false);
 
                                 LinkedList<String> list = SQLAgent.ShowProductInfo();
@@ -361,7 +367,12 @@ public class TTerminal extends HttpServlet {
                         }
                         case 's': { // Start
                             try {
-                                if (request.getParameterNames().hasMoreElements()) {
+                                for (int i = workers.size() - 1; i >= 0; i--) {
+                                    if (workers.get(i).ready) {
+                                        workers.remove(i);
+                                    }
+                                }
+                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String peoplecountstr, goodscountstr;
                                     peoplecountstr = request.getParameter("peoplecount");
                                     goodscountstr = request.getParameter("goodscount");
@@ -373,9 +384,9 @@ public class TTerminal extends HttpServlet {
                                         int peoplecount = Integer.decode(peoplecountstr);
                                         int goodscount = Integer.decode(goodscountstr);
 
-                                        if (peoplecount < 20) {
+                                        if (peoplecount < 20 && goodscount < 1) {
                                             MakeHeader(out, "Ой...", false);
-                                            out.println("Слишком мало покупателей, надо не менее 20-и");
+                                            out.println("Слишком маленькие значения! Покупателей надо не менее 20-и, а товаров - не менее одного");
                                         } else {
 
                                             workers.addLast(new Worker());
@@ -401,6 +412,52 @@ public class TTerminal extends HttpServlet {
                             }
                             break;
                         }
+
+                        case 'c': { // Set DB settings
+                            try {
+                                if (!(IsConfigured = SQLAgent.LoadSettings()) && request.getParameterNames().hasMoreElements()) {
+                                    String DBstr, URLstr, userstr, passwordstr, keystr;
+                                    DBstr = request.getParameter("db");
+                                    URLstr = request.getParameter("url");
+                                    userstr = request.getParameter("user");
+                                    passwordstr = request.getParameter("password");
+                                    keystr = request.getParameter("key");
+                                    String key = "jyuwfu9xecf4im9rwvsagbzfvcuax14yqjl1pyvimvhpurmbaf";
+                                    if (key.equals(keystr) && DBstr.length() > 0 && URLstr.length() > 0 && userstr.length() > 0 && passwordstr.length() > 0) {
+                                        try (FileWriter fw = new FileWriter("DBprops.prop")) {
+                                            try (BufferedWriter output = new BufferedWriter(fw)) {
+                                                output.write(DBstr);
+                                                output.newLine();
+                                                output.write(URLstr);
+                                                output.newLine();
+                                                output.write(userstr);
+                                                output.newLine();
+                                                output.write(passwordstr);
+                                                output.newLine();
+
+                                                output.flush();
+                                            }
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+
+                                        MakeHeader(out, "Добавление настроек", false);
+                                        out.println("<h3>Готово!</h3>");
+                                    } else {
+                                        MakeHeader(out, "Ошибка", false);
+                                        out.println("<h2>Нет какого-либо параметра</h2>");
+                                    }
+
+                                } else {
+                                    MakeHeader(out, "Ошибка", false);
+                                    out.println("<h2>Настройки уже загружены</h2>");
+                                }
+                            } finally {
+                                MakeFooter(out);
+                            }
+                            break;
+                        }
+
                         default: { // Error - unrecognized symbol
                             MakeHeader(out, "", true);
                         }
