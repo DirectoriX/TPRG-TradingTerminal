@@ -49,7 +49,7 @@ public class Distribution {
         return result;
     }
 
-    private final float TrickyScale = (float) 0.33;
+    private final float TrickyScale = (float) 0.1;
 
     private float Tricky(float count, float Scale, float min) {
         float res = (float) (count - count * Scale * Math.log(1 / RNG.nextDouble() - 1));

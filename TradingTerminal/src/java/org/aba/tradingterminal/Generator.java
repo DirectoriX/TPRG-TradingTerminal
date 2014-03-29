@@ -34,19 +34,20 @@ import java.util.Random;
  */
 public class Generator {
 
-    private LinkedList<Product> RangeOfGoods;
+    private final LinkedList<Product> RangeOfGoods;
     private int AVGGoodsCount;
     private int size;
 
     public Generator(int avggoodscount) {
-        if (SQLAgent.TestConnect()) {
-            RangeOfGoods = SQLAgent.GetProductInfo();
-        }
+
+        RangeOfGoods = SQLAgent.GetProductInfo();
+
         if (avggoodscount < RangeOfGoods.size()) {
             AVGGoodsCount = avggoodscount;
         } else {
             AVGGoodsCount = RangeOfGoods.size();
         }
+
         size = RangeOfGoods.size();
     }
 
