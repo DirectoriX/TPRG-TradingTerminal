@@ -38,14 +38,9 @@ public class Stat {
     private int Goods;
 
     public void Consider(Buyer cl) {
-        int sum = 0;
-        int gc = cl.Cart.size();
-        for (int i = 0; i < gc; i++) {
-            sum += Math.ceil(cl.Cart.get(i).Count * cl.Cart.get(i).Price);
-        }
 
-        Profit += sum;
-        Goods += gc;
+        Profit += cl.GetTotal();
+        Goods += cl.Cart.size();
 
         PeopleServed++;
 

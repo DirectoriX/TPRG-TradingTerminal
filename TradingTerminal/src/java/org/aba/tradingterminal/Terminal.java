@@ -34,14 +34,10 @@ public class Terminal {
     public int simid;
 
     public void Serve(Buyer buyer, int time) {
-        int sum = 0;
-        for (int i = 0, gc = buyer.Cart.size(); i < gc; i++) {
-            sum += Math.ceil(buyer.Cart.get(i).Count * buyer.Cart.get(i).Price);
-            SQLAgent.Buyed(id, buyer.Cart.get(i).Code, buyer.Cart.get(i).Count, time, buyer.Cart.get(i).GetTotalPrice(), simid, buyer.Cart.get(i).Name);
-        }
+        Profit += buyer.GetTotal();
+        Money += buyer.GetTotal();
 
-        Profit += sum;
-        Money += sum;
+        SQLAgent.Buyed(id, time, simid, buyer);
 
         id++;
     }
