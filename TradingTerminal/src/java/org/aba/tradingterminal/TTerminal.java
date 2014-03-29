@@ -372,7 +372,7 @@ public class TTerminal extends HttpServlet {
                                         workers.remove(i);
                                     }
                                 }
-                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
+                                if (IsConfigured && request.getParameterNames().hasMoreElements() && SQLAgent.TestConnect()) {
                                     String peoplecountstr, goodscountstr;
                                     peoplecountstr = request.getParameter("peoplecount");
                                     goodscountstr = request.getParameter("goodscount");
