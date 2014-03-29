@@ -89,7 +89,6 @@ class Worker {
 
     public void StartSim(int peoplecount, int goodscount) {
         distr.clients = peoplecount;
-        distr.goods = goodscount;
         generator = new Generator(goodscount);
         if (SQLAgent.TestConnect()) {
             simid = SQLAgent.Started(peoplecount, goodscount);

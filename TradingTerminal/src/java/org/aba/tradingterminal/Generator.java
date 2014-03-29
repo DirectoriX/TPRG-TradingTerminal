@@ -62,6 +62,7 @@ public class Generator {
             } else {
                 tmpProduct.Count = Dist.GetFloatCount(tmpProduct.Count, (float) 0.25);
             }
+
             buyer.AddProduct(tmpProduct);
         }
         tmpProduct = null;

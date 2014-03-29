@@ -32,7 +32,6 @@ public class Distribution {
     public int mu = 1440;
     public int S = 200;
     public int clients;
-    public int goods;
 
     // Объект класса Random
     private static java.util.Random RNG = new Random();
