@@ -95,7 +95,7 @@ class Worker {
             terminal.simid = simid;
             terminal.Money = admin.getAmount();
             admin.setMoney(-admin.getAmount());
-            timer = new Timer(25, al);
+            timer = new Timer(20, al);
             timer.start();
         }
     }

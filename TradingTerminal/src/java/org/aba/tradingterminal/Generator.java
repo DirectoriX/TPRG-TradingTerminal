@@ -39,17 +39,17 @@ public class Generator {
     private final int size;
 
     public Generator(int avggoodscount) {
-        
-            RangeOfGoods = SQLAgent.GetProductInfo();
-            
+
+        RangeOfGoods = SQLAgent.GetProductInfo();
+
         if (avggoodscount < RangeOfGoods.size()) {
             AVGGoodsCount = avggoodscount;
         } else {
             AVGGoodsCount = RangeOfGoods.size();
         }
-        
+
         size = RangeOfGoods.size();
-    } 
+    }
 
     public Buyer CreateBuyer() {
         Random RNG = new Random();
@@ -58,15 +58,24 @@ public class Generator {
         if (RNG.nextInt(100) < 10) {
             buyer.Discount = true;
         }
-        Product tmpProduct;
+        Product tmpProduct, EG;
         // for (int i = 0, goodscount = Dist.GetIntCount(AVGGoodsCount); i < goodscount; i++) {
         for (int i = 0, goodscount = RangeOfGoods.size(); i < goodscount; i++) {
             if (RNG.nextInt(goodscount) < AVGGoodsCount) {
-                tmpProduct =new Product();
+                EG = RangeOfGoods.get(i);
+                
+                tmpProduct=new Product();
+                
+                tmpProduct.Code=EG.Code;
+                tmpProduct.IsPacked=EG.IsPacked;
+                tmpProduct.Name=EG.Name;
+                tmpProduct.Price=EG.Price;
+                
+                
                 if (tmpProduct.IsPacked) {
-                    tmpProduct.Count = Dist.GetIntCount(tmpProduct.Count);
+                    tmpProduct.Count = Dist.GetIntCount(EG.Count);
                 } else {
-                    tmpProduct.Count = Dist.GetFloatCount(tmpProduct.Count, (float) 0.25);
+                    tmpProduct.Count = Dist.GetFloatCount(EG.Count, (float) 0.25);
                 }
 
                 buyer.AddProduct(tmpProduct);
