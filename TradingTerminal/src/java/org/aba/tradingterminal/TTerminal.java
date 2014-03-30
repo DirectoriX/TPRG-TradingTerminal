@@ -365,6 +365,16 @@ public class TTerminal extends HttpServlet {
                             }
                             break;
                         }
+                        case 't': { // Telnov!
+                            MakeHeader(out, "What does Telnov say?", false);
+                            out.println("<h1>What does Telnov say?</h1>");
+                            out.println("<h2>What does Telnov say?</h2>");
+                            out.println("<h3>What does Telnov say?</h3>");
+                            out.println("<h4>What does Telnov say?</h4>");
+                            out.println("<h5>What does Telnov say?</h5>");
+                            out.println("<h6>What does Telnov say?</h6>");
+                            break;
+                        }
                         case 's': { // Start
                             try {
                                 for (int i = workers.size() - 1; i >= 0; i--) {
