@@ -41,28 +41,29 @@ import java.util.logging.Logger;
 
 public class SQLAgent {
 
-    private static String DBName;
-    private static String URL;
-    private static String user;
-    private static String password;
+    private static String DBName; // Имя базы данных
+    private static String URL; // Сетевой адрес базы данных
+    private static String user; // Имя пользователя
+    private static String password; // Пароль
 
-    private static Connection conn;
+    private static Connection conn; // Подключение к базе данных
 
-    private static void HandleEx(SQLException ex) {
-        // handle any errors
+    private static void HandleEx(SQLException ex) { // Функция обработки исключений SQL
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
         System.out.println("VendorError: " + ex.getErrorCode());
     }
 
-    public static boolean LoadSettings() {
-        boolean result = false;
-        try {
+    public static boolean LoadSettings() { // Загружает настройки подключения к БД
+        boolean result = false; // Чтобменьше проверок делать
+
+        try { // Пытаемся загрузить драйвер, ошибок быть не должно
             Class.forName("com.mysql.jdbc.Driver").newInstance(); // Пытаемся загрузить драйвер
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        // Пытаемся прочитать настройки подключения к БД из файла
         try (FileReader fr = new FileReader("DBprops.prop")) {
             try (BufferedReader inputData = new BufferedReader(fr)) {
                 DBName = inputData.readLine();
@@ -78,7 +79,7 @@ public class SQLAgent {
         return result;
     }
 
-    private static void Connect() { // Подключение к БД
+    private static void Connect() { // Функция, создающая подключение к БД
         try {
             conn = DriverManager.getConnection("jdbc:mysql://" + URL + "/" + DBName + "?"
                     + "user=" + user + "&password=" + password);
@@ -89,7 +90,7 @@ public class SQLAgent {
         }
     }
 
-    private static void Disconnect() { // Отключение от БД
+    private static void Disconnect() { // Функция, закрывающая подключение к БД
         try {
             conn.close();
         } catch (SQLException ex) {
@@ -97,19 +98,19 @@ public class SQLAgent {
         }
     }
 
-    public static boolean TestConnect() {
+    public static boolean TestConnect() { // Функция, проверяющая правильность параметров подключения к БД
 
         Connect();
         boolean res = !(conn == null);
 
         if (res) {
-            Disconnect();
+            Disconnect(); // Негоже держать подключения открытыми
         }
 
         return res;
     }
 
-    public static int Started(int peoplecount, int goodscount) { // Создаём новую запись о симуляции
+    public static int Started(int peoplecount, int goodscount) { // Функция, создающая новую запись о симуляции
         Connect();
         int ret = 0;
         try {
@@ -120,7 +121,7 @@ public class SQLAgent {
                 st.execute();
                 try (ResultSet res = st.executeQuery("SELECT id FROM simulations ORDER BY id DESC LIMIT 1")) { // Получаем номер симуляции
                     res.next();
-                    ret = res.getInt(1);
+                    ret = res.getInt(1); // Получаем id симуляции
                 }
             }
         } catch (SQLException ex) {
@@ -133,7 +134,7 @@ public class SQLAgent {
 
     }
 
-    public static void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect, int simid) {
+    public static void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect, int simid) { // Функция, обновляющая запись о симуляции
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("UPDATE simulations SET peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")) {
@@ -156,16 +157,18 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public static void Buyed(int buyerid, int time, int simid, Buyer buyer) { // Создание записи об элементарной покупке
+    public static void Buyed(int buyerid, int time, int simid, Buyer buyer) { // Функция, записывающая информацию о покупках одного покупателя
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?, ?)")) {
+                // Записываем общие для всех товаров параметры
                 st.setInt(1, simid);
                 st.setInt(2, buyerid);
                 st.setTime(6, new Time((time * 10 / (60 * 60)) + 9, time * 10 % (60 * 60) / 60, time * 10 % 60));
 
                 Product good;
 
+                // Перебираем всю корзину и пишем в БД информацию
                 for (int i = 0, n = buyer.Cart.size(); i < n; i++) {
                     good = buyer.Cart.get(i);
 
@@ -186,7 +189,7 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public static LinkedList<String> ShowProductInfo() {
+    public static LinkedList<String> ShowProductInfo() { // Функция, возвращающая полную информацию об ассортименте магазина в удобном для пользователя виде
         LinkedList<String> result = new LinkedList();
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
@@ -223,7 +226,7 @@ public class SQLAgent {
         return result;
     }
 
-    public static LinkedList<Product> GetProductInfo() { // Получаем полную информацию о всех товарах
+    public static LinkedList<Product> GetProductInfo() { // Функция, возвращающая полную информацию об ассортименте магазина
         LinkedList<Product> result = new LinkedList();
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
@@ -254,12 +257,12 @@ public class SQLAgent {
         return result;
     }
 
-    public static LinkedList<String> GetResults(int simulationid) { // Получаем подробный отчёт о симуляции
+    public static LinkedList<String> GetResults(int simulationid) { // Функция, возвращающая подробную информацию о симуляции
         LinkedList<String> result = new LinkedList();
         boolean empty = true;
         Connect();
 
-        if (simulationid < 1) {
+        if (simulationid < 1) { // Некорректный номер
             result.add("<h2>Invalid sumulation id</h2>");
             return result;
         }
@@ -270,8 +273,9 @@ public class SQLAgent {
                 sim.setInt(1, simulationid);
                 try (ResultSet simres = sim.executeQuery()) {
                     if (simres.next()) {
+                        // Если симуляция не завершена...
                         if (simres.getInt("maxqueue") == 0 && simres.getInt("peoplecount") > 0) {
-                            result.clear();
+                            result.clear(); // ...вернуть пустой список
                             Disconnect();
                             return result;
                         }
@@ -299,7 +303,7 @@ public class SQLAgent {
             HandleEx(ex);
         }
 
-        if (!empty) {
+        if (!empty) { // Если что-то куплено, то...
             result.add("<table class=\"tborder\">");
             result.add("<tr><td class=\"tborder\">Номер покупателя</td><td class=\"tborder\">Время</td><td class=\"tborder\">Код товара</td><td class=\"tborder\">Название товара</td><td class=\"tborder\">Количество товара</td><td class=\"tborder\">Стоимость</td></tr>");
             result.add("<tr><td colspan=\"6\" style=\" background-color: #ffffff; height: 5px\"></td></tr>");
@@ -370,10 +374,10 @@ public class SQLAgent {
         return result;
     }
 
-    public static boolean DeleteProduct(int code) {
+    public static boolean DeleteProduct(int code) { // Функция, удаляющая запись о товаре из базы данных
         boolean result = false;
 
-        if (code < 0) {
+        if (code < 0) { // Тут ошибка
             return result;
         }
 
@@ -395,7 +399,7 @@ public class SQLAgent {
                     Statement st_del = conn.createStatement();
                     st_del.execute("DELETE FROM products WHERE code = " + code);
 
-                    try (ResultSet res = st.executeQuery()) {
+                    try (ResultSet res = st.executeQuery()) { // Должно быть 0 записей
                         result = !(res.next());
                     } catch (SQLException ex) {
                         HandleEx(ex);
@@ -411,10 +415,10 @@ public class SQLAgent {
         return result;
     }
 
-    public static boolean AddProduct(Product item) {
+    public static boolean AddProduct(Product item) { // Функция, добавляющая информацию о новом продукте
         boolean result = false;
 
-        if (item.Code < 0 || item.Count <= 0 || item.Price <= 0) {
+        if (item.Code < 0 || item.Count <= 0 || item.Price <= 0) { // Не надо так...
             return result;
         }
 
@@ -427,7 +431,7 @@ public class SQLAgent {
             try (PreparedStatement st = conn.prepareStatement(request)) {
                 st.setInt(1, item.Code);
                 try (ResultSet res = st.executeQuery()) {
-                    s = (res.next());
+                    s = (res.next()); // Смотрим, есть ли такой товар
                 } catch (SQLException ex) {
                     HandleEx(ex);
                 }
@@ -443,7 +447,7 @@ public class SQLAgent {
 
                         st_add.execute();
 
-                        try (ResultSet res = st.executeQuery()) {
+                        try (ResultSet res = st.executeQuery()) { // Проверяем, успешно ли прошло добавление
                             result = (res.next());
                         } catch (SQLException ex) {
                             HandleEx(ex);
@@ -458,7 +462,7 @@ public class SQLAgent {
         return result;
     }
 
-    public static boolean UpdateProduct(Product item) {
+    public static boolean UpdateProduct(Product item) { // Функция, обновляющая информацию о продукте
         boolean result = false;
 
         boolean s = false;
@@ -470,7 +474,7 @@ public class SQLAgent {
             try (PreparedStatement st = conn.prepareStatement(request)) {
                 st.setInt(1, item.Code);
                 try (ResultSet res = st.executeQuery()) {
-                    s = (res.next());
+                    s = (res.next()); // Проверяем, есть ли такой товар
                 } catch (SQLException ex) {
                     HandleEx(ex);
                 }
@@ -478,6 +482,7 @@ public class SQLAgent {
                 if (s) {
                     request = "UPDATE products SET ispacked = " + ((item.IsPacked) ? 1 : 0);
 
+                    // Пишем только непустые изменения
                     if (item.Count > 0) {
                         request += ", count = " + item.Count;
                     }
@@ -502,11 +507,11 @@ public class SQLAgent {
         return result;
     }
 
-    public static void Fix() {
+    public static void Fix() { // Функция, исправляющая сбойные записи о симуляциях
         Connect();
         try {
             try (Statement st = conn.createStatement()) {
-                st.execute("UPDATE simulations SET maxqueue = 1 WHERE maxqueue = 0");
+                st.execute("UPDATE simulations SET maxqueue = 1 WHERE maxqueue = 0"); // Именно это поле используется как флаг начатой, но не завершённой симуляции
             }
         } catch (SQLException ex) {
             HandleEx(ex);

@@ -50,7 +50,7 @@ public class TTerminal extends HttpServlet {
         IsConfigured = SQLAgent.LoadSettings();
     }
 
-    private void MakeHeader(PrintWriter out, String title, boolean error) {
+    private void MakeHeader(PrintWriter out, String title, boolean error) { // Функция, печатающая заголовок страницы
         if (error) {
             title = "Ошибка";
         }
@@ -78,13 +78,13 @@ public class TTerminal extends HttpServlet {
         }
     }
 
-    private void MakeFooter(PrintWriter out) {
+    private void MakeFooter(PrintWriter out) { // Функция, печатающая окончание страницы
         out.println("<br/><a href=\".\">Назад</a>");
         out.println("</body>");
         out.println("</html>");
     }
 
-    private void NoConnection(PrintWriter out) {
+    private void NoConnection(PrintWriter out) { // Функция, печатающая сообщение об ошибке в случае невозможности установить соединение с базой данных
         MakeHeader(out, "", true);
         out.println("<h2>Error: can't connect to database</h2>");
         MakeFooter(out);
@@ -102,17 +102,17 @@ public class TTerminal extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");// Только UTF-8!
+        request.setCharacterEncoding("UTF-8"); // Только UTF-8!
 
         String simstr;
         try {
             try (PrintWriter out = response.getWriter()) {
-                if (request.getParameterNames().hasMoreElements()) {
-                    if ((simstr = request.getParameter("simid")).length() > 0) {
+                if (request.getParameterNames().hasMoreElements()) { // Не просто обращение, а с параметром
+                    if ((simstr = request.getParameter("simid")).length() > 0) { // Причём с нужным
                         if (SQLAgent.TestConnect()) {
-                            simstr = simstr.replaceAll("\\D", "");
+                            simstr = simstr.replaceAll("\\D", ""); // Нам нужен только номер
 
-                            if (simstr.length() == 0) {
+                            if (simstr.length() == 0) { // Если не было циферок
                                 MakeHeader(response.getWriter(), "", true);
                                 return;
                             }
@@ -121,7 +121,7 @@ public class TTerminal extends HttpServlet {
 
                             LinkedList<String> pinfo = SQLAgent.GetResults(simid);
 
-                            if (pinfo.size() == 0) {
+                            if (pinfo.size() == 0) { // Симуляция ещё идёт
 
                                 int percent = 0;
 
@@ -146,7 +146,7 @@ public class TTerminal extends HttpServlet {
                                 MakeHeader(out, "Просмотр статистики", false);
 
                                 for (int i = 0; i < pinfo.size(); i++) {
-                                    out.println(pinfo.get(i));
+                                    out.println(pinfo.get(i)); // Добавляем все строки
                                 }
 
                                 MakeFooter(out);
@@ -178,17 +178,18 @@ public class TTerminal extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");// Только UTF-8!
+        request.setCharacterEncoding("UTF-8"); // Только UTF-8!
 
         String action;
         try {
             try (PrintWriter out = response.getWriter()) {
-                if ((action = request.getParameter("act")).length() > 0) {
+                if ((action = request.getParameter("act")).length() > 0) { // Если есть такой параметр
                     switch (action.charAt(0)) {
                         case 'a': { // Add
                             try {
                                 if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
+                                    // Получаем параметры
                                     boolean ispacked = ("on".equals(request.getParameter("ispacked")));
                                     codestr = request.getParameter("code");
                                     namestr = request.getParameter("name");
@@ -197,6 +198,7 @@ public class TTerminal extends HttpServlet {
                                     pricestr = request.getParameter("price");
                                     pricefrstr = request.getParameter("pricefr");
                                     if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
+                                        // Должны быть только числа!!.
                                         codestr = codestr.replaceAll("\\D", "");
                                         countstr = countstr.replaceAll("\\D", "");
                                         countfrstr = countfrstr.replaceAll("\\D", "");
@@ -204,6 +206,7 @@ public class TTerminal extends HttpServlet {
                                         pricefrstr = pricefrstr.replaceAll("\\D", "");
                                         if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
                                             int code = Integer.decode(codestr);
+                                            // Сразу считаем
                                             float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
                                             float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
                                             if (SQLAgent.TestConnect() && code >= 0 && count > 0 && price > 0) {
@@ -246,6 +249,7 @@ public class TTerminal extends HttpServlet {
                             try {
                                 if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
+                                    // Получаем параметры
                                     boolean ispacked = ("on".equals(request.getParameter("ispacked")));
                                     codestr = request.getParameter("code");
                                     namestr = request.getParameter("name");
@@ -254,6 +258,7 @@ public class TTerminal extends HttpServlet {
                                     pricestr = request.getParameter("price");
                                     pricefrstr = request.getParameter("pricefr");
 
+                                    // Только числовые параметры!!.
                                     codestr = codestr.replaceAll("\\D", "");
                                     countstr = countstr.replaceAll("\\D", "");
                                     countfrstr = countfrstr.replaceAll("\\D", "");
@@ -263,6 +268,7 @@ public class TTerminal extends HttpServlet {
 
                                     tmp.IsPacked = ispacked;
 
+                                    // Не добавляем ненужных параметров
                                     if (codestr.length() > 0) {
                                         int code = Integer.decode(codestr);
                                         tmp.Code = code;
@@ -319,6 +325,7 @@ public class TTerminal extends HttpServlet {
 
                                     if ((codestr = request.getParameter("code")).length() > 0) {
                                         if (SQLAgent.TestConnect()) {
+                                            // Вычленяем число
                                             codestr = codestr.replaceAll("\\D", "");
 
                                             if (codestr.length() == 0) {
@@ -377,16 +384,19 @@ public class TTerminal extends HttpServlet {
                         }
                         case 's': { // Start
                             try {
+                                // Сперва удалим завершённые симуляции из списка
                                 for (int i = workers.size() - 1; i >= 0; i--) {
                                     if (workers.get(i).ready) {
                                         workers.remove(i);
                                     }
                                 }
+                                
                                 if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String peoplecountstr, goodscountstr;
                                     peoplecountstr = request.getParameter("peoplecount");
                                     goodscountstr = request.getParameter("goodscount");
 
+                                    // Как такие числа могут содержать не цифры? Именно!
                                     peoplecountstr = peoplecountstr.replaceAll("\\D", "");
                                     goodscountstr = goodscountstr.replaceAll("\\D", "");
 
@@ -395,7 +405,7 @@ public class TTerminal extends HttpServlet {
                                         int goodscount = Integer.decode(goodscountstr);
 
                                         if (peoplecount < 20 && goodscount < 1) {
-                                            MakeHeader(out, "Ой...", false);
+                                            MakeHeader(out, "Ой...", false); // Плохие параметры
                                             out.println("Слишком маленькие значения! Покупателей надо не менее 20-и, а товаров - не менее одного");
                                         } else {
 
@@ -427,11 +437,15 @@ public class TTerminal extends HttpServlet {
                             try {
                                 if (!(IsConfigured = SQLAgent.LoadSettings()) && request.getParameterNames().hasMoreElements()) {
                                     String DBstr, URLstr, userstr, passwordstr, keystr;
+                                    
+                                    // Получаем параметры
                                     DBstr = request.getParameter("db");
                                     URLstr = request.getParameter("url");
                                     userstr = request.getParameter("user");
                                     passwordstr = request.getParameter("password");
                                     keystr = request.getParameter("key");
+                                    
+                                    // Чтоб не могли там всякие настроить раньше нас
                                     String key = "jyuwfu9xecf4im9rwvsagbzfvcuax14yqjl1pyvimvhpurmbaf";
                                     if (key.equals(keystr) && DBstr.length() > 0 && URLstr.length() > 0 && userstr.length() > 0 && passwordstr.length() > 0) {
                                         try (FileWriter fw = new FileWriter("DBprops.prop")) {
@@ -457,7 +471,6 @@ public class TTerminal extends HttpServlet {
                                         MakeHeader(out, "Ошибка", false);
                                         out.println("<h2>Нет какого-либо параметра</h2>");
                                     }
-
                                 } else {
                                     MakeHeader(out, "Ошибка", false);
                                     out.println("<h2>Настройки уже загружены</h2>");
@@ -468,9 +481,9 @@ public class TTerminal extends HttpServlet {
                             break;
                         }
 
-                        case 'f': { // Fix glitches
+                        case 'f': { // Если уж вдруг что-то зависло...
                             try {
-                                if (IsConfigured) {
+                                if (IsConfigured) { // Если false, то симуляция не могла быть запущена!
                                     workers.clear();
                                     SQLAgent.Fix();
 
