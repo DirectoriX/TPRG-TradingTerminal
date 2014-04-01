@@ -27,12 +27,13 @@ package org.aba.tradingterminal;
 
 public class Product {
 
-    public String Name;
-    public int Code;
-    public float Count;
-    public boolean IsPacked;
-    public float Price;
+    public String Name; // Название
+    public int Code; // Код
+    public float Count; // Количество
+    public boolean IsPacked; // Упакован?
+    public float Price; // Цена
 
+    // Получить стоимость
     public int GetTotalPrice(){
         return (int) Math.ceil(Count*Price);
     }

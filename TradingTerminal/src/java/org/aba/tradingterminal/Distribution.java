@@ -29,9 +29,11 @@ import java.util.Random;
 
 public class Distribution {
 
+    // Атрибуты, задающие параметры логистического распределения
     public int mu = 1440;
     public int S = 200;
-    public int clients;
+
+    public int clients; // Задаёт желаемое число покупателей
 
     // Объект класса Random
     private static java.util.Random RNG = new Random();
@@ -49,21 +51,26 @@ public class Distribution {
         return result;
     }
 
+    // Оптимальное значение масштаба для распределения количества товара
     private final float TrickyScale = (float) 0.07;
 
+    // Функция, вычисляющая количество товара
     private float Tricky(float count, float Scale, float min) {
         float res = (float) (count - count * Scale * Math.log(1 / RNG.nextDouble() - 1));
         return (res > min) ? res : min;
     }
 
+    // Функция, возвращающая количество упакованного товара
     public int GetIntCount(float count) {
         return (int) Math.round(Tricky(count, TrickyScale, 1));
     }
 
+    // Функция, возвращающая количество развесного товара
     public float GetFloatCount(float count, float min) {
         return Tricky(count, TrickyScale, min);
     }
 
+    // Возвращаеты количество покупателей, пришедших в заданный промежуток времени
     public int GetBuyers(int time) {
         double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
         IdealSum += value;

@@ -27,12 +27,13 @@ package org.aba.tradingterminal;
 
 public class Terminal {
 
-    public int id = 1;
-    public int Money = 0;
-    public int Profit = 0;
-    public boolean AmICorrect = false;
-    public int simid;
+    public int id = 1; // Порядковый номер обслуживаемого покупателя
+    public int Money = 0; // Общее количество полученных денег
+    public int Profit = 0; // Выручка от продаж
+    public boolean AmICorrect = false; // Флаг корректности
+    public int simid; // id проводимой симуляции
 
+    // Обработка покупателя
     public void Serve(Buyer buyer, int time) {
         Profit += buyer.GetTotal();
         Money += buyer.GetTotal();

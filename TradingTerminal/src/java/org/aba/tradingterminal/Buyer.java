@@ -29,18 +29,23 @@ import java.util.LinkedList;
 
 public class Buyer {
 
+    // Номер временного интервала, в течение которого покупатель встал в очередь
     public int ArriveTime;
+    // Номер временного интервала, в течение которого покупатель был обслужен
     public int ServedTime;
-    public int Money;
-    public boolean Discount = false;
+    
+    public int Money; // Количество денег
+    public boolean Discount = false; // Дисконтная карта
 
-    public LinkedList<Product> Cart = new LinkedList<>();
+    public LinkedList<Product> Cart = new LinkedList<>(); // Корзина продуктов
 
+    // Добавление товара
     public void AddProduct(Product thing) {
         Cart.add(thing);
         Money += thing.Count * thing.Price + 1;
     }
 
+    // Получение суммарной стоимости всех товаров в корзине
     public int GetTotal() {
         int sum = 0;
         int gc = Cart.size();

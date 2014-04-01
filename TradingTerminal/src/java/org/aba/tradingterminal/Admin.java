@@ -27,9 +27,10 @@ package org.aba.tradingterminal;
 
 public class Admin {
 
-    private int Money;
-    private int Amount;
+    private int Money; // Количество имеющихся денег
+    private int Amount; // Сумма денег, выдаваемая за один раз
 
+    // Проверка корректности работы терминала
     public boolean CheckGig(int gig) {
         return getMoney() == gig;
     }

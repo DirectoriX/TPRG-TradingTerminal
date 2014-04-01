@@ -34,9 +34,9 @@ import java.util.Random;
  */
 public class Generator {
 
-    private final LinkedList<Product> RangeOfGoods;
-    private final int AVGGoodsCount;
-    private final int size;
+    private final LinkedList<Product> RangeOfGoods; // Ассортимент магазина
+    private final int AVGGoodsCount; // Среднее количество приобретаемых товаров
+    private final int size; // Количество товаров, продающихся в магазине
 
     public Generator(int avggoodscount) {
 
@@ -51,6 +51,7 @@ public class Generator {
         size = RangeOfGoods.size();
     }
 
+    // Создание нового покуптеля
     public Buyer CreateBuyer() {
         Random RNG = new Random();
         Distribution Dist = new Distribution();
@@ -59,25 +60,25 @@ public class Generator {
             buyer.Discount = true;
         }
         Product tmpProduct, EG;
-        // for (int i = 0, goodscount = Dist.GetIntCount(AVGGoodsCount); i < goodscount; i++) {
         for (int i = 0, goodscount = RangeOfGoods.size(); i < goodscount; i++) {
             if (RNG.nextInt(goodscount) < AVGGoodsCount) {
                 EG = RangeOfGoods.get(i);
-                
-                tmpProduct=new Product();
-                
-                tmpProduct.Code=EG.Code;
-                tmpProduct.IsPacked=EG.IsPacked;
-                tmpProduct.Name=EG.Name;
-                tmpProduct.Price=EG.Price;
-                
-                
+
+                tmpProduct = new Product();
+
+                // Копируем значения
+                tmpProduct.Code = EG.Code;
+                tmpProduct.IsPacked = EG.IsPacked;
+                tmpProduct.Name = EG.Name;
+                tmpProduct.Price = EG.Price;
+
                 if (tmpProduct.IsPacked) {
                     tmpProduct.Count = Dist.GetIntCount(EG.Count);
                 } else {
                     tmpProduct.Count = Dist.GetFloatCount(EG.Count, (float) 0.25);
                 }
 
+                // Добавляем в корзину
                 buyer.AddProduct(tmpProduct);
             }
 

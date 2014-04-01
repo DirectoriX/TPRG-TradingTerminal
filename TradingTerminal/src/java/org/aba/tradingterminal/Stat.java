@@ -27,16 +27,17 @@ package org.aba.tradingterminal;
 
 public class Stat {
 
-    public int PeopleServed;
-    public int PeopleArrived;
-    public int MaxQueue;
-    public int MaxQueueTime;
-    public float AvgGoodsCount;
-    public float AvgProfit;
+    public int PeopleServed; // Количество обслуженных людей
+    public int PeopleArrived; // Количество пришедших людей
+    public int MaxQueue; // Максимальная длина очереди
+    public int MaxQueueTime; // Время, когда очередь имела максимальную длину
+    public float AvgGoodsCount; // Среднее количество купленных товаров
+    public float AvgProfit; // Средняя выручка
 
-    private int Profit;
-    private int Goods;
+    private int Profit; // Общая выручка
+    private int Goods; // Сумма количеств разновидностей товаров покупателей
 
+    // Обработка покупателя
     public void Consider(Buyer cl) {
 
         Profit += cl.GetTotal();

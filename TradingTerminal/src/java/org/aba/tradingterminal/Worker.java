@@ -32,25 +32,26 @@ import javax.swing.Timer;
 
 class Worker {
 
-    public int steps = 0;
-    public boolean ready = false;
+    public int steps = 0; // Текущее время
+    public boolean ready = false; // Завершено?
 
     private Distribution distr = new Distribution();
-    private LinkedList<Buyer> BuyersList = new LinkedList<>();
+    private LinkedList<Buyer> BuyersList = new LinkedList<>(); // Очередь
     private Generator generator;
     private Stat stat = new Stat();
-    int simid = -1;
+    int simid = -1; // Номер симуляции
 
     private Timer timer;
     private Terminal terminal = new Terminal();
     private Admin admin = new Admin();
 
+    // Обработчик таймера
     private ActionListener al = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             final int maxsteps = 2880;
-            if (steps == maxsteps) {
+            if (steps == maxsteps) { // Симуляция закончилась
                 ready = true;
 
                 admin.setMoney(admin.getMoney() + terminal.Money);
@@ -87,6 +88,7 @@ class Worker {
 
     };
 
+    // Запуск симуляции
     public void StartSim(int peoplecount, int goodscount) {
         distr.clients = peoplecount;
         generator = new Generator(goodscount);
