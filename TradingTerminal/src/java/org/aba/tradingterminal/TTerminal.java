@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
 
-    LinkedList<Worker> workers = new LinkedList();
+    LinkedList<Worker> workers = new LinkedList<Worker>();
 
     boolean IsConfigured;
 
@@ -106,61 +106,61 @@ public class TTerminal extends HttpServlet {
 
         String simstr;
         try {
-            try (PrintWriter out = response.getWriter()) {
-                if (request.getParameterNames().hasMoreElements()) { // Не просто обращение, а с параметром
-                    if ((simstr = request.getParameter("simid")).length() > 0) { // Причём с нужным
-                        if (SQLAgent.TestConnect()) {
-                            simstr = simstr.replaceAll("\\D", ""); // Нам нужен только номер
+            PrintWriter out = response.getWriter();
+            if (request.getParameterNames().hasMoreElements()) { // Не просто обращение, а с параметром
+                if ((simstr = request.getParameter("simid")).length() > 0) { // Причём с нужным
+                    if (SQLAgent.TestConnect()) {
+                        simstr = simstr.replaceAll("\\D", ""); // Нам нужен только номер
 
-                            if (simstr.length() == 0) { // Если не было циферок
-                                MakeHeader(response.getWriter(), "", true);
-                                return;
+                        if (simstr.length() == 0) { // Если не было циферок
+                            MakeHeader(response.getWriter(), "", true);
+                            return;
+                        }
+
+                        int simid = Integer.decode(simstr);
+
+                        LinkedList<String> pinfo = SQLAgent.GetResults(simid);
+
+                        if (pinfo.size() == 0) { // Симуляция ещё идёт
+
+                            int percent = 0;
+
+                            for (int i = 0; i < workers.size(); i++) {
+                                if (workers.get(i).simid == simid) {
+                                    percent = workers.get(i).steps * 100 / 2880;
+                                }
                             }
 
-                            int simid = Integer.decode(simstr);
+                            out.println("<!DOCTYPE html>");
+                            out.println("<html>");
+                            out.println("<head>");
+                            out.println("<title>Идёт работа</title>");
+                            out.println("<meta http-equiv=\"refresh\" content=\"3; URL=./TTerminal?simid=" + simid + "\"/>");
+                            out.println("</head>");
+                            out.println("<body>");
+                            out.println("<h2>Симуляция проводится в настоящий момент времени</h2>");
 
-                            LinkedList<String> pinfo = SQLAgent.GetResults(simid);
-
-                            if (pinfo.size() == 0) { // Симуляция ещё идёт
-
-                                int percent = 0;
-
-                                for (int i = 0; i < workers.size(); i++) {
-                                    if (workers.get(i).simid == simid) {
-                                        percent = workers.get(i).steps * 100 / 2880;
-                                    }
-                                }
-
-                                out.println("<!DOCTYPE html>");
-                                out.println("<html>");
-                                out.println("<head>");
-                                out.println("<title>Идёт работа</title>");
-                                out.println("<meta http-equiv=\"refresh\" content=\"3; URL=./TTerminal?simid=" + simid + "\"/>");
-                                out.println("</head>");
-                                out.println("<body>");
-                                out.println("<h2>Симуляция проводится в настоящий момент времени</h2>");
-
-                                out.println("<h3>Уже прошло " + percent + "% симуляции</h3>");
-                            } else {
-
-                                MakeHeader(out, "Просмотр статистики", false);
-
-                                for (int i = 0; i < pinfo.size(); i++) {
-                                    out.println(pinfo.get(i)); // Добавляем все строки
-                                }
-
-                                MakeFooter(out);
-                            }
+                            out.println("<h3>Уже прошло " + percent + "% симуляции</h3>");
                         } else {
-                            NoConnection(out);
+
+                            MakeHeader(out, "Просмотр статистики", false);
+
+                            for (int i = 0; i < pinfo.size(); i++) {
+                                out.println(pinfo.get(i)); // Добавляем все строки
+                            }
+
+                            MakeFooter(out);
                         }
                     } else {
-                        MakeHeader(out, "", true);
+                        NoConnection(out);
                     }
                 } else {
                     MakeHeader(out, "", true);
                 }
+            } else {
+                MakeHeader(out, "", true);
             }
+            out.close();
         } finally {
             MakeFooter(response.getWriter());
         }
@@ -182,329 +182,335 @@ public class TTerminal extends HttpServlet {
 
         String action;
         try {
-            try (PrintWriter out = response.getWriter()) {
-                if ((action = request.getParameter("act")).length() > 0) { // Если есть такой параметр
-                    switch (action.charAt(0)) {
-                        case 'a': { // Add
-                            try {
-                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
-                                    String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
-                                    // Получаем параметры
-                                    boolean ispacked = ("on".equals(request.getParameter("ispacked")));
-                                    codestr = request.getParameter("code");
-                                    namestr = request.getParameter("name");
-                                    countstr = request.getParameter("count");
-                                    countfrstr = request.getParameter("countfr");
-                                    pricestr = request.getParameter("price");
-                                    pricefrstr = request.getParameter("pricefr");
-                                    if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
-                                        // Должны быть только числа!!.
-                                        codestr = codestr.replaceAll("\\D", "");
-                                        countstr = countstr.replaceAll("\\D", "");
-                                        countfrstr = countfrstr.replaceAll("\\D", "");
-                                        pricestr = pricestr.replaceAll("\\D", "");
-                                        pricefrstr = pricefrstr.replaceAll("\\D", "");
-                                        if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
-                                            int code = Integer.decode(codestr);
-                                            // Сразу считаем
-                                            float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
-                                            float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
-                                            if (SQLAgent.TestConnect() && code >= 0 && count > 0 && price > 0) {
-                                                Product tmp = new Product();
-                                                tmp.Code = code;
-                                                tmp.Count = count;
-                                                tmp.IsPacked = ispacked;
-                                                tmp.Price = price;
-                                                tmp.Name = namestr;
-
-                                                MakeHeader(out, "Добавление товара", false);
-
-                                                boolean added = SQLAgent.AddProduct(tmp);
-                                                if (added) {
-                                                    out.println("<h2>Товар добавлен</h2>");
-                                                } else {
-                                                    out.println("<h2>Товар не добавлен</h2>");
-                                                    out.println("<h3>Скорее всего, товар с таким кодом уже существует</h3>");
-                                                }
-
-                                            } else {
-                                                MakeHeader(out, "", true);
-                                            }
-                                        } else {
-                                            MakeHeader(out, "", true);
-                                        }
-                                    } else {
-                                        MakeHeader(out, "Ошибка", false);
-                                        out.println("<h2>Запись не добавлена, т.к. хотя бы одно поле не заполнено</h2>");
-                                    }
-                                } else {
-                                    MakeHeader(out, "", true);
-                                }
-                            } finally {
-                                MakeFooter(out);
-                            }
-                            break;
-                        }
-                        case 'e': { // Edit
-                            try {
-                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
-                                    String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
-                                    // Получаем параметры
-                                    boolean ispacked = ("on".equals(request.getParameter("ispacked")));
-                                    codestr = request.getParameter("code");
-                                    namestr = request.getParameter("name");
-                                    countstr = request.getParameter("count");
-                                    countfrstr = request.getParameter("countfr");
-                                    pricestr = request.getParameter("price");
-                                    pricefrstr = request.getParameter("pricefr");
-
-                                    // Только числовые параметры!!.
+            PrintWriter out = response.getWriter();
+            if ((action = request.getParameter("act")).length() > 0) { // Если есть такой параметр
+                switch (action.charAt(0)) {
+                    case 'a': { // Add
+                        try {
+                            if (IsConfigured && request.getParameterNames().hasMoreElements()) {
+                                String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
+                                // Получаем параметры
+                                boolean ispacked = ("on".equals(request.getParameter("ispacked")));
+                                codestr = request.getParameter("code");
+                                namestr = request.getParameter("name");
+                                countstr = request.getParameter("count");
+                                countfrstr = request.getParameter("countfr");
+                                pricestr = request.getParameter("price");
+                                pricefrstr = request.getParameter("pricefr");
+                                if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
+                                    // Должны быть только числа!!.
                                     codestr = codestr.replaceAll("\\D", "");
                                     countstr = countstr.replaceAll("\\D", "");
                                     countfrstr = countfrstr.replaceAll("\\D", "");
                                     pricestr = pricestr.replaceAll("\\D", "");
                                     pricefrstr = pricefrstr.replaceAll("\\D", "");
-                                    Product tmp = new Product();
-
-                                    tmp.IsPacked = ispacked;
-
-                                    // Не добавляем ненужных параметров
-                                    if (codestr.length() > 0) {
+                                    if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
                                         int code = Integer.decode(codestr);
-                                        tmp.Code = code;
-
-                                        if (namestr.length() > 0) {
-                                            tmp.Name = namestr;
-                                        } else {
-                                            tmp.Name = "";
-                                        }
-
-                                        if (countstr.length() > 0 && countfrstr.length() > 0) {
-                                            float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
+                                        // Сразу считаем
+                                        float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
+                                        float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
+                                        if (SQLAgent.TestConnect() && code >= 0 && count > 0 && price > 0) {
+                                            Product tmp = new Product();
+                                            tmp.Code = code;
                                             tmp.Count = count;
-                                        } else {
-                                            tmp.Count = -1;
-                                        }
-
-                                        if (pricestr.length() > 0 && pricefrstr.length() > 0) {
-                                            float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
+                                            tmp.IsPacked = ispacked;
                                             tmp.Price = price;
-                                        } else {
-                                            tmp.Price = -1;
-                                        }
-                                        if (SQLAgent.TestConnect()) {
-                                            MakeHeader(out, "Редактирование товара", false);
+                                            tmp.Name = namestr;
 
-                                            boolean edited = SQLAgent.UpdateProduct(tmp);
-                                            if (edited) {
-                                                out.println("<h2>Товар изменён</h2>");
+                                            MakeHeader(out, "Добавление товара", false);
+
+                                            boolean added = SQLAgent.AddProduct(tmp);
+                                            if (added) {
+                                                out.println("<h2>Товар добавлен</h2>");
                                             } else {
-                                                out.println("<h2>Товар не изменён</h2>");
-                                                out.println("<h3>Скорее всего, товар с таким кодом не существует</h3>");
+                                                out.println("<h2>Товар не добавлен</h2>");
+                                                out.println("<h3>Скорее всего, товар с таким кодом уже существует</h3>");
                                             }
 
                                         } else {
-                                            NoConnection(out);
+                                            MakeHeader(out, "", true);
                                         }
                                     } else {
                                         MakeHeader(out, "", true);
-                                    }
-                                } else {
-                                    MakeHeader(out, "", true);
-                                }
-                            } finally {
-                                MakeFooter(out);
-                            }
-                            break;
-                        }
-                        case 'd': { // Delete
-                            try {
-                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
-
-                                    String codestr;
-
-                                    if ((codestr = request.getParameter("code")).length() > 0) {
-                                        if (SQLAgent.TestConnect()) {
-                                            // Вычленяем число
-                                            codestr = codestr.replaceAll("\\D", "");
-
-                                            if (codestr.length() == 0) {
-                                                MakeHeader(response.getWriter(), "", true);
-                                                return;
-                                            }
-
-                                            int code = Integer.decode(codestr);
-
-                                            MakeHeader(out, "Удаление товара", false);
-
-                                            boolean success = SQLAgent.DeleteProduct(code);
-
-                                            out.println("<h2>Удаление товара с кодом " + code + ((success) ? " " : " не ") + "успешно</h2>");
-                                            if (!success) {
-                                                out.println("Возможно, неверный код товара или ошибка базы данных");
-                                            }
-                                        } else {
-                                            NoConnection(out);
-                                        }
-                                    } else {
-                                        MakeHeader(out, "", true);
-                                    }
-                                } else {
-                                    MakeHeader(out, "", true);
-                                }
-                            } finally {
-                                MakeFooter(response.getWriter());
-                            }
-                            break;
-                        }
-                        case 'l': { // Show products
-                            if (IsConfigured && SQLAgent.TestConnect()) {
-                                MakeHeader(out, "Список товаров", false);
-
-                                LinkedList<String> list = SQLAgent.ShowProductInfo();
-                                for (int i = 0; i < list.size(); i++) {
-                                    out.write(list.get(i));
-                                }
-                                list.clear();
-                                MakeFooter(out);
-                            } else {
-                                NoConnection(out);
-                            }
-                            break;
-                        }
-                        case 't': { // Telnov!
-                            MakeHeader(out, "What does Telnov say?", false);
-                            out.println("<h1>What does Telnov say?</h1>");
-                            out.println("<h2>What does Telnov say?</h2>");
-                            out.println("<h3>What does Telnov say?</h3>");
-                            out.println("<h4>What does Telnov say?</h4>");
-                            out.println("<h5>What does Telnov say?</h5>");
-                            out.println("<h6>What does Telnov say?</h6>");
-                            break;
-                        }
-                        case 's': { // Start
-                            try {
-                                // Сперва удалим завершённые симуляции из списка
-                                for (int i = workers.size() - 1; i >= 0; i--) {
-                                    if (workers.get(i).ready) {
-                                        workers.remove(i);
-                                    }
-                                }
-                                
-                                if (IsConfigured && request.getParameterNames().hasMoreElements()) {
-                                    String peoplecountstr, goodscountstr;
-                                    peoplecountstr = request.getParameter("peoplecount");
-                                    goodscountstr = request.getParameter("goodscount");
-
-                                    // Как такие числа могут содержать не цифры? Именно!
-                                    peoplecountstr = peoplecountstr.replaceAll("\\D", "");
-                                    goodscountstr = goodscountstr.replaceAll("\\D", "");
-
-                                    if (peoplecountstr.length() > 0 && goodscountstr.length() > 0) {
-                                        int peoplecount = Integer.decode(peoplecountstr);
-                                        int goodscount = Integer.decode(goodscountstr);
-
-                                        if (peoplecount < 20 && goodscount < 1) {
-                                            MakeHeader(out, "Ой...", false); // Плохие параметры
-                                            out.println("Слишком маленькие значения! Покупателей надо не менее 20-и, а товаров - не менее одного");
-                                        } else {
-
-                                            workers.addLast(new Worker());
-                                            workers.getLast().StartSim(peoplecount, goodscount);
-
-                                            out.println("<!DOCTYPE html>");
-                                            out.println("<html>");
-                                            out.println("<head>");
-                                            out.println("<title>Идёт работа</title>");
-                                            out.println("<meta http-equiv=\"refresh\" content=\"5; URL=./TTerminal?simid=" + workers.getLast().simid + "\"/>");
-                                            out.println("</head>");
-                                            out.println("<body>");
-                                            out.println("<h1>Ждите 5 секунд...</h1>");
-                                        }
-                                    } else {
-                                        MakeHeader(out, "", true);
-                                    }
-                                } else {
-                                    MakeHeader(out, "", true);
-                                }
-                            } finally {
-                                MakeFooter(out);
-                            }
-                            break;
-                        }
-
-                        case 'c': { // Set DB settings
-                            try {
-                                if (!(IsConfigured = SQLAgent.LoadSettings()) && request.getParameterNames().hasMoreElements()) {
-                                    String DBstr, URLstr, userstr, passwordstr, keystr;
-                                    
-                                    // Получаем параметры
-                                    DBstr = request.getParameter("db");
-                                    URLstr = request.getParameter("url");
-                                    userstr = request.getParameter("user");
-                                    passwordstr = request.getParameter("password");
-                                    keystr = request.getParameter("key");
-                                    
-                                    // Чтоб не могли там всякие настроить раньше нас
-                                    String key = "jyuwfu9xecf4im9rwvsagbzfvcuax14yqjl1pyvimvhpurmbaf";
-                                    if (key.equals(keystr) && DBstr.length() > 0 && URLstr.length() > 0 && userstr.length() > 0 && passwordstr.length() > 0) {
-                                        try (FileWriter fw = new FileWriter("DBprops.prop")) {
-                                            try (BufferedWriter output = new BufferedWriter(fw)) {
-                                                output.write(DBstr);
-                                                output.newLine();
-                                                output.write(URLstr);
-                                                output.newLine();
-                                                output.write(userstr);
-                                                output.newLine();
-                                                output.write(passwordstr);
-                                                output.newLine();
-
-                                                output.flush();
-                                            }
-                                        } catch (IOException ex) {
-                                            Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-
-                                        MakeHeader(out, "Добавление настроек", false);
-                                        out.println("<h3>Готово!</h3>");
-                                    } else {
-                                        MakeHeader(out, "Ошибка", false);
-                                        out.println("<h2>Нет какого-либо параметра</h2>");
                                     }
                                 } else {
                                     MakeHeader(out, "Ошибка", false);
-                                    out.println("<h2>Настройки уже загружены</h2>");
+                                    out.println("<h2>Запись не добавлена, т.к. хотя бы одно поле не заполнено</h2>");
                                 }
-                            } finally {
-                                MakeFooter(out);
+                            } else {
+                                MakeHeader(out, "", true);
                             }
-                            break;
+                        } finally {
+                            MakeFooter(out);
                         }
+                        break;
+                    }
+                    case 'e': { // Edit
+                        try {
+                            if (IsConfigured && request.getParameterNames().hasMoreElements()) {
+                                String codestr, namestr, countstr, countfrstr, pricestr, pricefrstr;
+                                // Получаем параметры
+                                boolean ispacked = ("on".equals(request.getParameter("ispacked")));
+                                codestr = request.getParameter("code");
+                                namestr = request.getParameter("name");
+                                countstr = request.getParameter("count");
+                                countfrstr = request.getParameter("countfr");
+                                pricestr = request.getParameter("price");
+                                pricefrstr = request.getParameter("pricefr");
 
-                        case 'f': { // Если уж вдруг что-то зависло...
-                            try {
-                                if (IsConfigured) { // Если false, то симуляция не могла быть запущена!
-                                    workers.clear();
-                                    SQLAgent.Fix();
+                                // Только числовые параметры!!.
+                                codestr = codestr.replaceAll("\\D", "");
+                                countstr = countstr.replaceAll("\\D", "");
+                                countfrstr = countfrstr.replaceAll("\\D", "");
+                                pricestr = pricestr.replaceAll("\\D", "");
+                                pricefrstr = pricefrstr.replaceAll("\\D", "");
+                                Product tmp = new Product();
 
-                                    MakeHeader(out, "ОК", false);
-                                    out.println("<h2>OK</h2>");
+                                tmp.IsPacked = ispacked;
 
+                                // Не добавляем ненужных параметров
+                                if (codestr.length() > 0) {
+                                    int code = Integer.decode(codestr);
+                                    tmp.Code = code;
+
+                                    if (namestr.length() > 0) {
+                                        tmp.Name = namestr;
+                                    } else {
+                                        tmp.Name = "";
+                                    }
+
+                                    if (countstr.length() > 0 && countfrstr.length() > 0) {
+                                        float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
+                                        tmp.Count = count;
+                                    } else {
+                                        tmp.Count = -1;
+                                    }
+
+                                    if (pricestr.length() > 0 && pricefrstr.length() > 0) {
+                                        float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
+                                        tmp.Price = price;
+                                    } else {
+                                        tmp.Price = -1;
+                                    }
+                                    if (SQLAgent.TestConnect()) {
+                                        MakeHeader(out, "Редактирование товара", false);
+
+                                        boolean edited = SQLAgent.UpdateProduct(tmp);
+                                        if (edited) {
+                                            out.println("<h2>Товар изменён</h2>");
+                                        } else {
+                                            out.println("<h2>Товар не изменён</h2>");
+                                            out.println("<h3>Скорее всего, товар с таким кодом не существует</h3>");
+                                        }
+
+                                    } else {
+                                        NoConnection(out);
+                                    }
                                 } else {
-                                    NoConnection(out);
+                                    MakeHeader(out, "", true);
                                 }
-                            } finally {
-                                MakeFooter(out);
+                            } else {
+                                MakeHeader(out, "", true);
                             }
-                            break;
+                        } finally {
+                            MakeFooter(out);
                         }
+                        break;
+                    }
+                    case 'd': { // Delete
+                        try {
+                            if (IsConfigured && request.getParameterNames().hasMoreElements()) {
 
-                        default: { // Error - unrecognized symbol
-                            MakeHeader(out, "", true);
+                                String codestr;
+
+                                if ((codestr = request.getParameter("code")).length() > 0) {
+                                    if (SQLAgent.TestConnect()) {
+                                        // Вычленяем число
+                                        codestr = codestr.replaceAll("\\D", "");
+
+                                        if (codestr.length() == 0) {
+                                            MakeHeader(response.getWriter(), "", true);
+                                            return;
+                                        }
+
+                                        int code = Integer.decode(codestr);
+
+                                        MakeHeader(out, "Удаление товара", false);
+
+                                        boolean success = SQLAgent.DeleteProduct(code);
+
+                                        out.println("<h2>Удаление товара с кодом " + code + ((success) ? " " : " не ") + "успешно</h2>");
+                                        if (!success) {
+                                            out.println("Возможно, неверный код товара или ошибка базы данных");
+                                        }
+                                    } else {
+                                        NoConnection(out);
+                                    }
+                                } else {
+                                    MakeHeader(out, "", true);
+                                }
+                            } else {
+                                MakeHeader(out, "", true);
+                            }
+                        } finally {
+                            MakeFooter(response.getWriter());
                         }
+                        break;
+                    }
+                    case 'l': { // Show products
+                        if (IsConfigured && SQLAgent.TestConnect()) {
+                            MakeHeader(out, "Список товаров", false);
+
+                            LinkedList<String> list = SQLAgent.ShowProductInfo();
+                            for (int i = 0; i < list.size(); i++) {
+                                out.write(list.get(i));
+                            }
+                            list.clear();
+                            MakeFooter(out);
+                        } else {
+                            NoConnection(out);
+                        }
+                        break;
+                    }
+                    case 't': { // Telnov!
+                        MakeHeader(out, "What does Telnov say?", false);
+                        out.println("<h1>What does Telnov say?</h1>");
+                        out.println("<h2>What does Telnov say?</h2>");
+                        out.println("<h3>What does Telnov say?</h3>");
+                        out.println("<h4>What does Telnov say?</h4>");
+                        out.println("<h5>What does Telnov say?</h5>");
+                        out.println("<h6>What does Telnov say?</h6>");
+                        break;
+                    }
+                    case 's': { // Start
+                        try {
+                            // Сперва удалим завершённые симуляции из списка
+                            for (int i = workers.size() - 1; i >= 0; i--) {
+                                if (workers.get(i).ready) {
+                                    workers.remove(i);
+                                }
+                            }
+
+                            if (IsConfigured && request.getParameterNames().hasMoreElements()) {
+                                String peoplecountstr, goodscountstr;
+                                peoplecountstr = request.getParameter("peoplecount");
+                                goodscountstr = request.getParameter("goodscount");
+
+                                // Как такие числа могут содержать не цифры? Именно!
+                                peoplecountstr = peoplecountstr.replaceAll("\\D", "");
+                                goodscountstr = goodscountstr.replaceAll("\\D", "");
+
+                                if (peoplecountstr.length() > 0 && goodscountstr.length() > 0) {
+                                    int peoplecount = Integer.decode(peoplecountstr);
+                                    int goodscount = Integer.decode(goodscountstr);
+
+                                    if (peoplecount < 20 && goodscount < 1) {
+                                        MakeHeader(out, "Ой...", false); // Плохие параметры
+                                        out.println("Слишком маленькие значения! Покупателей надо не менее 20-и, а товаров - не менее одного");
+                                    } else {
+
+                                        workers.addLast(new Worker());
+                                        workers.getLast().StartSim(peoplecount, goodscount);
+
+                                        out.println("<!DOCTYPE html>");
+                                        out.println("<html>");
+                                        out.println("<head>");
+                                        out.println("<title>Идёт работа</title>");
+                                        out.println("<meta http-equiv=\"refresh\" content=\"5; URL=./TTerminal?simid=" + workers.getLast().simid + "\"/>");
+                                        out.println("</head>");
+                                        out.println("<body>");
+                                        out.println("<h1>Ждите 5 секунд...</h1>");
+                                    }
+                                } else {
+                                    MakeHeader(out, "", true);
+                                }
+                            } else {
+                                MakeHeader(out, "", true);
+                            }
+                        } finally {
+                            MakeFooter(out);
+                        }
+                        break;
+                    }
+
+                    case 'c': { // Set DB settings
+                        try {
+                            if (!(IsConfigured = SQLAgent.LoadSettings()) && request.getParameterNames().hasMoreElements()) {
+                                String DBstr, URLstr, userstr, passwordstr, keystr;
+
+                                // Получаем параметры
+                                DBstr = request.getParameter("db");
+                                URLstr = request.getParameter("url");
+                                userstr = request.getParameter("user");
+                                passwordstr = request.getParameter("password");
+                                keystr = request.getParameter("key");
+
+                                // Чтоб не могли там всякие настроить раньше нас
+                                String key = "jyuwfu9xecf4im9rwvsagbzfvcuax14yqjl1pyvimvhpurmbaf";
+                                if (key.equals(keystr) && DBstr.length() > 0 && URLstr.length() > 0 && userstr.length() > 0 && passwordstr.length() > 0) {
+                                    try {
+                                        FileWriter fw = new FileWriter("DBprops.prop");
+                                        try {
+                                            BufferedWriter output = new BufferedWriter(fw);
+                                            output.write(DBstr);
+                                            output.newLine();
+                                            output.write(URLstr);
+                                            output.newLine();
+                                            output.write(userstr);
+                                            output.newLine();
+                                            output.write(passwordstr);
+                                            output.newLine();
+
+                                            output.flush();
+                                            output.close();
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        fw.close();
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+
+                                    MakeHeader(out, "Добавление настроек", false);
+                                    out.println("<h3>Готово!</h3>");
+                                } else {
+                                    MakeHeader(out, "Ошибка", false);
+                                    out.println("<h2>Нет какого-либо параметра</h2>");
+                                }
+                            } else {
+                                MakeHeader(out, "Ошибка", false);
+                                out.println("<h2>Настройки уже загружены</h2>");
+                            }
+                        } finally {
+                            MakeFooter(out);
+                        }
+                        break;
+                    }
+
+                    case 'f': { // Если уж вдруг что-то зависло...
+                        try {
+                            if (IsConfigured) { // Если false, то симуляция не могла быть запущена!
+                                workers.clear();
+                                SQLAgent.Fix();
+
+                                MakeHeader(out, "ОК", false);
+                                out.println("<h2>OK</h2>");
+
+                            } else {
+                                NoConnection(out);
+                            }
+                        } finally {
+                            MakeFooter(out);
+                        }
+                        break;
+                    }
+
+                    default: { // Error - unrecognized symbol
+                        MakeHeader(out, "", true);
                     }
                 }
             }
+            out.close();
         } finally {
             MakeFooter(response.getWriter());
         }

@@ -37,7 +37,7 @@ public class Buyer {
     public int Money; // Количество денег
     public boolean Discount = false; // Дисконтная карта
 
-    public LinkedList<Product> Cart = new LinkedList<>(); // Корзина продуктов
+    public LinkedList<Product> Cart = new LinkedList<Product>(); // Корзина продуктов
 
     // Добавление товара
     public void AddProduct(Product thing) {

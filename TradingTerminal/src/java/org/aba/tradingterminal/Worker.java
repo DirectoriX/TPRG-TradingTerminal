@@ -36,7 +36,7 @@ class Worker {
     public boolean ready = false; // Завершено?
 
     private Distribution distr = new Distribution();
-    private LinkedList<Buyer> BuyersList = new LinkedList<>(); // Очередь
+    private LinkedList<Buyer> BuyersList = new LinkedList<Buyer>(); // Очередь
     private Generator generator;
     private Stat stat = new Stat();
     int simid = -1; // Номер симуляции
