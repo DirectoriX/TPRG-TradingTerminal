@@ -25,28 +25,17 @@
  */
 package org.aba.tradingterminal;
 
-import java.util.LinkedList;
-
 public class Buyer {
 
-    public int ArriveTime;
-    public int ServedTime;
-    public int Money;
-    public boolean Discount = false;
+    private boolean Discount = false;
 
-    public LinkedList<Product> Cart = new LinkedList<>();
+    public float[] Cart;
 
-    public void AddProduct(Product thing) {
-        Cart.add(thing);
-        Money += thing.Count * thing.Price + 1;
+    public boolean isDiscount() {
+        return Discount;
     }
 
-    public int GetTotal() {
-        int sum = 0;
-        int gc = Cart.size();
-        for (int i = 0; i < gc; i++) {
-            sum += Cart.get(i).GetTotalPrice();
-        }
-        return (int) (sum * ((Discount) ? 0.95 : 1));
+    public void setDiscount(boolean Discount) {
+        this.Discount = Discount;
     }
 }

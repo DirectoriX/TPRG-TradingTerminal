@@ -172,10 +172,10 @@ public class SQLAgent {
                 for (int i = 0, n = buyer.Cart.size(); i < n; i++) {
                     good = buyer.Cart.get(i);
 
-                    st.setInt(3, good.Code);
-                    st.setString(4, good.Name);
-                    st.setFloat(5, good.Count);
-                    st.setInt(7, good.GetTotalPrice() * ((buyer.Discount) ? -1 : 1));
+                    st.setInt(3, good.getCode());
+                    st.setString(4, good.getName());
+                    st.setFloat(5, good.getCount());
+                    st.setInt(7, good.GetTotalPrice() * ((buyer.isDiscount()) ? -1 : 1));
 
                     st.execute();
                 }
@@ -238,11 +238,11 @@ public class SQLAgent {
                 while (res.next()) { // Обрабатываем все записи...
                     Product tmp = new Product();
 
-                    tmp.Code = res.getInt("code");
-                    tmp.Name = res.getString("name");
-                    tmp.IsPacked = res.getBoolean("ispacked");
-                    tmp.Count = res.getFloat("count");
-                    tmp.Price = res.getFloat("cost");
+                    tmp.setCode(res.getInt("code"));
+                    tmp.setName(res.getString("name"));
+                    tmp.setIsPacked(res.getBoolean("ispacked"));
+                    tmp.setCount(res.getFloat("count"));
+                    tmp.setPrice(res.getFloat("cost"));
 
                     result.add(tmp);
 
@@ -418,7 +418,7 @@ public class SQLAgent {
     public static boolean AddProduct(Product item) { // Функция, добавляющая информацию о новом продукте
         boolean result = false;
 
-        if (item.Code < 0 || item.Count <= 0 || item.Price <= 0) { // Не надо так...
+        if (item.getCode() < 0 || item.getCount() <= 0 || item.getPrice() <= 0) { // Не надо так...
             return result;
         }
 
@@ -429,7 +429,7 @@ public class SQLAgent {
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement(request)) {
-                st.setInt(1, item.Code);
+                st.setInt(1, item.getCode());
                 try (ResultSet res = st.executeQuery()) {
                     s = (res.next()); // Смотрим, есть ли такой товар
                 } catch (SQLException ex) {
@@ -439,11 +439,11 @@ public class SQLAgent {
                 if (!s) {
                     try (PreparedStatement st_add = conn.prepareStatement("INSERT INTO products() VALUES (0, ?, ?, ?, ?, ?)")) {
 
-                        st_add.setInt(1, item.Code);
-                        st_add.setString(2, item.Name);
-                        st_add.setBoolean(3, item.IsPacked);
-                        st_add.setFloat(4, item.Count);
-                        st_add.setFloat(5, item.Price);
+                        st_add.setInt(1, item.getCode());
+                        st_add.setString(2, item.getName());
+                        st_add.setBoolean(3, item.isIsPacked());
+                        st_add.setFloat(4, item.getCount());
+                        st_add.setFloat(5, item.getPrice());
 
                         st_add.execute();
 
@@ -472,7 +472,7 @@ public class SQLAgent {
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement(request)) {
-                st.setInt(1, item.Code);
+                st.setInt(1, item.getCode());
                 try (ResultSet res = st.executeQuery()) {
                     s = (res.next()); // Проверяем, есть ли такой товар
                 } catch (SQLException ex) {
@@ -480,22 +480,22 @@ public class SQLAgent {
                 }
 
                 if (s) {
-                    request = "UPDATE products SET ispacked = " + ((item.IsPacked) ? 1 : 0);
+                    request = "UPDATE products SET ispacked = " + ((item.isIsPacked()) ? 1 : 0);
 
                     // Пишем только непустые изменения
-                    if (item.Count > 0) {
-                        request += ", count = " + item.Count;
+                    if (item.getCount() > 0) {
+                        request += ", count = " + item.getCount();
                     }
 
-                    if (item.Name.length() > 0) {
-                        request += ", name = '" + item.Name + "'";
+                    if (item.getName().length() > 0) {
+                        request += ", name = '" + item.getName() + "'";
                     }
 
-                    if (item.Price > 0) {
-                        request += ", cost = " + item.Price;
+                    if (item.getPrice() > 0) {
+                        request += ", cost = " + item.getPrice();
                     }
 
-                    request += " WHERE code = " + item.Code;
+                    request += " WHERE code = " + item.getCode();
 
                     result = !conn.createStatement().execute(request);
                 }

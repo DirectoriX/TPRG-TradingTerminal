@@ -211,11 +211,11 @@ public class TTerminal extends HttpServlet {
                                             float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
                                             if (SQLAgent.TestConnect() && code >= 0 && count > 0 && price > 0) {
                                                 Product tmp = new Product();
-                                                tmp.Code = code;
-                                                tmp.Count = count;
-                                                tmp.IsPacked = ispacked;
-                                                tmp.Price = price;
-                                                tmp.Name = namestr;
+                                                tmp.setCode(code);
+                                                tmp.setCount(count);
+                                                tmp.setIsPacked(ispacked);
+                                                tmp.setPrice(price);
+                                                tmp.setName(namestr);
 
                                                 MakeHeader(out, "Добавление товара", false);
 
@@ -266,31 +266,31 @@ public class TTerminal extends HttpServlet {
                                     pricefrstr = pricefrstr.replaceAll("\\D", "");
                                     Product tmp = new Product();
 
-                                    tmp.IsPacked = ispacked;
+                                    tmp.setIsPacked(ispacked);
 
                                     // Не добавляем ненужных параметров
                                     if (codestr.length() > 0) {
                                         int code = Integer.decode(codestr);
-                                        tmp.Code = code;
+                                        tmp.setCode(code);
 
                                         if (namestr.length() > 0) {
-                                            tmp.Name = namestr;
+                                            tmp.setName(namestr);
                                         } else {
-                                            tmp.Name = "";
+                                            tmp.setName("");
                                         }
 
                                         if (countstr.length() > 0 && countfrstr.length() > 0) {
                                             float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
-                                            tmp.Count = count;
+                                            tmp.setCount(count);
                                         } else {
-                                            tmp.Count = -1;
+                                            tmp.setCount(-1);
                                         }
 
                                         if (pricestr.length() > 0 && pricefrstr.length() > 0) {
                                             float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
-                                            tmp.Price = price;
+                                            tmp.setPrice(price);
                                         } else {
-                                            tmp.Price = -1;
+                                            tmp.setPrice(-1);
                                         }
                                         if (SQLAgent.TestConnect()) {
                                             MakeHeader(out, "Редактирование товара", false);

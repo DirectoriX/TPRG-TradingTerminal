@@ -25,7 +25,6 @@
  */
 package org.aba.tradingterminal;
 
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -34,55 +33,40 @@ import java.util.Random;
  */
 public class Generator {
 
-    private final LinkedList<Product> RangeOfGoods;
     private final int AVGGoodsCount;
     private final int size;
+    private Product tmp;
+    Random RNG = new Random();
 
     public Generator(int avggoodscount) {
 
-        RangeOfGoods = SQLAgent.GetProductInfo();
-
-        if (avggoodscount < RangeOfGoods.size()) {
+        if (avggoodscount < Worker.ListOfProducts.size()) {
             AVGGoodsCount = avggoodscount;
         } else {
-            AVGGoodsCount = RangeOfGoods.size();
+            AVGGoodsCount = Worker.ListOfProducts.size();
         }
 
-        size = RangeOfGoods.size();
+        size = Worker.ListOfProducts.size();
     }
 
-    public Buyer CreateBuyer() {
-        Random RNG = new Random();
-        Distribution Dist = new Distribution();
-        Buyer buyer = new Buyer();
+    public void EditBuyer(Buyer buyer) {
+
         if (RNG.nextInt(100) < 10) {
-            buyer.Discount = true;
+            buyer.setDiscount(true);
         }
-        Product tmpProduct, EG;
-        // for (int i = 0, goodscount = Dist.GetIntCount(AVGGoodsCount); i < goodscount; i++) {
-        for (int i = 0, goodscount = RangeOfGoods.size(); i < goodscount; i++) {
-            if (RNG.nextInt(goodscount) < AVGGoodsCount) {
-                EG = RangeOfGoods.get(i);
-                
-                tmpProduct=new Product();
-                
-                tmpProduct.Code=EG.Code;
-                tmpProduct.IsPacked=EG.IsPacked;
-                tmpProduct.Name=EG.Name;
-                tmpProduct.Price=EG.Price;
-                
-                
-                if (tmpProduct.IsPacked) {
-                    tmpProduct.Count = Dist.GetIntCount(EG.Count);
+
+        for (int i = 0; i < size; i++) {
+            if (RNG.nextInt(size) < AVGGoodsCount) {
+                tmp = Worker.ListOfProducts.get(i);
+                if (tmp.isIsPacked()) {
+                    buyer.Cart[i] = Distribution.GetIntCount(tmp.getCount());
                 } else {
-                    tmpProduct.Count = Dist.GetFloatCount(EG.Count, (float) 0.25);
+                    buyer.Cart[i] = Distribution.GetFloatCount(tmp.getCount(), (float) 0.100);
                 }
-
-                buyer.AddProduct(tmpProduct);
+            } else {
+                buyer.Cart[i] = 0;
             }
-
         }
-        tmpProduct = null;
-        return buyer;
+
     }
 }
