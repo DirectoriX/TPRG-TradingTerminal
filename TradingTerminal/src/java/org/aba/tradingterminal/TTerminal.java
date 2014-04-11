@@ -447,7 +447,7 @@ public class TTerminal extends HttpServlet {
                                     
                                     // Чтоб не могли там всякие настроить раньше нас
                                     String key = "jyuwfu9xecf4im9rwvsagbzfvcuax14yqjl1pyvimvhpurmbaf";
-                                    if (key.equals(keystr) && DBstr.length() > 0 && URLstr.length() > 0 && userstr.length() > 0 && passwordstr.length() > 0) {
+                                    if (key.equals(keystr) && DBstr.length() > 0 && URLstr.length() > 0 && userstr.length() > 0) {
                                         try (FileWriter fw = new FileWriter("DBprops.prop")) {
                                             try (BufferedWriter output = new BufferedWriter(fw)) {
                                                 output.write(DBstr);
