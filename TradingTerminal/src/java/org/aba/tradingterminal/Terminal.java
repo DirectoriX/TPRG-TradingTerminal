@@ -32,13 +32,14 @@ public class Terminal {
     public int Profit = 0;
     public boolean AmICorrect = false;
     public int simid;
+    public int queue;
 
     public void Serve(Buyer buyer, int time) {
-        Profit += buyer.GetTotal();
-        Money += buyer.GetTotal();
+        Profit += buyer.getTotal();
+        Money += buyer.getTotal();
 
         SQLAgent.Buyed(id, time, simid, buyer);
-
+        queue--;
         id++;
     }
 }

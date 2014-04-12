@@ -40,13 +40,13 @@ public class Generator {
 
     public Generator(int avggoodscount) {
 
-        if (avggoodscount < Worker.ListOfProducts.size()) {
+        size = Worker.ListOfProducts.size();
+        if (avggoodscount < size) {
             AVGGoodsCount = avggoodscount;
         } else {
-            AVGGoodsCount = Worker.ListOfProducts.size();
+            AVGGoodsCount = size;
         }
 
-        size = Worker.ListOfProducts.size();
     }
 
     public void EditBuyer(Buyer buyer) {
@@ -67,6 +67,5 @@ public class Generator {
                 buyer.Cart[i] = 0;
             }
         }
-
     }
 }

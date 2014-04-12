@@ -169,18 +169,23 @@ public class SQLAgent {
                 Product good;
 
                 // Перебираем всю корзину и пишем в БД информацию
-                for (int i = 0, n = buyer.Cart.size(); i < n; i++) {
-                    good = buyer.Cart.get(i);
+                for (int i = 0, n = buyer.getSize(); i < n; i++) {
+                    if (buyer.Cart[i] > 0) {
+                        good = Worker.ListOfProducts.get(i);
 
-                    st.setInt(3, good.getCode());
-                    st.setString(4, good.getName());
-                    st.setFloat(5, good.getCount());
-                    st.setInt(7, good.GetTotalPrice() * ((buyer.isDiscount()) ? -1 : 1));
+                        st.setInt(3, good.getCode());
+                        st.setString(4, good.getName());
+                        st.setFloat(5, buyer.Cart[i]);
+                        st.setInt(7, ((int) Math.ceil(buyer.Cart[i] buyer.Cart[i]
+                        )) * (Worker.ListOfProducts.get(i).getPrice()
+                        ) * ((buyer.isDiscount()
+                        ) ? -1 : 1);
 
-                    st.execute();
+                        st.execute();
+                    }
                 }
 
-                buyer.Cart.clear();
+//                buyer.Cart.clear();
             }
         } catch (SQLException ex) {
             HandleEx(ex);

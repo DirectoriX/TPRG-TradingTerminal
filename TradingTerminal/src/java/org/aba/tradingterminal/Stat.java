@@ -37,10 +37,10 @@ public class Stat {
     private int Profit;
     private int Goods;
 
-    public void Consider(Buyer cl) {
+    public void Consider(float total, int size) {
 
-        Profit += cl.GetTotal();
-        Goods += cl.Cart.size();
+        Profit += total;
+        Goods += size;
 
         PeopleServed++;
 

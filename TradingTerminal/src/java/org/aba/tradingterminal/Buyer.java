@@ -28,8 +28,20 @@ package org.aba.tradingterminal;
 public class Buyer {
 
     private boolean Discount = false;
-
+    public float total;
     public float[] Cart;
+
+    public int getSize() {
+        return Cart.length;
+    }
+
+    public float getTotal() {
+
+        for (int i = 0; i < Cart.length; i++) {
+            total = +Cart[i];
+        }
+        return total;
+    }
 
     public boolean isDiscount() {
         return Discount;
