@@ -27,13 +27,53 @@ package org.aba.tradingterminal;
 
 public class Product {
 
-    public String Name;
-    public int Code;
-    public float Count;
-    public boolean IsPacked;
-    public float Price;
+    private String Name;
+    private int Code;
+    private float Count;
+    private boolean IsPacked;
+    private float Price;
 
     public int GetTotalPrice(){
-        return (int) Math.ceil(Count*Price);
+        return (int) Math.ceil(getCount()*getPrice());
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public int getCode() {
+        return Code;
+    }
+
+    public void setCode(int Code) {
+        this.Code = Code;
+    }
+
+    public float getCount() {
+        return Count;
+    }
+
+    public void setCount(float Count) {
+        this.Count = Count;
+    }
+
+    public boolean isIsPacked() {
+        return IsPacked;
+    }
+
+    public void setIsPacked(boolean IsPacked) {
+        this.IsPacked = IsPacked;
+    }
+
+    public float getPrice() {
+        return Price;
+    }
+
+    public void setPrice(float Price) {
+        this.Price = Price;
     }
 }
