@@ -29,8 +29,8 @@ import java.util.Random;
 
 public class Distribution {
 
-    public static int mu = 1440;
-    public static int S = 200;
+    private static final int mu = 1440;
+    private static final int S = 200;
 
     // Объект класса Random
     private static final java.util.Random RNG = new Random();
@@ -60,22 +60,23 @@ public class Distribution {
     }
 
     public static float GetFloatCount(float count, float min) {
-        return (float) (Math.round(Tricky(count, TrickyScale, min)*100)/100.0);
+        return (float) (Math.round(Tricky(count, TrickyScale, min) * 100) / 100.0);
     }
 
     public static int GetBuyers(int time, int clients) {
         double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
-        IdealSum += value;
+        IdealSum = IdealSum + value;
         int result = (int) Math.round(value);
-        RealSum += result;
+        RealSum = RealSum + result;
 
         if (Math.abs(RealSum - IdealSum) >= 1) {
             int corr = (int) (Math.floor(Math.abs(RealSum - IdealSum)) * Math.signum(RealSum - IdealSum));
-            IdealSum -= RealSum - corr;
+            IdealSum = IdealSum - RealSum - corr;
             RealSum = 0;
             result -= corr;
         }
 
         return result;
     }
+
 }

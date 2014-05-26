@@ -46,7 +46,7 @@ public class SQLAgent {
     private static String user; // Имя пользователя
     private static String password; // Пароль
 
-    public static LinkedList<Product> RangeofGoods = new LinkedList<>();
+    private static LinkedList<Product> RangeofGoods = new LinkedList<>();
 
     private static Connection conn; // Подключение к базе данных
 
@@ -83,8 +83,7 @@ public class SQLAgent {
 
     private static void Connect() { // Функция, создающая подключение к БД
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://" + URL + "/" + DBName + "?"
-                    + "user=" + user + "&password=" + password);
+            conn = DriverManager.getConnection("jdbc:mysql://" + URL + "/" + DBName + "?" + "user=" + user + "&password=" + password);
         } catch (SQLException ex) {
             HandleEx(ex);
 
@@ -178,17 +177,17 @@ public class SQLAgent {
 
                         good = RangeofGoods.get(i);
 
-                        st.setInt(3, good.Code);
-                        st.setString(4, good.Name);
+                        st.setInt(3, good.getCode());
+                        st.setString(4, good.getName());
                         st.setFloat(5, count);
 
                         int sum = 0;
                         for (int j = 0; j < n; j++) {
-                            sum += count * RangeofGoods.get(i).Price;
+                            sum += count * RangeofGoods.get(i).getPrice();
                         }
                         total = (int) (sum * ((discount) ? 0.95 : 1));
 
-                        st.setInt(7, (int) (count * RangeofGoods.get(i).Price * ((discount) ? -1 : 1)));
+                        st.setInt(7, (int) (count * RangeofGoods.get(i).getPrice() * ((discount) ? -1 : 1)));
 
                         st.execute();
                     }
@@ -252,11 +251,11 @@ public class SQLAgent {
                 while (res.next()) { // Обрабатываем все записи...
                     Product tmp = new Product();
 
-                    tmp.Code = res.getInt("code");
-                    tmp.Name = res.getString("name");
-                    tmp.IsPacked = res.getBoolean("ispacked");
-                    tmp.Count = res.getFloat("count");
-                    tmp.Price = res.getFloat("cost");
+                    tmp.setCode(res.getInt("code"));
+                    tmp.setName(res.getString("name"));
+                    tmp.setIsPacked(res.getBoolean("ispacked"));
+                    tmp.setCount(res.getFloat("count"));
+                    tmp.setPrice(res.getFloat("cost"));
 
                     RangeofGoods.add(tmp);
 
@@ -430,7 +429,7 @@ public class SQLAgent {
     public static boolean AddProduct(Product item) { // Функция, добавляющая информацию о новом продукте
         boolean result = false;
 
-        if (item.Code < 0 || item.Count <= 0 || item.Price <= 0) { // Не надо так...
+        if (item.getCode() < 0 || item.getCount() <= 0 || item.getPrice() <= 0) { // Не надо так...
             return result;
         }
 
@@ -441,7 +440,7 @@ public class SQLAgent {
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement(request)) {
-                st.setInt(1, item.Code);
+                st.setInt(1, item.getCode());
                 try (ResultSet res = st.executeQuery()) {
                     s = (res.next()); // Смотрим, есть ли такой товар
                 } catch (SQLException ex) {
@@ -451,11 +450,11 @@ public class SQLAgent {
                 if (!s) {
                     try (PreparedStatement st_add = conn.prepareStatement("INSERT INTO products() VALUES (0, ?, ?, ?, ?, ?)")) {
 
-                        st_add.setInt(1, item.Code);
-                        st_add.setString(2, item.Name);
-                        st_add.setBoolean(3, item.IsPacked);
-                        st_add.setFloat(4, item.Count);
-                        st_add.setFloat(5, item.Price);
+                        st_add.setInt(1, item.getCode());
+                        st_add.setString(2, item.getName());
+                        st_add.setBoolean(3, item.IsPacked());
+                        st_add.setFloat(4, item.getCount());
+                        st_add.setFloat(5, item.getPrice());
 
                         st_add.execute();
 
@@ -484,7 +483,7 @@ public class SQLAgent {
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement(request)) {
-                st.setInt(1, item.Code);
+                st.setInt(1, item.getCode());
                 try (ResultSet res = st.executeQuery()) {
                     s = (res.next()); // Проверяем, есть ли такой товар
                 } catch (SQLException ex) {
@@ -492,22 +491,22 @@ public class SQLAgent {
                 }
 
                 if (s) {
-                    request = "UPDATE products SET ispacked = " + ((item.IsPacked) ? 1 : 0);
+                    request = "UPDATE products SET ispacked = " + ((item.IsPacked()) ? 1 : 0);
 
                     // Пишем только непустые изменения
-                    if (item.Count > 0) {
-                        request += ", count = " + item.Count;
+                    if (item.getCount() > 0) {
+                        request += ", count = " + item.getCount();
                     }
 
-                    if (item.Name.length() > 0) {
-                        request += ", name = '" + item.Name + "'";
+                    if (item.getName().length() > 0) {
+                        request += ", name = '" + item.getName() + "'";
                     }
 
-                    if (item.Price > 0) {
-                        request += ", cost = " + item.Price;
+                    if (item.getPrice() > 0) {
+                        request += ", cost = " + item.getPrice();
                     }
 
-                    request += " WHERE code = " + item.Code;
+                    request += " WHERE code = " + item.getCode();
 
                     result = !conn.createStatement().execute(request);
                 }
@@ -531,4 +530,9 @@ public class SQLAgent {
 
         Disconnect();
     }
+
+    public static LinkedList<Product> getRangeofGoods() {
+        return RangeofGoods;
+    }
+
 }

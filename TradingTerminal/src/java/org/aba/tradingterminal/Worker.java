@@ -31,20 +31,20 @@ import javax.swing.Timer;
 
 class Worker {
 
-    public int steps = 0;
-    public boolean ready = false;
+    private int steps = 0;
+    private boolean ready = false;
 
-    int simid = -1;
+    private int simid = -1;
     private int queue = 0;
-    private float[] Cart = new float[SQLAgent.RangeofGoods.size()];
+    private float[] Cart = new float[SQLAgent.getRangeofGoods().size()];
     private boolean Discount;
 
-    int goodscount;
-    int peoplecount;
+    private int goodscount;
+    private int peoplecount;
 
-    public int PeopleServed = 0;
-    public int MaxQueue = 0;
-    public int MaxQueueTime = 0;
+    private int PeopleServed = 0;
+    private int MaxQueue = 0;
+    private int MaxQueueTime = 0;
 
     private int Profit = 0;
     private int Goods = 0;
@@ -100,6 +100,18 @@ class Worker {
             timer = new Timer(10, al);
             timer.start();
         }
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public int getSimid() {
+        return simid;
     }
 
 }

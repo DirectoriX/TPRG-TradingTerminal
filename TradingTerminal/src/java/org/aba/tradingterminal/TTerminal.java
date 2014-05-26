@@ -41,9 +41,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
 
-    LinkedList<Worker> workers = new LinkedList();
+    private LinkedList<Worker> workers = new LinkedList();
 
-    boolean IsConfigured;
+    private boolean IsConfigured;
 
     @Override
     public void init() throws ServletException {
@@ -126,8 +126,8 @@ public class TTerminal extends HttpServlet {
                                 int percent = 0;
 
                                 for (int i = 0; i < workers.size(); i++) {
-                                    if (workers.get(i).simid == simid) {
-                                        percent = workers.get(i).steps * 100 / 2880;
+                                    if (workers.get(i).getSimid() == simid) {
+                                        percent = workers.get(i).getSteps() * 100 / 2880;
                                     }
                                 }
 
@@ -386,7 +386,7 @@ public class TTerminal extends HttpServlet {
                             try {
                                 // Сперва удалим завершённые симуляции из списка
                                 for (int i = workers.size() - 1; i >= 0; i--) {
-                                    if (workers.get(i).ready) {
+                                    if (workers.get(i).isReady()) {
                                         workers.remove(i);
                                     }
                                 }
@@ -417,7 +417,7 @@ public class TTerminal extends HttpServlet {
                                             out.println("<html>");
                                             out.println("<head>");
                                             out.println("<title>Идёт работа</title>");
-                                            out.println("<meta http-equiv=\"refresh\" content=\"5; URL=./TTerminal?simid=" + workers.getLast().simid + "\"/>");
+                                            out.println("<meta http-equiv=\"refresh\" content=\"5; URL=./TTerminal?simid=" + workers.getLast().getSimid() + "\"/>");
                                             out.println("</head>");
                                             out.println("<body>");
                                             out.println("<h1>Ждите 5 секунд...</h1>");

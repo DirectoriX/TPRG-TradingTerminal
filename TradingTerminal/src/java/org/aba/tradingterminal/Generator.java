@@ -40,30 +40,30 @@ public class Generator {
     private Product tmpProduct, EG;
 
     public Generator() {
-        size = SQLAgent.RangeofGoods.size();
+        size = SQLAgent.getRangeofGoods().size();
     }
 
     public static boolean CreateCart(float[] cart, int count) {
 
         Product tmpProduct, EG;
-        for (int i = 0, goodscount = SQLAgent.RangeofGoods.size(); i < goodscount; i++) {
+        for (int i = 0, goodscount = SQLAgent.getRangeofGoods().size(); i < goodscount; i++) {
             if (RNG.nextInt(goodscount) < count) {
-                EG = SQLAgent.RangeofGoods.get(i);
+                EG = SQLAgent.getRangeofGoods().get(i);
 
                 tmpProduct = new Product();
 
-                tmpProduct.Code = EG.Code;
-                tmpProduct.IsPacked = EG.IsPacked;
-                tmpProduct.Name = EG.Name;
-                tmpProduct.Price = EG.Price;
+                tmpProduct.setCode(EG.getCode());
+                tmpProduct.setIsPacked(EG.IsPacked());
+                tmpProduct.setName(EG.getName());
+                tmpProduct.setPrice(EG.getPrice());
 
-                if (tmpProduct.IsPacked) {
-                    tmpProduct.Count = Distribution.GetIntCount(EG.Count);
+                if (tmpProduct.IsPacked()) {
+                    tmpProduct.setCount(Distribution.GetIntCount(EG.getCount()));
                 } else {
-                    tmpProduct.Count = Distribution.GetFloatCount(EG.Count, (float) 0.25);
+                    tmpProduct.setCount(Distribution.GetFloatCount(EG.getCount(), (float) 0.25));
                 }
 
-                cart[i] = tmpProduct.Count;
+                cart[i] = tmpProduct.getCount();
             } else {
                 cart[i] = 0;
             }
@@ -72,4 +72,5 @@ public class Generator {
 
         return RNG.nextInt(100) < 10;
     }
+
 }

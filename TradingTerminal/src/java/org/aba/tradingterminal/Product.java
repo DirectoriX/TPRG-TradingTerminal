@@ -33,10 +33,6 @@ public class Product {
     private boolean IsPacked;
     private float Price;
 
-    public int GetTotalPrice(){
-        return (int) Math.ceil(getCount()*getPrice());
-    }
-
     public String getName() {
         return Name;
     }
@@ -61,7 +57,7 @@ public class Product {
         this.Count = Count;
     }
 
-    public boolean isIsPacked() {
+    public boolean IsPacked() {
         return IsPacked;
     }
 
@@ -76,4 +72,5 @@ public class Product {
     public void setPrice(float Price) {
         this.Price = Price;
     }
+
 }
