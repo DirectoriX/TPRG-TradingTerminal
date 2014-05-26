@@ -46,6 +46,8 @@ public class SQLAgent {
     private static String user; // Имя пользователя
     private static String password; // Пароль
 
+    public static LinkedList<Product> RangeofGoods = new LinkedList<>();
+
     private static Connection conn; // Подключение к базе данных
 
     private static void HandleEx(SQLException ex) { // Функция обработки исключений SQL
@@ -134,10 +136,10 @@ public class SQLAgent {
 
     }
 
-    public static void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, boolean iscorrect, int simid) { // Функция, обновляющая запись о симуляции
+    public static void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, int simid) { // Функция, обновляющая запись о симуляции
         Connect();
         try {
-            try (PreparedStatement st = conn.prepareStatement("UPDATE simulations SET peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = ? WHERE id = ?")) {
+            try (PreparedStatement st = conn.prepareStatement("UPDATE simulations SET peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = true WHERE id = ?")) {
                 st.setInt(1, peoplearrived);
                 st.setInt(2, peopleserved);
                 st.setFloat(3, avggoodscount);
@@ -145,8 +147,7 @@ public class SQLAgent {
                 st.setInt(5, profit);
                 st.setInt(6, maxqueue);
                 st.setTime(7, new Time((maxqueuetime * 10 / (60 * 60)) + 9, maxqueuetime * 10 % (60 * 60) / 60, maxqueuetime * 10 % 60));
-                st.setBoolean(8, iscorrect);
-                st.setInt(9, simid);
+                st.setInt(8, simid);
 
                 st.execute(); // Обновляем запись о симуляции до актуальных значений
             }
@@ -157,7 +158,8 @@ public class SQLAgent {
         Disconnect();
     }
 
-    public static void Buyed(int buyerid, int time, int simid, Buyer buyer) { // Функция, записывающая информацию о покупках одного покупателя
+    public static int Buyed(int buyerid, int time, int simid, float[] cart, boolean discount) { // Функция, записывающая информацию о покупках одного покупателя
+        int total = 0;
         Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -168,25 +170,37 @@ public class SQLAgent {
 
                 Product good;
 
+                float count;
                 // Перебираем всю корзину и пишем в БД информацию
-                for (int i = 0, n = buyer.Cart.size(); i < n; i++) {
-                    good = buyer.Cart.get(i);
+                for (int i = 0, n = cart.length; i < n; i++) {
+                    count = cart[i];
+                    if (count != 0) {
 
-                    st.setInt(3, good.Code);
-                    st.setString(4, good.Name);
-                    st.setFloat(5, good.Count);
-                    st.setInt(7, good.GetTotalPrice() * ((buyer.Discount) ? -1 : 1));
+                        good = RangeofGoods.get(i);
 
-                    st.execute();
+                        st.setInt(3, good.Code);
+                        st.setString(4, good.Name);
+                        st.setFloat(5, count);
+
+                        int sum = 0;
+                        for (int j = 0; j < n; j++) {
+                            sum += count * RangeofGoods.get(i).Price;
+                        }
+                        total = (int) (sum * ((discount) ? 0.95 : 1));
+
+                        st.setInt(7, (int) (count * RangeofGoods.get(i).Price * ((discount) ? -1 : 1)));
+
+                        st.execute();
+                    }
                 }
 
-                buyer.Cart.clear();
             }
         } catch (SQLException ex) {
             HandleEx(ex);
         }
 
         Disconnect();
+        return total;
     }
 
     public static LinkedList<String> ShowProductInfo() { // Функция, возвращающая полную информацию об ассортименте магазина в удобном для пользователя виде
@@ -226,8 +240,8 @@ public class SQLAgent {
         return result;
     }
 
-    public static LinkedList<Product> GetProductInfo() { // Функция, возвращающая полную информацию об ассортименте магазина
-        LinkedList<Product> result = new LinkedList();
+    public static void Load() { // Функция, возвращающая полную информацию об ассортименте магазина
+        RangeofGoods.clear();
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
 
@@ -244,7 +258,7 @@ public class SQLAgent {
                     tmp.Count = res.getFloat("count");
                     tmp.Price = res.getFloat("cost");
 
-                    result.add(tmp);
+                    RangeofGoods.add(tmp);
 
                 }
             }
@@ -253,8 +267,6 @@ public class SQLAgent {
         }
 
         Disconnect();
-
-        return result;
     }
 
     public static LinkedList<String> GetResults(int simulationid) { // Функция, возвращающая подробную информацию о симуляции

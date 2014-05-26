@@ -27,7 +27,6 @@ package org.aba.tradingterminal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import javax.swing.Timer;
 
 class Worker {
@@ -35,16 +34,24 @@ class Worker {
     public int steps = 0;
     public boolean ready = false;
 
-    private Distribution distr = new Distribution();
-    private LinkedList<Buyer> BuyersList = new LinkedList<>();
-    private Generator generator;
-    private Stat stat = new Stat();
     int simid = -1;
+    private int queue = 0;
+    private float[] Cart = new float[SQLAgent.RangeofGoods.size()];
+    private boolean Discount;
+
+    int goodscount;
+    int peoplecount;
+
+    public int PeopleServed = 0;
+    public int MaxQueue = 0;
+    public int MaxQueueTime = 0;
+
+    private int Profit = 0;
+    private int Goods = 0;
 
     private Timer timer;
-    private Terminal terminal = new Terminal();
-    private Admin admin = new Admin();
 
+    // private 
     private ActionListener al = new ActionListener() {
 
         @Override
@@ -53,33 +60,31 @@ class Worker {
             if (steps == maxsteps) {
                 ready = true;
 
-                admin.setMoney(admin.getMoney() + terminal.Money);
-                terminal.AmICorrect = admin.CheckGig(terminal.Profit);
-
                 timer.stop();
 
-                SQLAgent.Ended(stat.PeopleArrived, stat.PeopleServed, stat.AvgGoodsCount, stat.AvgProfit, terminal.Profit, stat.MaxQueue, stat.MaxQueueTime, terminal.AmICorrect, simid);
+                SQLAgent.Ended(PeopleServed + queue, PeopleServed, (float) (Goods * 1.0 / PeopleServed), (float) (Profit * 1.0 / PeopleServed), Profit, MaxQueue, MaxQueueTime, simid);
                 return;
             }
 
-            for (int i = 0, BuyersNum = distr.GetBuyers(steps); i < BuyersNum; i++) {
-                BuyersList.addLast(generator.CreateBuyer());
-                stat.PeopleArrived++;
+            queue += Distribution.GetBuyers(steps, peoplecount);
+
+            if (MaxQueue < queue) {
+                MaxQueue = queue;
+                MaxQueueTime = steps;
             }
 
-            if (stat.MaxQueue < BuyersList.size()) {
-                stat.MaxQueue = BuyersList.size();
-                stat.MaxQueueTime = steps;
-            }
-            if (BuyersList.size() > 0) {
-                stat.Consider(BuyersList.peekFirst());
-                terminal.Serve(BuyersList.peekFirst(), steps);
-                BuyersList.removeFirst();
-                if (terminal.Money > 200000) {
-                    admin.setMoney(admin.getMoney() + terminal.Money - admin.getAmount());
-                    terminal.Money = admin.getAmount();
+            if (queue > 0) {
+                Discount = Generator.CreateCart(Cart, goodscount);
+
+                Profit += SQLAgent.Buyed(++PeopleServed, steps, simid, Cart, Discount);
+
+                for (int i = 0; i < Cart.length; i++) {
+                    if (Cart[i] != 0) {
+                        Goods++;
+                    }
                 }
 
+                queue--;
             }
 
             steps++;
@@ -88,14 +93,11 @@ class Worker {
     };
 
     public void StartSim(int peoplecount, int goodscount) {
-        distr.clients = peoplecount;
-        generator = new Generator(goodscount);
+        this.goodscount = goodscount;
+        this.peoplecount = peoplecount;
         if (SQLAgent.TestConnect()) {
             simid = SQLAgent.Started(peoplecount, goodscount);
-            terminal.simid = simid;
-            terminal.Money = admin.getAmount();
-            admin.setMoney(-admin.getAmount());
-            timer = new Timer(20, al);
+            timer = new Timer(10, al);
             timer.start();
         }
     }

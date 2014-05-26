@@ -390,7 +390,11 @@ public class TTerminal extends HttpServlet {
                                         workers.remove(i);
                                     }
                                 }
-                                
+
+                                if (workers.size() == 0) {
+                                    SQLAgent.Load();
+                                }
+
                                 if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String peoplecountstr, goodscountstr;
                                     peoplecountstr = request.getParameter("peoplecount");
@@ -404,10 +408,7 @@ public class TTerminal extends HttpServlet {
                                         int peoplecount = Integer.decode(peoplecountstr);
                                         int goodscount = Integer.decode(goodscountstr);
 
-                                        if (peoplecount < 20 && goodscount < 1) {
-                                            MakeHeader(out, "Ой...", false); // Плохие параметры
-                                            out.println("Слишком маленькие значения! Покупателей надо не менее 20-и, а товаров - не менее одного");
-                                        } else {
+                                        if (peoplecount >= 20 && goodscount >= 1) {
 
                                             workers.addLast(new Worker());
                                             workers.getLast().StartSim(peoplecount, goodscount);
@@ -420,6 +421,10 @@ public class TTerminal extends HttpServlet {
                                             out.println("</head>");
                                             out.println("<body>");
                                             out.println("<h1>Ждите 5 секунд...</h1>");
+                                        } else {
+
+                                            MakeHeader(out, "Ой...", false); // Плохие параметры
+                                            out.println("Слишком маленькие значения! Покупателей надо не менее 20-и, а товаров - не менее одного");
                                         }
                                     } else {
                                         MakeHeader(out, "", true);
@@ -437,14 +442,14 @@ public class TTerminal extends HttpServlet {
                             try {
                                 if (!(IsConfigured = SQLAgent.LoadSettings()) && request.getParameterNames().hasMoreElements()) {
                                     String DBstr, URLstr, userstr, passwordstr, keystr;
-                                    
+
                                     // Получаем параметры
                                     DBstr = request.getParameter("db");
                                     URLstr = request.getParameter("url");
                                     userstr = request.getParameter("user");
                                     passwordstr = request.getParameter("password");
                                     keystr = request.getParameter("key");
-                                    
+
                                     // Чтоб не могли там всякие настроить раньше нас
                                     String key = "jyuwfu9xecf4im9rwvsagbzfvcuax14yqjl1pyvimvhpurmbaf";
                                     if (key.equals(keystr) && DBstr.length() > 0 && URLstr.length() > 0 && userstr.length() > 0 && passwordstr.length() > 0) {
