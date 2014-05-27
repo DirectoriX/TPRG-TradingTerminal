@@ -230,6 +230,9 @@ public class SQLAgent {
     }
 
     public static void Load() { // Функция, возвращающая полную информацию об ассортименте магазина
+        for (int i = 0; i < RangeofGoods.size(); i++) {
+            RangeofGoods.set(i, null);
+        }
         RangeofGoods.clear();
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
