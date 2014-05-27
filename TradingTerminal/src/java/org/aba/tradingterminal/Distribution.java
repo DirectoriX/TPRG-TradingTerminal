@@ -35,11 +35,6 @@ public class Distribution {
     // Объект класса Random
     private static final java.util.Random RNG = new Random();
 
-    // Сумма без округления
-    private static double IdealSum = 0;
-    // Сумма после округления
-    private static int RealSum = 0;
-
     // Логистическое распределение: функция плотности вероятности
     private static double Logistic(double Median, double Scale, double x) {
         double result = Math.exp(-(x - Median) / Scale);
@@ -63,16 +58,16 @@ public class Distribution {
         return (float) (Math.round(Tricky(count, TrickyScale, min) * 100) / 100.0);
     }
 
-    public static int GetBuyers(int time, int clients) {
+    public static int GetBuyers(int time, int clients, double[] IdealSum, int[] RealSum) {
         double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
-        IdealSum = IdealSum + value;
+        IdealSum[0] += value;
         int result = (int) Math.round(value);
-        RealSum = RealSum + result;
+        RealSum[0] += result;
 
-        if (Math.abs(RealSum - IdealSum) >= 1) {
-            int corr = (int) (Math.floor(Math.abs(RealSum - IdealSum)) * Math.signum(RealSum - IdealSum));
-            IdealSum = IdealSum - RealSum - corr;
-            RealSum = 0;
+        if (Math.abs(RealSum[0] - IdealSum[0]) >= 1) {
+            int corr = (int) (RNG.nextDouble() * 2.0 * Math.floor(Math.abs(RealSum[0] - IdealSum[0])) * Math.signum(RealSum[0] - IdealSum[0]));
+            IdealSum[0] = IdealSum[0] - RealSum[0] + corr;
+            RealSum[0] = 0;
             result -= corr;
         }
 

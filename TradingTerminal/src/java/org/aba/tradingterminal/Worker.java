@@ -42,6 +42,9 @@ class Worker {
     private int goodscount;
     private int peoplecount;
 
+    double[] IdealSum = new double[1];
+    int[] RealSum = new int[1];
+
     private int PeopleServed = 0;
     private int MaxQueue = 0;
     private int MaxQueueTime = 0;
@@ -51,32 +54,31 @@ class Worker {
 
     private Timer timer;
 
-    // private 
-    private ActionListener al = new ActionListener() {
+    private final ActionListener al = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             final int maxsteps = 2880;
-            if (steps == maxsteps) {
+            if (getSteps() == maxsteps) {
                 ready = true;
 
                 timer.stop();
 
-                SQLAgent.Ended(PeopleServed + queue, PeopleServed, (float) (Goods * 1.0 / PeopleServed), (float) (Profit * 1.0 / PeopleServed), Profit, MaxQueue, MaxQueueTime, simid);
+                SQLAgent.Ended(PeopleServed + queue, PeopleServed, (float) (Goods * 1.0 / PeopleServed), (float) (Profit * 1.0 / PeopleServed), Profit, (MaxQueue == 0) ? 1 : MaxQueue, MaxQueueTime, simid);
                 return;
             }
 
-            queue += Distribution.GetBuyers(steps, peoplecount);
+            queue += Distribution.GetBuyers(getSteps(), peoplecount, IdealSum, RealSum);
 
             if (MaxQueue < queue) {
                 MaxQueue = queue;
-                MaxQueueTime = steps;
+                MaxQueueTime = getSteps();
             }
 
             if (queue > 0) {
                 Discount = Generator.CreateCart(Cart, goodscount);
 
-                Profit += SQLAgent.Buyed(++PeopleServed, steps, simid, Cart, Discount);
+                Profit += SQLAgent.Buyed(++PeopleServed, getSteps(), simid, Cart, Discount);
 
                 for (int i = 0; i < Cart.length; i++) {
                     if (Cart[i] != 0) {
@@ -87,7 +89,7 @@ class Worker {
                 queue--;
             }
 
-            steps++;
+            setSteps(getSteps() + 1);
         }
 
     };
@@ -95,9 +97,13 @@ class Worker {
     public void StartSim(int peoplecount, int goodscount) {
         this.goodscount = goodscount;
         this.peoplecount = peoplecount;
+
+        IdealSum[0] = 0.0;
+        RealSum[0] = 0;
+
         if (SQLAgent.TestConnect()) {
             simid = SQLAgent.Started(peoplecount, goodscount);
-            timer = new Timer(10, al);
+            timer = new Timer(5, al);
             timer.start();
         }
     }
@@ -112,6 +118,10 @@ class Worker {
 
     public int getSimid() {
         return simid;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 
 }

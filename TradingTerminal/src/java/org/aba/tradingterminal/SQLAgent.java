@@ -46,7 +46,7 @@ public class SQLAgent {
     private static String user; // Имя пользователя
     private static String password; // Пароль
 
-    private static LinkedList<Product> RangeofGoods = new LinkedList<>();
+    private static final LinkedList<Product> RangeofGoods = new LinkedList<>();
 
     private static Connection conn; // Подключение к базе данных
 
@@ -79,9 +79,10 @@ public class SQLAgent {
         }
 
         return result;
+
     }
 
-    private static void Connect() { // Функция, создающая подключение к БД
+    public static void Connect() { // Функция, создающая подключение к БД
         try {
             conn = DriverManager.getConnection("jdbc:mysql://" + URL + "/" + DBName + "?" + "user=" + user + "&password=" + password);
         } catch (SQLException ex) {
@@ -91,7 +92,7 @@ public class SQLAgent {
         }
     }
 
-    private static void Disconnect() { // Функция, закрывающая подключение к БД
+    public static void Disconnect() { // Функция, закрывающая подключение к БД
         try {
             conn.close();
         } catch (SQLException ex) {
@@ -101,18 +102,16 @@ public class SQLAgent {
 
     public static boolean TestConnect() { // Функция, проверяющая правильность параметров подключения к БД
 
-        Connect();
-        boolean res = !(conn == null);
-
-        if (res) {
-            Disconnect(); // Негоже держать подключения открытыми
+        boolean res = false;
+        try {
+            res = !conn.isClosed();
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return res;
     }
 
     public static int Started(int peoplecount, int goodscount) { // Функция, создающая новую запись о симуляции
-        Connect();
         int ret = 0;
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO simulations() VALUES (0, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0)")) {
@@ -129,14 +128,11 @@ public class SQLAgent {
             HandleEx(ex);
         }
 
-        Disconnect();
-
         return ret;
 
     }
 
     public static void Ended(int peoplearrived, int peopleserved, float avggoodscount, float avgprofit, int profit, int maxqueue, int maxqueuetime, int simid) { // Функция, обновляющая запись о симуляции
-        Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("UPDATE simulations SET peoplearrived = ?, peopleserved = ?, avggoodscount = ?, avgprofit = ?, profit = ?, maxqueue = ?, maxqueuetime = ?, iscorrect = true WHERE id = ?")) {
                 st.setInt(1, peoplearrived);
@@ -154,12 +150,10 @@ public class SQLAgent {
             HandleEx(ex);
         }
 
-        Disconnect();
     }
 
     public static int Buyed(int buyerid, int time, int simid, float[] cart, boolean discount) { // Функция, записывающая информацию о покупках одного покупателя
         int total = 0;
-        Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO reports() VALUES (0, ?, ?, ?, ?, ?, ?, ?)")) {
                 // Записываем общие для всех товаров параметры
@@ -198,7 +192,6 @@ public class SQLAgent {
             HandleEx(ex);
         }
 
-        Disconnect();
         return total;
     }
 
@@ -207,7 +200,6 @@ public class SQLAgent {
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
 
-        Connect();
         try {
             try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)) {
 
@@ -234,8 +226,6 @@ public class SQLAgent {
             HandleEx(ex);
         }
 
-        Disconnect();
-
         return result;
     }
 
@@ -244,7 +234,6 @@ public class SQLAgent {
 
         String request = "SELECT p.code, p.name, p.ispacked, p.count, p.cost FROM products p ORDER BY p.name";
 
-        Connect();
         try {
             try (Statement st = conn.createStatement(); ResultSet res = st.executeQuery(request)) {
 
@@ -264,14 +253,11 @@ public class SQLAgent {
         } catch (SQLException ex) {
             HandleEx(ex);
         }
-
-        Disconnect();
     }
 
     public static LinkedList<String> GetResults(int simulationid) { // Функция, возвращающая подробную информацию о симуляции
         LinkedList<String> result = new LinkedList();
         boolean empty = true;
-        Connect();
 
         if (simulationid < 1) { // Некорректный номер
             result.add("<h2>Invalid sumulation id</h2>");
@@ -285,9 +271,8 @@ public class SQLAgent {
                 try (ResultSet simres = sim.executeQuery()) {
                     if (simres.next()) {
                         // Если симуляция не завершена...
-                        if (simres.getInt("maxqueue") == 0 && simres.getInt("peoplecount") > 0) {
+                        if (simres.getInt("maxqueue") == 0) {
                             result.clear(); // ...вернуть пустой список
-                            Disconnect();
                             return result;
                         }
 
@@ -380,8 +365,6 @@ public class SQLAgent {
             result.add("<h3>Неверный номер симуляции</h3>");
         }
 
-        Disconnect();
-
         return result;
     }
 
@@ -395,8 +378,6 @@ public class SQLAgent {
         boolean s = false;
 
         String request = "SELECT COUNT FROM products WHERE code = ?";
-
-        Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement(request)) {
                 st.setInt(1, code);
@@ -416,8 +397,6 @@ public class SQLAgent {
                         HandleEx(ex);
                     }
                 }
-
-                Disconnect();
             }
 
         } catch (SQLException ex) {
@@ -437,7 +416,6 @@ public class SQLAgent {
 
         String request = "SELECT COUNT FROM products WHERE code = ?";
 
-        Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement(request)) {
                 st.setInt(1, item.getCode());
@@ -480,7 +458,6 @@ public class SQLAgent {
 
         String request = "SELECT COUNT FROM products WHERE code = ?";
 
-        Connect();
         try {
             try (PreparedStatement st = conn.prepareStatement(request)) {
                 st.setInt(1, item.getCode());
@@ -519,7 +496,6 @@ public class SQLAgent {
     }
 
     public static void Fix() { // Функция, исправляющая сбойные записи о симуляциях
-        Connect();
         try {
             try (Statement st = conn.createStatement()) {
                 st.execute("UPDATE simulations SET maxqueue = 1 WHERE maxqueue = 0"); // Именно это поле используется как флаг начатой, но не завершённой симуляции
@@ -528,7 +504,6 @@ public class SQLAgent {
             HandleEx(ex);
         }
 
-        Disconnect();
     }
 
     public static LinkedList<Product> getRangeofGoods() {

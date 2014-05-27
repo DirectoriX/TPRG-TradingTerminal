@@ -40,26 +40,27 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "TTerminal", urlPatterns = {"/TTerminal"})
 public class TTerminal extends HttpServlet {
-
-    private LinkedList<Worker> workers = new LinkedList();
-
+    
+    private final LinkedList<Worker> workers = new LinkedList();
+    
     private boolean IsConfigured;
-
+    
     @Override
     public void init() throws ServletException {
         IsConfigured = SQLAgent.LoadSettings();
+        SQLAgent.Connect();
     }
-
+    
     private void MakeHeader(PrintWriter out, String title, boolean error) { // Функция, печатающая заголовок страницы
         if (error) {
             title = "Ошибка";
         }
-
+        
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
         out.println("<title>" + title + "</title>");
-
+        
         if (error) {
             out.println("<meta http-equiv=\"refresh\" content=\"5; URL=.\"/>");
         } else {
@@ -69,25 +70,29 @@ public class TTerminal extends HttpServlet {
             out.println("}");
             out.println("</style>");
         }
-
+        
         out.println("</head>");
         out.println("<body>");
-
+        
         if (error) {
             out.println("<h1>ERROR! You will be redirected to start page in 5 seconds</h1>");
         }
     }
-
+    
     private void MakeFooter(PrintWriter out) { // Функция, печатающая окончание страницы
         out.println("<br/><a href=\".\">Назад</a>");
         out.println("</body>");
         out.println("</html>");
     }
-
+    
     private void NoConnection(PrintWriter out) { // Функция, печатающая сообщение об ошибке в случае невозможности установить соединение с базой данных
+        SQLAgent.Disconnect();
+        
         MakeHeader(out, "", true);
         out.println("<h2>Error: can't connect to database</h2>");
         MakeFooter(out);
+        
+        SQLAgent.Connect();
     }
 
     /**
@@ -116,21 +121,21 @@ public class TTerminal extends HttpServlet {
                                 MakeHeader(response.getWriter(), "", true);
                                 return;
                             }
-
+                            
                             int simid = Integer.decode(simstr);
-
+                            
                             LinkedList<String> pinfo = SQLAgent.GetResults(simid);
-
+                            
                             if (pinfo.size() == 0) { // Симуляция ещё идёт
 
                                 int percent = 0;
-
+                                
                                 for (int i = 0; i < workers.size(); i++) {
                                     if (workers.get(i).getSimid() == simid) {
                                         percent = workers.get(i).getSteps() * 100 / 2880;
                                     }
                                 }
-
+                                
                                 out.println("<!DOCTYPE html>");
                                 out.println("<html>");
                                 out.println("<head>");
@@ -139,16 +144,16 @@ public class TTerminal extends HttpServlet {
                                 out.println("</head>");
                                 out.println("<body>");
                                 out.println("<h2>Симуляция проводится в настоящий момент времени</h2>");
-
+                                
                                 out.println("<h3>Уже прошло " + percent + "% симуляции</h3>");
                             } else {
-
+                                
                                 MakeHeader(out, "Просмотр статистики", false);
-
+                                
                                 for (int i = 0; i < pinfo.size(); i++) {
                                     out.println(pinfo.get(i)); // Добавляем все строки
                                 }
-
+                                
                                 MakeFooter(out);
                             }
                         } else {
@@ -216,9 +221,9 @@ public class TTerminal extends HttpServlet {
                                                 tmp.setIsPacked(ispacked);
                                                 tmp.setPrice(price);
                                                 tmp.setName(namestr);
-
+                                                
                                                 MakeHeader(out, "Добавление товара", false);
-
+                                                
                                                 boolean added = SQLAgent.AddProduct(tmp);
                                                 if (added) {
                                                     out.println("<h2>Товар добавлен</h2>");
@@ -226,7 +231,7 @@ public class TTerminal extends HttpServlet {
                                                     out.println("<h2>Товар не добавлен</h2>");
                                                     out.println("<h3>Скорее всего, товар с таким кодом уже существует</h3>");
                                                 }
-
+                                                
                                             } else {
                                                 MakeHeader(out, "", true);
                                             }
@@ -265,27 +270,27 @@ public class TTerminal extends HttpServlet {
                                     pricestr = pricestr.replaceAll("\\D", "");
                                     pricefrstr = pricefrstr.replaceAll("\\D", "");
                                     Product tmp = new Product();
-
+                                    
                                     tmp.setIsPacked(ispacked);
 
                                     // Не добавляем ненужных параметров
                                     if (codestr.length() > 0) {
                                         int code = Integer.decode(codestr);
                                         tmp.setCode(code);
-
+                                        
                                         if (namestr.length() > 0) {
                                             tmp.setName(namestr);
                                         } else {
                                             tmp.setName("");
                                         }
-
+                                        
                                         if (countstr.length() > 0 && countfrstr.length() > 0) {
                                             float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
                                             tmp.setCount(count);
                                         } else {
                                             tmp.setCount(-1);
                                         }
-
+                                        
                                         if (pricestr.length() > 0 && pricefrstr.length() > 0) {
                                             float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
                                             tmp.setPrice(price);
@@ -294,7 +299,7 @@ public class TTerminal extends HttpServlet {
                                         }
                                         if (SQLAgent.TestConnect()) {
                                             MakeHeader(out, "Редактирование товара", false);
-
+                                            
                                             boolean edited = SQLAgent.UpdateProduct(tmp);
                                             if (edited) {
                                                 out.println("<h2>Товар изменён</h2>");
@@ -302,7 +307,7 @@ public class TTerminal extends HttpServlet {
                                                 out.println("<h2>Товар не изменён</h2>");
                                                 out.println("<h3>Скорее всего, товар с таким кодом не существует</h3>");
                                             }
-
+                                            
                                         } else {
                                             NoConnection(out);
                                         }
@@ -320,25 +325,25 @@ public class TTerminal extends HttpServlet {
                         case 'd': { // Delete
                             try {
                                 if (IsConfigured && request.getParameterNames().hasMoreElements()) {
-
+                                    
                                     String codestr;
-
+                                    
                                     if ((codestr = request.getParameter("code")).length() > 0) {
                                         if (SQLAgent.TestConnect()) {
                                             // Вычленяем число
                                             codestr = codestr.replaceAll("\\D", "");
-
+                                            
                                             if (codestr.length() == 0) {
                                                 MakeHeader(response.getWriter(), "", true);
                                                 return;
                                             }
-
+                                            
                                             int code = Integer.decode(codestr);
-
+                                            
                                             MakeHeader(out, "Удаление товара", false);
-
+                                            
                                             boolean success = SQLAgent.DeleteProduct(code);
-
+                                            
                                             out.println("<h2>Удаление товара с кодом " + code + ((success) ? " " : " не ") + "успешно</h2>");
                                             if (!success) {
                                                 out.println("Возможно, неверный код товара или ошибка базы данных");
@@ -360,7 +365,7 @@ public class TTerminal extends HttpServlet {
                         case 'l': { // Show products
                             if (IsConfigured && SQLAgent.TestConnect()) {
                                 MakeHeader(out, "Список товаров", false);
-
+                                
                                 LinkedList<String> list = SQLAgent.ShowProductInfo();
                                 for (int i = 0; i < list.size(); i++) {
                                     out.write(list.get(i));
@@ -390,11 +395,11 @@ public class TTerminal extends HttpServlet {
                                         workers.remove(i);
                                     }
                                 }
-
+                                
                                 if (workers.size() == 0) {
                                     SQLAgent.Load();
                                 }
-
+                                
                                 if (IsConfigured && request.getParameterNames().hasMoreElements()) {
                                     String peoplecountstr, goodscountstr;
                                     peoplecountstr = request.getParameter("peoplecount");
@@ -403,16 +408,16 @@ public class TTerminal extends HttpServlet {
                                     // Как такие числа могут содержать не цифры? Именно!
                                     peoplecountstr = peoplecountstr.replaceAll("\\D", "");
                                     goodscountstr = goodscountstr.replaceAll("\\D", "");
-
+                                    
                                     if (peoplecountstr.length() > 0 && goodscountstr.length() > 0) {
                                         int peoplecount = Integer.decode(peoplecountstr);
                                         int goodscount = Integer.decode(goodscountstr);
-
+                                        
                                         if (peoplecount >= 20 && goodscount >= 1) {
-
+                                            
                                             workers.addLast(new Worker());
                                             workers.getLast().StartSim(peoplecount, goodscount);
-
+                                            
                                             out.println("<!DOCTYPE html>");
                                             out.println("<html>");
                                             out.println("<head>");
@@ -422,7 +427,7 @@ public class TTerminal extends HttpServlet {
                                             out.println("<body>");
                                             out.println("<h1>Ждите 5 секунд...</h1>");
                                         } else {
-
+                                            
                                             MakeHeader(out, "Ой...", false); // Плохие параметры
                                             out.println("Слишком маленькие значения! Покупателей надо не менее 20-и, а товаров - не менее одного");
                                         }
@@ -437,7 +442,7 @@ public class TTerminal extends HttpServlet {
                             }
                             break;
                         }
-
+                        
                         case 'c': { // Set DB settings
                             try {
                                 if (!(IsConfigured = SQLAgent.LoadSettings()) && request.getParameterNames().hasMoreElements()) {
@@ -463,13 +468,13 @@ public class TTerminal extends HttpServlet {
                                                 output.newLine();
                                                 output.write(passwordstr);
                                                 output.newLine();
-
+                                                
                                                 output.flush();
                                             }
                                         } catch (IOException ex) {
                                             Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);
                                         }
-
+                                        
                                         MakeHeader(out, "Добавление настроек", false);
                                         out.println("<h3>Готово!</h3>");
                                     } else {
@@ -485,16 +490,21 @@ public class TTerminal extends HttpServlet {
                             }
                             break;
                         }
-
+                        
                         case 'f': { // Если уж вдруг что-то зависло...
                             try {
-                                if (IsConfigured) { // Если false, то симуляция не могла быть запущена!
+                                if (IsConfigured) { // Если false, то симуляция не могла быть запущена!                                    
+                                    for (int i = 0; i < workers.size(); i++) {
+                                        workers.get(i).setSteps(2879);
+                                    }
+                                    
                                     workers.clear();
+                                    
                                     SQLAgent.Fix();
-
+                                    
                                     MakeHeader(out, "ОК", false);
                                     out.println("<h2>OK</h2>");
-
+                                    
                                 } else {
                                     NoConnection(out);
                                 }
@@ -503,7 +513,7 @@ public class TTerminal extends HttpServlet {
                             }
                             break;
                         }
-
+                        
                         default: { // Error - unrecognized symbol
                             MakeHeader(out, "", true);
                         }
@@ -514,5 +524,5 @@ public class TTerminal extends HttpServlet {
             MakeFooter(response.getWriter());
         }
     }
-
+    
 }
