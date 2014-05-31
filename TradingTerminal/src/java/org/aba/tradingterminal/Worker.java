@@ -89,14 +89,14 @@ class Worker {
                 queue--;
             }
 
-            setSteps(getSteps() + 1);
+            steps++;
         }
 
     };
 
     public void StartSim(int peoplecount, int goodscount) {
-        this.goodscount = goodscount;
-        this.peoplecount = peoplecount;
+        this.goodscount = (goodscount < 1) ? 1 : goodscount;
+        this.peoplecount = (peoplecount < 20) ? 20 : peoplecount;
 
         IdealSum[0] = 0.0;
         RealSum[0] = 0;
@@ -118,10 +118,6 @@ class Worker {
 
     public int getSimid() {
         return simid;
-    }
-
-    public void setSteps(int steps) {
-        this.steps = steps;
     }
 
 }

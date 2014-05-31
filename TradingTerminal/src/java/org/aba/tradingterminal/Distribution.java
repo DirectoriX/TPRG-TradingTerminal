@@ -33,10 +33,14 @@ public class Distribution {
     private static final int S = 200;
 
     // Объект класса Random
-    private static final java.util.Random RNG = new Random();
+    private static final Random RNG = new Random();
 
     // Логистическое распределение: функция плотности вероятности
     private static double Logistic(double Median, double Scale, double x) {
+        if (Scale <= 0) { // Деление на 0
+            return 0;
+        }
+
         double result = Math.exp(-(x - Median) / Scale);
         result /= Scale;
         result /= Math.pow(Math.exp(-(x - Median) / Scale) + 1, 2);

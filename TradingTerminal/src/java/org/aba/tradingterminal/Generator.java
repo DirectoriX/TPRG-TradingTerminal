@@ -35,22 +35,12 @@ public class Generator {
 
     private static final Random RNG = new Random();
 
-    private final int size;
-
-    private Product tmpProduct, EG;
-
-    public Generator() {
-        size = SQLAgent.getRangeofGoods().size();
-    }
+    private static Product tmpProduct, EG;
 
     public static boolean CreateCart(float[] cart, int count) {
-
-        Product tmpProduct, EG;
         for (int i = 0, goodscount = SQLAgent.getRangeofGoods().size(); i < goodscount; i++) {
             if (RNG.nextInt(goodscount) < count) {
                 EG = SQLAgent.getRangeofGoods().get(i);
-
-                tmpProduct = new Product();
 
                 tmpProduct.setCode(EG.getCode());
                 tmpProduct.setIsPacked(EG.IsPacked());

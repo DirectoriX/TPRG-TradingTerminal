@@ -46,7 +46,7 @@ public class TTerminal extends HttpServlet {
     private boolean IsConfigured;
 
     @Override
-    public void init() throws ServletException {
+    public void init(){
         IsConfigured = SQLAgent.LoadSettings();
         SQLAgent.Connect();
     }
