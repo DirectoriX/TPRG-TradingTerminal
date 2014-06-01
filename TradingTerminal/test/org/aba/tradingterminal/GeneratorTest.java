@@ -23,7 +23,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.aba.tradingterminal;
 
 import org.junit.Test;
@@ -34,23 +33,31 @@ import static org.junit.Assert.*;
  * @author DirectoriX, kramer98489, UN-likE
  */
 public class GeneratorTest {
-    
+
     public GeneratorTest() {
     }
-    
+
     /**
      * Test of CreateCart method, of class Generator.
      */
     @Test
-    public void testCreateCart() {
+    public void testCreateCartNegativeValue() {
         System.out.println("CreateCart");
-        float[] cart = null;
+        float[] cart = {0};
         int count = 0;
-        boolean expResult = false;
-        boolean result = Generator.CreateCart(cart, count);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        boolean negative = false;
+        try {
+            Generator.CreateCart(cart, count);
+            for (int i = 0; i < cart.length; i++) {
+                if (cart[i] < 0) {
+                    negative = true;
+                }
+
+            }
+            assertTrue("Some of products have negative value", negative);
+        } catch (Exception ex) {
+            fail("Unexpected exeption");
+        }
     }
-    
+
 }
