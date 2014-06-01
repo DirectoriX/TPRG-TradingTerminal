@@ -37,7 +37,7 @@ import org.junit.runners.Suite;
  * @author DirectoriX, kramer98489, UN-likE
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({org.aba.tradingterminal.DistributionTest.class, org.aba.tradingterminal.GeneratorTest.class, org.aba.tradingterminal.WorkerTest.class, org.aba.tradingterminal.SQLAgentTest.class, org.aba.tradingterminal.TTerminalTest.class})
+@Suite.SuiteClasses({org.aba.tradingterminal.DistributionTest.class, org.aba.tradingterminal.GeneratorTest.class, org.aba.tradingterminal.SQLAgentTest.class})
 public class TradingterminalSuite {
 
     @BeforeClass

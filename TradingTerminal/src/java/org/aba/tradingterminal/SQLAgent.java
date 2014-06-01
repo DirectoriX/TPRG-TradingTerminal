@@ -72,7 +72,7 @@ public class SQLAgent {
                 URL = inputData.readLine();
                 user = inputData.readLine();
                 password = inputData.readLine();
-                result = true;
+                result = (DBName != null && URL != null && user != null && password != null);
             }
         } catch (IOException ex) {
             Logger.getLogger(SQLAgent.class.getName()).log(Level.SEVERE, null, ex);

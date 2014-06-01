@@ -38,13 +38,13 @@ public class GeneratorTest {
     }
 
     /**
-     * Test of CreateCart method, of class Generator.
+     * Test of CreateCart method, of class Generator. Negative
      */
     @Test
     public void testCreateCartNegativeValue() {
         System.out.println("CreateCart");
         float[] cart = {0};
-        int count = 0;
+        int count = -1;
         boolean negative = false;
         try {
             Generator.CreateCart(cart, count);
@@ -54,9 +54,83 @@ public class GeneratorTest {
                 }
 
             }
-            assertTrue("Some of products have negative value", negative);
+            assertFalse("Some of products have negative value", negative);
         } catch (Exception ex) {
-            fail("Unexpected exeption");
+            fail("Unexpected exeption - negative");
+        }
+    }
+
+    /**
+     * Test of CreateCart method, of class Generator. Null
+     *
+     */
+    @Test
+    public void testCreateCartNull(){
+        System.out.println("CreateCart");
+        float[] cart = null;
+        int count = -1;
+
+        Generator.CreateCart(cart, count);
+
+    }
+
+    /**
+     * Test of CreateCart method, of class Generator. TooBig
+     */
+    @Test
+    public void testCreateCartTooBig() {
+        System.out.println("CreateCart");
+        float[] cart = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int count = 3;
+        try {
+            Generator.CreateCart(cart, count);
+        } catch (Exception ex) {
+            fail("Unexpected exeption - too big");
+        }
+    }
+
+    /**
+     * Test of CreateCart method, of class Generator. Not 0
+     */
+    @Test
+    public void testCreateCartNot0() {
+        System.out.println("CreateCart");
+        float[] cart = {9999, 99999, 9, 9, 9, 9};
+        int count = 5;
+        try {
+            Generator.CreateCart(cart, count);
+        } catch (Exception ex) {
+            fail("Unexpected exeption - not 0");
+        }
+    }
+
+    /**
+     * Test of CreateCart method, of class Generator. BigCount
+     */
+    @Test
+    public void testCreateCartBigCount() {
+        System.out.println("CreateCart");
+        float[] cart = {0};
+        int count = 9999999;
+        try {
+            Generator.CreateCart(cart, count);
+        } catch (Exception ex) {
+            fail("Unexpected exeption - big count");
+        }
+    }
+
+    /**
+     * Test of CreateCart method, of class Generator. Negative cart
+     */
+    @Test
+    public void testCreateCartNegativeCart() {
+        System.out.println("CreateCart");
+        float[] cart = {-9, -9, -9, -9, -9, -9};
+        int count = 5;
+        try {
+            Generator.CreateCart(cart, count);
+        } catch (Exception ex) {
+            fail("Unexpected exeption - negative cart");
         }
     }
 

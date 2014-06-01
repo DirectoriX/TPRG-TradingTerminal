@@ -23,10 +23,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.aba.tradingterminal;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,37 +43,56 @@ import static org.junit.Assert.*;
  * @author DirectoriX, kramer98489, UN-likE
  */
 public class SQLAgentTest {
-    
+
     public SQLAgentTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
-     * Test of LoadSettings method, of class SQLAgent.
+     * Test of LoadSettings method, of class SQLAgent. Valid
      */
     @Test
-    public void testLoadSettings() {
+    public void testLoadSettingsValid() {
         System.out.println("LoadSettings");
-        boolean expResult = false;
-        boolean result = SQLAgent.LoadSettings();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        FileWriter fw;
+        try {
+            fw = new FileWriter("DBProps.prop");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.append("QQQ\n");
+            bw.append("QQQ\n");
+            bw.append("QQQ\n");
+            bw.append("QQQ\n");
+            bw.flush();
+            bw.close();
+            fw.flush();
+            fw.close();
+            boolean result = SQLAgent.LoadSettings();
+            assertTrue("Error - valid", result);
+        } catch (IOException ex) {
+            Logger.getLogger(SQLAgentTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Test of LoadSettings method, of class SQLAgent. inValid
+     */
+    @Test
+    public void testLoadSettingsinValid() {
+        System.out.println("LoadSettings");
+        FileWriter fw;
+        try {
+            fw = new FileWriter("DBProps.prop");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.append("QQQ\n");
+            bw.append("QQQ\n");
+            bw.flush();
+            bw.close();
+            fw.flush();
+            fw.close();
+            boolean result = SQLAgent.LoadSettings();
+            assertFalse("Error - invalid", result);
+        } catch (IOException ex) {
+            Logger.getLogger(SQLAgentTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -249,5 +272,5 @@ public class SQLAgentTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
