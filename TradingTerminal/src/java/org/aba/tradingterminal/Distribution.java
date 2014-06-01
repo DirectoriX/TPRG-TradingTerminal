@@ -37,7 +37,7 @@ public class Distribution {
 
     // Логистическое распределение: функция плотности вероятности
     private static double Logistic(double Median, double Scale, double x) {
-        if (Scale <= 0) { // Деление на 0
+        if (Scale < 1) { // Деление на 0
             return 0;
         }
 
@@ -63,9 +63,14 @@ public class Distribution {
     }
 
     public static int GetBuyers(int time, int clients, double[] IdealSum, int[] RealSum) {
+        if (time < 1 || clients < 1) {
+            return 0;
+        }
         double value = Logistic(mu, S, time) * clients * 2.02 * RNG.nextDouble();
         IdealSum[0] += value;
-        int result = (int) Math.round(value);
+
+        double abacaba = Math.round(value);
+        int result = (int) abacaba;
         RealSum[0] += result;
 
         if (Math.abs(RealSum[0] - IdealSum[0]) >= 1) {
