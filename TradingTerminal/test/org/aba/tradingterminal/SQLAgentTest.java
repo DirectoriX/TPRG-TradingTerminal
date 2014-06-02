@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (c) 2014, DirectoriX, kramer98489, UN-likE
  * All rights reserved.
  *
@@ -357,23 +357,140 @@ public class SQLAgentTest {
     }
 
     /**
-     * Test of Buyed method, of class SQLAgent.
+     * Test of Buyed method, of class SQLAgent. Normal
      */
     @Test
-    public void testBuyed() {
+    public void testBuyedNormal() {
         System.out.println("Buyed");
-        int buyerid = 0;
-        int time = 0;
-        int simid = 0;
-        float[] cart = null;
+        Random RND = new Random();
+        int buyerid = RND.nextInt(1000);
+        int time = RND.nextInt(2880);
+        int simid = 50;
+        float[] cart = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         boolean discount = false;
         try {
             SQLAgent.LoadSettings();
             SQLAgent.Connect();
+            SQLAgent.Load();
             int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
             assertTrue("Total < 0", result >= 0);
         } catch (Exception ex) {
-            fail("Buyed");
+            fail("Buyed Normal faied");
+        }
+    }
+
+    /**
+     * Test of Buyed method, of class SQLAgent. Neg buyerid
+     */
+    @Test
+    public void testBuyedNegbuyerid() {
+        System.out.println("Buyed");
+        Random RND = new Random();
+        int buyerid = -RND.nextInt(1000);
+        int time = RND.nextInt(2880);
+        int simid = 200 + RND.nextInt(100);
+        float[] cart = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        boolean discount = false;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
+            assertTrue("Total < 0", result >= 0);
+        } catch (Exception ex) {
+            fail("Buyed Negbuyerid faied" + ex);
+        }
+    }
+
+    /**
+     * Test of Buyed method, of class SQLAgent. Neg time
+     */
+    @Test
+    public void testBuyedNegtime() {
+        System.out.println("Buyed");
+        Random RND = new Random();
+        int buyerid = RND.nextInt(1000);
+        int time = -RND.nextInt(2880);
+        int simid = 50;
+        float[] cart = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        boolean discount = false;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
+            assertTrue("Total < 0", result >= 0);
+        } catch (Exception ex) {
+            fail("Buyed Neg time faied" + ex);
+        }
+    }
+
+    /**
+     * Test of Buyed method, of class SQLAgent. Neg simid
+     */
+    @Test
+    public void testBuyedNegsimid() {
+        System.out.println("Buyed");
+        Random RND = new Random();
+        int buyerid = RND.nextInt(1000);
+        int time = RND.nextInt(2880);
+        int simid = -50;
+        float[] cart = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        boolean discount = false;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
+            assertTrue("Total < 0", result >= 0);
+        } catch (Exception ex) {
+            fail("Buyed Neg simid faied" + ex);
+        }
+    }
+
+    /**
+     * Test of Buyed method, of class SQLAgent. Neg cart
+     */
+    @Test
+    public void testBuyedNegCart() {
+        System.out.println("Buyed");
+        Random RND = new Random();
+        int buyerid = RND.nextInt(1000);
+        int time = RND.nextInt(2880);
+        int simid = 200 + RND.nextInt(100);
+        float[] cart = {-1, -2, -3, -4, -5, -6, -7, -8, -9};
+        boolean discount = false;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
+            assertTrue("Total < 0", result >= 0);
+        } catch (Exception ex) {
+            fail("Buyed Neg cart faied" + ex);
+        }
+    }
+
+    /**
+     * Test of Buyed method, of class SQLAgent. mix cart
+     */
+    @Test
+    public void testBuyedMixCart() {
+        System.out.println("Buyed");
+        Random RND = new Random();
+        int buyerid = RND.nextInt(1000);
+        int time = RND.nextInt(2880);
+        int simid = 50;
+        float[] cart = {1, -2, 3, -4, 5, -6, 7, -8, 9};
+        boolean discount = false;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
+            assertTrue("Total < 0", result >= 0);
+        } catch (Exception ex) {
+            fail("Buyed Mix cart faied" + ex);
         }
     }
 
@@ -383,11 +500,15 @@ public class SQLAgentTest {
     @Test
     public void testShowProductInfo() {
         System.out.println("ShowProductInfo");
-        LinkedList<String> expResult = null;
-        LinkedList<String> result = SQLAgent.ShowProductInfo();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            LinkedList<String> result = SQLAgent.ShowProductInfo();
+        } catch (Exception ex) {
+            fail("ShowProductInfo Failed");
+        }
+
     }
 
     /**
@@ -426,31 +547,131 @@ public class SQLAgentTest {
     }
 
     /**
-     * Test of GetResults method, of class SQLAgent.
+     * Test of GetResults method, of class SQLAgent. Neg Id
      */
     @Test
-    public void testGetResults() {
+    public void testGetResultsNegId() {
         System.out.println("GetResults");
-        int simulationid = 0;
-        LinkedList<String> expResult = null;
-        LinkedList<String> result = SQLAgent.GetResults(simulationid);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int simulationid = -50;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            LinkedList<String> result = SQLAgent.GetResults(simulationid);
+            assertFalse("More than one string", result.size() > 1);
+        } catch (Exception ex) {
+            fail("Neg Id Failed " + ex);
+        }
     }
 
     /**
-     * Test of DeleteProduct method, of class SQLAgent.
+     * Test of GetResults method, of class SQLAgent. Neg Invalid
      */
     @Test
-    public void testDeleteProduct() {
+    public void testGetResultsInvalid() {
+        System.out.println("GetResults");
+        int simulationid = 1234568;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            LinkedList<String> result = SQLAgent.GetResults(simulationid);
+            assertFalse("More than one string", result.size() > 1);
+        } catch (Exception ex) {
+            fail("Invalid Id Failed " + ex);
+        }
+    }
+
+    /**
+     * Test of GetResults method, of class SQLAgent. Valid Invalid
+     */
+    @Test
+    public void testGetResultsValid() {
+        System.out.println("GetResults");
+        int simulationid = 50;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Load();
+            LinkedList<String> result = SQLAgent.GetResults(simulationid);
+            assertFalse("One string", result.size() <= 1);
+        } catch (Exception ex) {
+            fail("Valid Id Failed " + ex);
+        }
+    }
+
+    /**
+     * Test of DeleteProduct method, of class SQLAgent. Normal
+     */
+    @Test
+    public void testDeleteProductNormal() {
         System.out.println("DeleteProduct");
-        int code = 0;
+        Product item = new Product();
+        Random RND = new Random();
+        int code = RND.nextInt(1000) + 2000;
+        item.setCode(code);
+        item.setCount(3.4f);
+        item.setIsPacked(false);
+        item.setName("Abacaba");
+        item.setPrice(RND.nextInt(1000));
+        boolean expResult = true;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.AddProduct(item);
+            boolean result = SQLAgent.DeleteProduct(code);
+            assertEquals(expResult, result);
+        } catch (Exception ex) {
+            fail("Normal delete failed");
+        }
+    }
+
+    /**
+     * Test of DeleteProduct method, of class SQLAgent. Negative Code
+     */
+    @Test
+    public void testDeleteProductNegativeCode() {
+        System.out.println("DeleteProduct");
+
         boolean expResult = false;
-        boolean result = SQLAgent.DeleteProduct(code);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            boolean result = SQLAgent.DeleteProduct(-61);
+            assertEquals(expResult, result);
+        } catch (Exception ex) {
+            fail("Negative code delete failed");
+        }
+    }
+
+    /**
+     * Test of DeleteProduct method, of class SQLAgent. Null Code
+     */
+    @Test
+    public void testDeleteProductNullCode() {
+        System.out.println("DeleteProduct");
+
+        boolean expResult = false;
+        try {
+            boolean result = SQLAgent.DeleteProduct(0);
+            assertEquals(expResult, result);
+        } catch (Exception ex) {
+            fail("Null code delete failed");
+        }
+    }
+
+    /**
+     * Test of DeleteProduct method, of class SQLAgent. Invalid
+     */
+    @Test
+    public void testDeleteProductInvalid() {
+        System.out.println("DeleteProduct");
+
+        boolean expResult = false;
+        try {
+            boolean result = SQLAgent.DeleteProduct(1234568);
+            assertEquals(expResult, result);
+        } catch (Exception ex) {
+            fail("Invalid delete failed");
+        }
     }
 
     /**
