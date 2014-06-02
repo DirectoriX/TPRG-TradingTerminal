@@ -41,18 +41,99 @@ public class DistributionTest {
      * Test of GetIntCount method, of class Distribution.
      */
     @Test
-    public void testGetIntCount() {
+    public void testGetIntCount0() {
         System.out.println("GetIntCount");
         float count = 0;
         int result = 0;
 
         try {
             result = Distribution.GetIntCount(count);
+            assertTrue(result >= 0);
+        } catch (Exception ex) {
+            fail("GetIntCount - exception! count=" + count + " result=" + result);
+        }
+    }
 
-            for (int i = 0; i < 15; i++) {
-                count = (float) (i * Math.exp(i - 1) / (Math.log(i) + 1));
-                result = Distribution.GetIntCount(count);
-            }
+    /**
+     * Test of GetIntCount method, of class Distribution.
+     */
+    @Test
+    public void testGetIntCountMinus1() {
+        System.out.println("GetIntCount");
+        float count = -1;
+        int result = 0;
+
+        try {
+            result = Distribution.GetIntCount(count);
+            assertTrue(result >= 0);
+        } catch (Exception ex) {
+            fail("GetIntCount - exception! count=" + count + " result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetIntCount method, of class Distribution.
+     */
+    @Test
+    public void testGetIntCountDrobnoe() {
+        System.out.println("GetIntCount");
+        float count = (float) 1.5;
+        int result = 0;
+
+        try {
+            result = Distribution.GetIntCount(count);
+            assertTrue(result >= 0);
+        } catch (Exception ex) {
+            fail("GetIntCount - exception! count=" + count + " result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetIntCount method, of class Distribution.
+     */
+    @Test
+    public void testGetIntCountMinusDrobnoe() {
+        System.out.println("GetIntCount");
+        float count = (float) -14.2;
+        int result = 0;
+
+        try {
+            result = Distribution.GetIntCount(count);
+            assertTrue(result >= 0);
+        } catch (Exception ex) {
+            fail("GetIntCount - exception! count=" + count + " result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetIntCount method, of class Distribution.
+     */
+    @Test
+    public void testGetIntCountNorm() {
+        System.out.println("GetIntCount");
+        float count = 33;
+        int result = 0;
+
+        try {
+            result = Distribution.GetIntCount(count);
+            assertTrue(result >= 0);
+        } catch (Exception ex) {
+            fail("GetIntCount - exception! count=" + count + " result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetIntCount method, of class Distribution.
+     */
+    @Test
+    public void testGetIntCountBigNorm() {
+        System.out.println("GetIntCount");
+        float count = 999999999999999999999999f;
+        int result = 0;
+
+        try {
+            result = Distribution.GetIntCount(count);
+            assertTrue(result >= 0);
         } catch (Exception ex) {
             fail("GetIntCount - exception! count=" + count + " result=" + result);
         }
@@ -62,20 +143,17 @@ public class DistributionTest {
      * Test of GetFloatCount method, of class Distribution.
      */
     @Test
-    public void testGetFloatCount() {
+    public void testGetFloatCount0() {
         System.out.println("GetFloatCount");
         float count = 0;
         float min = 0;
         float result = 0;
 
         try {
-            Distribution.GetFloatCount(count, min);
+            result = Distribution.GetFloatCount(count, min);
 
-            for (int i = 0; i < 15; i++) {
-                count = (float) (i * Math.exp(i - 1) / (Math.log(i) + 1));
-                min = i * -123 + i * i;
-                result = Distribution.GetFloatCount(count, min);
-            }
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
         } catch (Exception ex) {
             fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
         }
@@ -84,6 +162,187 @@ public class DistributionTest {
     /**
      * Test of GetBuyers method, of class Distribution. 0
      */
+    @Test
+    public void testGetFloatCountMinMinus() {
+        System.out.println("GetFloatCount");
+        float count = -11;
+        float min = 0;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountNorm() {
+        System.out.println("GetFloatCount");
+        float count = 24;
+        float min = 6;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountNoNorm() {
+        System.out.println("GetFloatCount");
+        float count = 6;
+        float min = 24;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountMinusMinus() {
+        System.out.println("GetFloatCount");
+        float count = -532;
+        float min = -35;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountBig() {
+        System.out.println("GetFloatCount");
+        float count = 9999999999999999999999999999999f;
+        float min = 1;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountBigVersa() {
+        System.out.println("GetFloatCount");
+        float count = 1;
+        float min = 9999999999999999999999999999999f;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountMunus1() {
+        System.out.println("GetFloatCount");
+        float count = -1;
+        float min = -1;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountDrobnoe() {
+        System.out.println("GetFloatCount");
+        float count = (float) 3.23456;
+        float min = (float) 1.23456;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+    @Test
+    public void testGetFloatCountMinusDrobnoe() {
+        System.out.println("GetFloatCount");
+        float count = (float) -5.4321;
+        float min = (float) -10.9876543;
+        float result = 0;
+
+        try {
+            result = Distribution.GetFloatCount(count, min);
+
+            assertTrue(result >= 0);
+            assertTrue(result >= min);
+        } catch (Exception ex) {
+            fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
+        }
+    }
+
+    /**
+     * Test of GetBuyers method, of class Distribution. 0
+     */
+
     @Test
     public void testGetBuyers0() {
         System.out.println("GetBuyers");
@@ -127,8 +386,8 @@ public class DistributionTest {
     @Test
     public void testGetBuyersRandom() {
         System.out.println("GetBuyers");
-        int time = (int) Math.random()+5;
-        int clients = (int) Math.random()+5;
+        int time = (int) Math.random() + 5;
+        int clients = (int) Math.random() + 5;
         double[] IdealSum = {Math.random()};
         int[] RealSum = {(int) Math.random()};
         int result = 0;
