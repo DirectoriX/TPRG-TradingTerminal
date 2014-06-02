@@ -46,13 +46,13 @@ public class SQLAgentTest {
     }
 
     @Before
-    public void setUpClass() {
+    public void setUp() {
         try {
             FileWriter fw;
             fw = new FileWriter("DBProps.prop");
             BufferedWriter bw = new BufferedWriter(fw);
             bw.append("tradingterminal\n");
-            bw.append("localhost:3306\n");
+            bw.append("50.50.0.106:3306\n"); // Network address!!!
             bw.append("kramer98489\n");
             bw.append("4321\n");
             bw.flush();
@@ -70,9 +70,12 @@ public class SQLAgentTest {
     @Test
     public void testConnect() {
         System.out.println("Connect");
-        SQLAgent.Connect();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+        } catch (Exception ex) {
+            fail("Connect error");
+        }
     }
 
     /**
@@ -81,44 +84,144 @@ public class SQLAgentTest {
     @Test
     public void testDisconnect() {
         System.out.println("Disconnect");
-        SQLAgent.Disconnect();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.Disconnect();
+        } catch (Exception ex) {
+            fail("Disconnect error");
+        }
     }
 
     /**
-     * Test of TestConnect method, of class SQLAgent.
+     * Test of TestConnect method, of class SQLAgent. Disconnected
      */
     @Test
-    public void testTestConnect() {
+    public void testTestConnectDisconnected() {
         System.out.println("TestConnect");
         boolean expResult = false;
-        boolean result = SQLAgent.TestConnect();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Disconnect();
+            boolean result = SQLAgent.TestConnect();
+            assertEquals(expResult, result);
+        } catch (Exception ex) {
+            fail("Test connect - disconnected error");
+        }
     }
 
     /**
-     * Test of Started method, of class SQLAgent.
+     * Test of TestConnect method, of class SQLAgent. Connected
      */
     @Test
-    public void testStarted() {
+    public void testTestConnectConnected() {
+        System.out.println("TestConnect");
+        boolean expResult = true;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            boolean result = SQLAgent.TestConnect();
+            assertEquals(expResult, result);
+        } catch (Exception ex) {
+            fail("Test connect - connected error");
+        }
+    }
+
+    /**
+     * Test of Started method, of class SQLAgent. Normal
+     */
+    @Test
+    public void testStartedNormal() {
+        System.out.println("Started");
+        int peoplecount = 100;
+        int goodscount = 5;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            int result = SQLAgent.Started(peoplecount, goodscount);
+            assertTrue("simid <= 0 ???", result > 0);
+        } catch (Exception ex) {
+            fail("Starting failed");
+        }
+    }
+
+    /**
+     * Test of Started method, of class SQLAgent. Normal disconnected
+     */
+    @Test
+    public void testStartedNormalDisconnected() {
+        System.out.println("Started");
+        int peoplecount = 100;
+        int goodscount = 5;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Disconnect();
+            int result = SQLAgent.Started(peoplecount, goodscount);
+            assertTrue("simid != 0 ???", result == 0);
+        } catch (Exception ex) {
+            fail("Starting failed");
+        }
+    }
+
+    /**
+     * Test of Started method, of class SQLAgent. Negative
+     */
+    @Test
+    public void testStartedNegative() {
+        System.out.println("Started");
+        int peoplecount = -100;
+        int goodscount = -5;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            int result = SQLAgent.Started(peoplecount, goodscount);
+            assertTrue("simid != 0 ???", result == 0);
+        } catch (Exception ex) {
+            fail("Starting negative failed");
+        }
+    }
+
+    /**
+     * Test of Started method, of class SQLAgent. 0
+     */
+    @Test
+    public void testStarted0() {
         System.out.println("Started");
         int peoplecount = 0;
         int goodscount = 0;
-        int expResult = 0;
-        int result = SQLAgent.Started(peoplecount, goodscount);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            int result = SQLAgent.Started(peoplecount, goodscount);
+            assertTrue("simid <= 0 ???", result > 0);
+        } catch (Exception ex) {
+            fail("Starting 0 failed");
+        }
     }
 
     /**
-     * Test of Ended method, of class SQLAgent.
+     * Test of Started method, of class SQLAgent. 999999
      */
     @Test
-    public void testEnded() {
+    public void testStarted999999() {
+        System.out.println("Started");
+        int peoplecount = 999999;
+        int goodscount = 999999;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            int result = SQLAgent.Started(peoplecount, goodscount);
+            assertTrue("simid <= 0 ???", result > 0);
+        } catch (Exception ex) {
+            fail("Starting 999999 failed");
+        }
+    }
+
+    /**
+     * Test of Ended method, of class SQLAgent. 0
+     */
+    @Test
+    public void testEnded0() {
         System.out.println("Ended");
         int peoplearrived = 0;
         int peopleserved = 0;
@@ -127,10 +230,130 @@ public class SQLAgentTest {
         int profit = 0;
         int maxqueue = 0;
         int maxqueuetime = 0;
-        int simid = 0;
-        SQLAgent.Ended(peoplearrived, peopleserved, avggoodscount, avgprofit, profit, maxqueue, maxqueuetime, simid);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int simid = 20;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Ended(peoplearrived, peopleserved, avggoodscount, avgprofit, profit, maxqueue, maxqueuetime, simid);
+        } catch (Exception ex) {
+            fail("Ended 0");
+        }
+    }
+
+    /**
+     * Test of Ended method, of class SQLAgent. 123
+     */
+    @Test
+    public void testEnded123() {
+        System.out.println("Ended");
+        int peoplearrived = 132;
+        int peopleserved = 123;
+        float avggoodscount = 123.0F;
+        float avgprofit = 123.0F;
+        int profit = 123;
+        int maxqueue = 123;
+        int maxqueuetime = 123;
+        int simid = 20;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Ended(peoplearrived, peopleserved, avggoodscount, avgprofit, profit, maxqueue, maxqueuetime, simid);
+        } catch (Exception ex) {
+            fail("Ended 123");
+        }
+    }
+
+    /**
+     * Test of Ended method, of class SQLAgent. NoSimId
+     */
+    @Test
+    public void testEndedNoSimId() {
+        System.out.println("Ended");
+        int peoplearrived = 1;
+        int peopleserved = 1;
+        float avggoodscount = 1.0F;
+        float avgprofit = 1.0F;
+        int profit = 1;
+        int maxqueue = 1;
+        int maxqueuetime = 1;
+        int simid = 999999;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Ended(peoplearrived, peopleserved, avggoodscount, avgprofit, profit, maxqueue, maxqueuetime, simid);
+        } catch (Exception ex) {
+            fail("Ended no simid");
+        }
+    }
+
+    /**
+     * Test of Ended method, of class SQLAgent. 0
+     */
+    @Test
+    public void testEndedNegative() {
+        System.out.println("Ended");
+        int peoplearrived = -50;
+        int peopleserved = -50;
+        float avggoodscount = -50.0F;
+        float avgprofit = -50.0F;
+        int profit = -50;
+        int maxqueue = -50;
+        int maxqueuetime = -50;
+        int simid = 20;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Ended(peoplearrived, peopleserved, avggoodscount, avgprofit, profit, maxqueue, maxqueuetime, simid);
+        } catch (Exception ex) {
+            fail("The test case is a prototype.");
+        }
+    }
+
+    /**
+     * Test of Ended method, of class SQLAgent. 999999
+     */
+    @Test
+    public void testEnded999999() {
+        System.out.println("Ended");
+        int peoplearrived = 999999;
+        int peopleserved = 999999;
+        float avggoodscount = 999999.999999F;
+        float avgprofit = 999999.999999F;
+        int profit = 999999;
+        int maxqueue = 999999;
+        int maxqueuetime = 999999;
+        int simid = 20;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Ended(peoplearrived, peopleserved, avggoodscount, avgprofit, profit, maxqueue, maxqueuetime, simid);
+        } catch (Exception ex) {
+            fail("Ended 999999");
+        }
+    }
+
+    /**
+     * Test of Ended method, of class SQLAgent. Disconnected
+     */
+    @Test
+    public void testEndedDisconnected() {
+        System.out.println("Ended");
+        int peoplearrived = 12;
+        int peopleserved = 12;
+        float avggoodscount = 12.0F;
+        float avgprofit = 12.0F;
+        int profit = 12;
+        int maxqueue = 21;
+        int maxqueuetime = 2122;
+        int simid = 20;
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Disconnect();
+            SQLAgent.Ended(peoplearrived, peopleserved, avggoodscount, avgprofit, profit, maxqueue, maxqueuetime, simid);
+        } catch (Exception ex) {
+            fail("Ended disconnected");
+        }
     }
 
     /**
@@ -144,11 +367,14 @@ public class SQLAgentTest {
         int simid = 0;
         float[] cart = null;
         boolean discount = false;
-        int expResult = 0;
-        int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
+            assertTrue("Total < 0", result >= 0);
+        } catch (Exception ex) {
+            fail("The test case is a prototype.");
+        }
     }
 
     /**
@@ -165,14 +391,38 @@ public class SQLAgentTest {
     }
 
     /**
-     * Test of Load method, of class SQLAgent.
+     * Test of Load method, of class SQLAgent. Connected
      */
     @Test
-    public void testLoad() {
+    public void testLoadConnected() {
         System.out.println("Load");
-        SQLAgent.Load();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+
+            SQLAgent.Load();
+            assertTrue("Not loaded", SQLAgent.getRangeofGoods().size() > 0);
+        } catch (Exception ex) {
+            fail("Load error");
+        }
+    }
+
+    /**
+     * Test of Load method, of class SQLAgent. Disconnected
+     */
+    @Test
+    public void testLoadDisconnected() {
+        System.out.println("Load");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Disconnect();
+
+            SQLAgent.Load();
+            assertTrue("Not loaded", SQLAgent.getRangeofGoods().size() == 0);
+        } catch (Exception ex) {
+            fail("Load disconnected error");
+        }
     }
 
     /**
@@ -579,14 +829,34 @@ public class SQLAgentTest {
     }
 
     /**
-     * Test of Fix method, of class SQLAgent.
+     * Test of Fix method, of class SQLAgent. Connected
      */
     @Test
-    public void testFix() {
+    public void testFixConnected() {
         System.out.println("Fix");
-        SQLAgent.Fix();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Fix();
+        } catch (Exception ex) {
+            fail("Fix connected");
+        }
+    }
+
+    /**
+     * Test of Fix method, of class SQLAgent. Disconnected
+     */
+    @Test
+    public void testFixDisconnected() {
+        System.out.println("Fix");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+            SQLAgent.Disconnect();
+            SQLAgent.Fix();
+        } catch (Exception ex) {
+            fail("Fix disconnected");
+        }
     }
 
 }
