@@ -164,9 +164,11 @@ public class SQLAgent {
                 Product good;
 
                 float count;
+                int sum = 0;
                 // Перебираем всю корзину и пишем в БД информацию
                 for (int i = 0, n = cart.length; i < n; i++) {
                     count = cart[i];
+                    sum += count * RangeofGoods.get(i).getPrice();
                     if (count != 0) {
 
                         good = RangeofGoods.get(i);
@@ -175,15 +177,10 @@ public class SQLAgent {
                         st.setString(4, good.getName());
                         st.setFloat(5, count);
 
-                        int sum = 0;
-                        for (int j = 0; j < n; j++) {
-                            sum += count * RangeofGoods.get(i).getPrice();
-                        }
-                        total = (int) (sum * ((discount) ? 0.95 : 1));
-
                         st.setInt(7, (int) (count * RangeofGoods.get(i).getPrice() * ((discount) ? -1 : 1)));
 
                         st.execute();
+                        total = (int) (sum * ((discount) ? 0.95 : 1));
                     }
                 }
 

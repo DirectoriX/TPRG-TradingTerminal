@@ -78,7 +78,7 @@ class Worker {
             if (queue > 0) {
                 Discount = Generator.CreateCart(Cart, goodscount);
 
-                Profit += SQLAgent.Buyed(++PeopleServed, getSteps(), simid, Cart, Discount);
+                Profit += SQLAgent.Buyed(++PeopleServed, steps, simid, Cart, Discount);
 
                 for (int i = 0; i < Cart.length; i++) {
                     if (Cart[i] != 0) {

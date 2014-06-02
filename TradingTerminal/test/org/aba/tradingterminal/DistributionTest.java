@@ -232,7 +232,6 @@ public class DistributionTest {
         try {
             result = Distribution.GetFloatCount(count, min);
 
-            assertTrue(result >= 0);
             assertTrue(result >= min);
         } catch (Exception ex) {
             fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
@@ -266,7 +265,7 @@ public class DistributionTest {
     public void testGetFloatCountBigVersa() {
         System.out.println("GetFloatCount");
         float count = 1;
-        float min = 9999999999999999999999999999999f;
+        float min = 9999999999999999999999999999f;
         float result = 0;
 
         try {
@@ -292,7 +291,6 @@ public class DistributionTest {
         try {
             result = Distribution.GetFloatCount(count, min);
 
-            assertTrue(result >= 0);
             assertTrue(result >= min);
         } catch (Exception ex) {
             fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
@@ -332,7 +330,6 @@ public class DistributionTest {
         try {
             result = Distribution.GetFloatCount(count, min);
 
-            assertTrue(result >= 0);
             assertTrue(result >= min);
         } catch (Exception ex) {
             fail("GetFloatCount - exception! count=" + count + " min=" + min + "result=" + result);
@@ -342,7 +339,6 @@ public class DistributionTest {
     /**
      * Test of GetBuyers method, of class Distribution. 0
      */
-
     @Test
     public void testGetBuyers0() {
         System.out.println("GetBuyers");
@@ -428,7 +424,7 @@ public class DistributionTest {
         System.out.println("GetBuyers");
         int time = 999999999;
         int clients = 999999999;
-        double[] IdealSum = {9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999D};
+        double[] IdealSum = {999999999999999999D};
         int[] RealSum = {999999999};
         int result = 0;
         try {

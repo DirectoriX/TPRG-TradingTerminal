@@ -59,7 +59,7 @@ public class Distribution {
     }
 
     public static float GetFloatCount(float count, float min) {
-        return (float) (Math.round(Tricky(count, TrickyScale, min) * 100) / 100.0);
+        return (float) (Math.round(Tricky(count, TrickyScale, min) * 100.0) / 100.0);
     }
 
     public static int GetBuyers(int time, int clients, double[] IdealSum, int[] RealSum) {
