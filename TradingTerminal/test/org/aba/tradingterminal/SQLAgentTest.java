@@ -373,7 +373,7 @@ public class SQLAgentTest {
             int result = SQLAgent.Buyed(buyerid, time, simid, cart, discount);
             assertTrue("Total < 0", result >= 0);
         } catch (Exception ex) {
-            fail("The test case is a prototype.");
+            fail("Buyed");
         }
     }
 
