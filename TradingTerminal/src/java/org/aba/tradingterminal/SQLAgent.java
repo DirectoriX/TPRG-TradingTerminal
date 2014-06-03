@@ -97,6 +97,7 @@ public class SQLAgent {
             conn.close();
         } catch (SQLException ex) {
             HandleEx(ex);
+        } catch (NullPointerException ex) {
         }
     }
 

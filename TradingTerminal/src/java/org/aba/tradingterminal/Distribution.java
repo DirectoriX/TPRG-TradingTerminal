@@ -51,7 +51,8 @@ public class Distribution {
 
     private static float Tricky(float count, float Scale, float min) {
         float res = (float) (count - count * Scale * Math.log(1 / RNG.nextDouble() - 1));
-        return (res > min) ? res : min;
+        res = (res > min) ? res : min;
+        return res;
     }
 
     public static int GetIntCount(float count) {
