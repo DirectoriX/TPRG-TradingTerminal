@@ -349,7 +349,7 @@ public class DistributionTest {
         int result = 0;
         try {
             result = Distribution.GetBuyers(time, clients, IdealSum, RealSum);
-            assertEquals("IdealSum!=0", 0, (int) IdealSum[0]);
+            assertTrue("IdealSum < RealSum", IdealSum[0] >= RealSum[0]);
             assertEquals("RealSum!=0", 0, RealSum[0]);
         } catch (Exception ex) {
             fail("GetBuyers - exception! time=" + time + " clients=" + clients + " IdealSum=" + IdealSum[0] + " RealSum=" + RealSum[0] + " result=" + result);
@@ -369,7 +369,7 @@ public class DistributionTest {
         int result = 0;
         try {
             result = Distribution.GetBuyers(time, clients, IdealSum, RealSum);
-            assertEquals("IdealSum!=0", -1, (int) IdealSum[0]);
+            assertTrue("IdealSum < RealSum", IdealSum[0] >= RealSum[0]);
             assertEquals("RealSum!=0", -1, RealSum[0]);
         } catch (Exception ex) {
             fail("GetBuyers - exception! time=" + time + " clients=" + clients + " IdealSum=" + IdealSum[0] + " RealSum=" + RealSum[0] + " result=" + result);
@@ -389,7 +389,7 @@ public class DistributionTest {
         int result = 0;
         try {
             result = Distribution.GetBuyers(time, clients, IdealSum, RealSum);
-            assertEquals("IdealSum!=0", 0, (int) IdealSum[0]);
+            assertTrue("IdealSum < RealSum", IdealSum[0] >= RealSum[0]);
             assertEquals("RealSum!=0", 0, RealSum[0]);
         } catch (Exception ex) {
             fail("GetBuyers - exception! time=" + time + " clients=" + clients + " IdealSum=" + IdealSum[0] + " RealSum=" + RealSum[0] + " result=" + result);
@@ -409,7 +409,7 @@ public class DistributionTest {
         int result = 0;
         try {
             result = Distribution.GetBuyers(time, clients, IdealSum, RealSum);
-            assertEquals("IdealSum!=0", 0, (int) IdealSum[0]);
+            assertTrue("IdealSum < RealSum", IdealSum[0] >= RealSum[0]);
             assertEquals("RealSum!=0", 0, RealSum[0]);
         } catch (Exception ex) {
             fail("GetBuyers - exception! time=" + time + " clients=" + clients + " IdealSum=" + IdealSum[0] + " RealSum=" + RealSum[0] + " result=" + result);
@@ -429,7 +429,7 @@ public class DistributionTest {
         int result = 0;
         try {
             result = Distribution.GetBuyers(time, clients, IdealSum, RealSum);
-            assertEquals("IdealSum!=0", 0, (int) IdealSum[0]);
+            assertTrue("IdealSum < RealSum", IdealSum[0] >= RealSum[0]);
             assertEquals("RealSum!=0", 0, RealSum[0]);
         } catch (Exception ex) {
             fail("GetBuyers - exception! time=" + time + " clients=" + clients + " IdealSum=" + IdealSum[0] + " RealSum=" + RealSum[0] + " result=" + result);

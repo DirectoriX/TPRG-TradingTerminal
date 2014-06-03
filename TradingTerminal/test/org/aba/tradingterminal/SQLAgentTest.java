@@ -51,7 +51,7 @@ public class SQLAgentTest {
             FileWriter fw;
             fw = new FileWriter("DBProps.prop");
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.append("tradingterminal\n");
+            bw.append("tradingterminal2\n");
             bw.append("50.50.0.106:3306\n"); // Network address!!!
             bw.append("kramer98489\n");
             bw.append("4321\n");
@@ -88,6 +88,22 @@ public class SQLAgentTest {
             SQLAgent.Disconnect();
         } catch (Exception ex) {
             fail("Disconnect error");
+        }
+    }
+
+    /**
+     * Test of Disconnect method, of class SQLAgent.
+     */
+    @Test
+    public void testDisconnectConnected() {
+        System.out.println("Disconnect");
+        try {
+            SQLAgent.LoadSettings();
+            SQLAgent.Connect();
+
+            SQLAgent.Disconnect();
+        } catch (Exception ex) {
+            fail("Disconnect connected error");
         }
     }
 
@@ -588,7 +604,7 @@ public class SQLAgentTest {
     @Test
     public void testGetResultsValid() {
         System.out.println("GetResults");
-        int simulationid = 50;
+        int simulationid = 5;
         try {
             SQLAgent.LoadSettings();
             SQLAgent.Connect();
