@@ -212,7 +212,7 @@ public class TTerminal extends HttpServlet {
                                         if (codestr.length() > 0 && namestr.length() > 0 && countstr.length() > 0 && countfrstr.length() > 0 && pricestr.length() > 0 && pricefrstr.length() > 0) {
                                             int code = Integer.decode(codestr);
                                             // Сразу считаем
-                                            float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 1000) / 1000.0));
+                                            float count = (float) (Integer.decode(countstr) + ((Integer.decode(countfrstr) % 100) / 100.0));
                                             float price = (float) (Integer.decode(pricestr) + ((Integer.decode(pricefrstr) % 100) / 100.0));
                                             if (SQLAgent.TestConnect() && code >= 0 && count > 0 && price > 0) {
                                                 Product tmp = new Product();
