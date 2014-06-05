@@ -51,17 +51,17 @@ public class SQLAgentTest {
             FileWriter fw;
             fw = new FileWriter("DBProps.prop");
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.append("tradingterminal2\n");
-            bw.append("50.50.0.106:3306\n"); // Network address!!!
-            bw.append("kramer98489\n");
-            bw.append("4321\n");
+            bw.append("tradingterminal\n");
+            bw.append("localhost:3306\n"); // Network address!!!
+            bw.append("root\n");
+            bw.append("GiWaiU\n");
             bw.flush();
             bw.close();
             fw.flush();
             fw.close();
         } catch (IOException ex) {
             Logger.getLogger(SQLAgentTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     /**
@@ -604,7 +604,7 @@ public class SQLAgentTest {
     @Test
     public void testGetResultsValid() {
         System.out.println("GetResults");
-        int simulationid = 5;
+        int simulationid = 4;
         try {
             SQLAgent.LoadSettings();
             SQLAgent.Connect();
