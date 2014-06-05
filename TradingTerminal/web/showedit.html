@@ -1,6 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript">
+            function validate_form()
+            {
+                var code = document.add.code.value;
+                var count = document.add.count.value;
+                var countfr = document.add.countfr.value;
+                var price = document.add.price.value;
+                var pricefr = document.add.pricefr.value;
+                var reg = new RegExp(/^\d+$/);
+                if ((reg.test(code) == false && code != '') || (reg.test(count) == false && count != '') || (reg.test(countfr) == false && countfr != '') || (reg.test(price) == false && price != '') || (reg.test(pricefr) == false && pricefr != ''))
+                    alert("В одно из полей ввода введен не цифровой символ\nМогут быть только цифры!\nЕсли вы отправите такой запрос все не цифровые символы будут отброшены");
+            }
+
+            function validate_form2()
+            {
+                var code = document.edit.code.value;
+                var count = document.edit.count.value;
+                var countfr = document.edit.countfr.value;
+                var price = document.edit.price.value;
+                var pricefr = document.edit.pricefr.value;
+                var reg = new RegExp(/^\d+$/);
+                if ((reg.test(code) == false && code != '') || (reg.test(count) == false && count != '') || (reg.test(countfr) == false && countfr != '') || (reg.test(price) == false && price != '') || (reg.test(pricefr) == false && pricefr != ''))
+                    alert("В одно из полей ввода введен не цифровой символ\nМогут быть только цифры!\nЕсли вы отправите такой запрос все не цифровые символы будут отброшены");
+            }
+            function validate_form3()
+            {
+                var code = document.delete.code.value;
+
+                var reg = new RegExp(/^\d+$/);
+                if (reg.test(code) == false && code != '')
+                    alert("В одно из полей ввода введен не цифровой символ\nМогут быть только цифры!\nЕсли вы отправите такой запрос все не цифровые символы будут отброшены");
+            }
+        </script>
         <title>Просмотр и редактирование БД</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
@@ -11,30 +44,30 @@
             <input type="hidden" name="act" value="l"/>
         </form>
         <hr/>
-		<h3>Добавление нового товара</h3>
+        <h3>Добавление нового товара</h3>
         <form name="add" method="POST" action="TTerminal">
-            Код товара <input name="code" value=""/><br/>
+            Код товара <input onkeyup="validate_form()" name="code" value=""/><br/>
             Название товара <input name="name" value=""/><br/>
             <label>Упакованный товар? <input type="checkbox" name="ispacked" checked/></label><br/>
-            Среднее покупаемое количество товара за один раз <input name="count" value="3"/>.<input name="countfr" value="00"/><br/>
-            Стоимость единицы товара <input name="price" value="5"/>.<input name="pricefr" value="00"/><br/>
+            Среднее покупаемое количество товара за один раз <input onkeyup="validate_form()" name="count" value=""/>.<input onkeyup="validate_form()" name="countfr" value=""/><br/>
+            Стоимость единицы товара <input onkeyup="validate_form()" name="price" value=""/>.<input onkeyup="validate_form()" name="pricefr" value=""/><br/>
             <input type="submit" value="Добавить товар"/>
             <input type="hidden" name="act" value="a"/>
         </form>
         <hr/>
-		<h3>Изменение имеющегося товара</h3>
+        <h3>Изменение имеющегося товара</h3>
         <form name="edit" method="POST" action="TTerminal">
-            Код товара <input name="code" value=""/><br/>
+            Код товара <input onkeyup="validate_form2()" name="code" value=""/><br/>
             Название товара <input name="name" value=""/><br/>
             <label>Упакованный товар? <input type="checkbox" name="ispacked" checked/></label><br/>
-            Среднее покупаемое количество товара за один раз <input name="count" value="3"/>.<input name="countfr" value="00"/><br/>
-            Стоимость единицы товара <input name="price" value="5"/>.<input name="pricefr" value="00"/><br/>
+            Среднее покупаемое количество товара за один раз <input onkeyup="validate_form2()" name="count" value=""/>.<input onkeyup="validate_form2()" name="countfr" value=""/><br/>
+            Стоимость единицы товара <input onkeyup="validate_form2()" name="price" value=""/>.<input onkeyup="validate_form2()" name="pricefr" value=""/><br/>
             <input type="submit" value="Изменить запись"/>
             <input type="hidden" name="act" value="e"/>
         </form>
         <hr/>
         <form name="delete" method="POST" action="TTerminal">
-            Код продукта <input name="code" value=""/><br/>
+            Код продукта <input onkeyup="validate_form3()" name="code" value=""/><br/>
             <input type="submit" value="Удалить"/>
             <input type="hidden" name="act" value="d"/>
         </form>
