@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript">
+            function validate_form()
+            {
+                var str = document.simset.peoplecount.value;
+                var str2 = document.simset.goodscount.value;
+                var reg = new RegExp(/^\d+$/);
+                if (reg.test(str) == false || reg.test(str2) == false)
+                    alert("В одно из полей ввода введен не цифровой символ\nМогут быть только цифры!\nЕсли вы отправите такой запрос все не цифровые символы будут отброшены");
+            }
+        </script>
         <title>Настройки моделирования</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
     </head>
     <body>
-        <form method="POST" action="TTerminal">
-            Количество людей <input name="peoplecount" value="100"/><br/>
-            Количество товара <input name="goodscount" value="4"/><br/>
+        <form name="simset" method="POST" action="TTerminal">
+            Количество людей <input onkeyup="validate_form()" name="peoplecount" value="100"/><br/>
+            Количество товара <input onkeyup="validate_form()" name="goodscount" value="4"/><br/>
             <input type="submit"/>
             <input type="hidden" name="act" value="s"/>
         </form>
